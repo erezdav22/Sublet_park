@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "596218118344",
+    "project_id": "sublet-park-9bafa",
+    "storage_bucket": "sublet-park-9bafa.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:596218118344:android:a0505e3ea82d60d37d65fd",
+        "android_client_info": {
+          "package_name": "com.example.subletpark"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "596218118344-152qhqleuuii2eokhded4togje5ps333.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.subletpark",
+            "certificate_hash": "80d3dc043378013941931ce334d0da111a7a5426"
+          }
+        },
+        {
+          "client_id": "596218118344-ekhfnqd81ll0kdi6cs9mret2ipc6u1hn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDiJwPJOIG_k_34u74_e9ig2I5KznD-ruY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "596218118344-ekhfnqd81ll0kdi6cs9mret2ipc6u1hn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
