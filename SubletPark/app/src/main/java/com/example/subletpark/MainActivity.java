@@ -1,9 +1,9 @@
 package com.example.subletpark;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -22,8 +22,6 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-
-import org.w3c.dom.Text;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -122,6 +120,12 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         LatLng Haifa = new LatLng(32.793412716424065, 34.98948248880304);
         MapAPI.addMarker(new MarkerOptions().position(Haifa).title("Haifa"));
         MapAPI.moveCamera(CameraUpdateFactory.newLatLng(Haifa));
+
+    }
+
+
+    public void signin(View view) {
+        startActivity(new Intent(this, login.class));
 
     }
 }

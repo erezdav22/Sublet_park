@@ -24,7 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="First Name"
+        android:hint="שם פרטי"
         android:inputType="textPersonName" />
 
     <EditText
@@ -32,7 +32,7 @@
         android:layout_width="match_parent"
         android:layout_height="59dp"
         android:ems="10"
-        android:hint="Last Name"
+        android:hint="שם משפחה"
         android:inputType="textPersonName" />
 
     <Button
@@ -41,7 +41,8 @@
         android:layout_height="wrap_content"
         android:onClick="sendData"
         android:text="Save Data"
-        app:backgroundTint="#2A40BC" />
+        app:backgroundTint="#2A40BC"
+        app:iconTint="#2A40BC" />
 
     <Button
         android:id="@+id/viewData"
@@ -49,7 +50,8 @@
         android:layout_height="wrap_content"
         android:onClick="extrectData"
         android:text="Show Data "
-        app:backgroundTint="#2A40BC" />
+        app:backgroundTint="#2A40BC"
+        app:iconTint="#2A40BC" />
 
     <TextView
         android:id="@+id/Text_View_Data"
@@ -62,10 +64,19 @@
         android:id="@+id/mapAPI"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
-        android:layout_height="406dp"
+        android:layout_height="297dp"
         android:layout_margin="12dp">
 
     </fragment>
+
+    <Button
+        android:id="@+id/signinButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="signin"
+        android:text="התחברות"
+        app:backgroundTint="#2A40BC"
+        app:iconTint="#3F51B5" />
 
 
 </LinearLayout>
