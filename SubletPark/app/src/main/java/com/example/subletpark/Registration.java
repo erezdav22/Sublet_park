@@ -13,12 +13,17 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class Registration extends AppCompatActivity {
 
@@ -29,6 +34,7 @@ public class Registration extends AppCompatActivity {
     private EditText editTextPassword;
     private EditText editTextPassword2;
     private Button register;
+    private FirebaseFirestore db1=FirebaseFirestore.getInstance();
     private FirebaseDatabase db;
     private DatabaseReference m_db;
     private FirebaseAuth mAuth;
@@ -36,6 +42,10 @@ public class Registration extends AppCompatActivity {
     private static final String TAG ="registration";
     private User user;
 
+    private static final String KEY_name = "firstname";
+    private static final String KEY_lastName= "lastname";
+    private static final String KEY_phone = "phone";
+    private static final String KEY_email = "email";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +63,8 @@ public class Registration extends AppCompatActivity {
         db=FirebaseDatabase.getInstance();
         m_db=db.getReference(USER);
         mAuth=FirebaseAuth.getInstance();
+
+
 
 
 
@@ -150,6 +162,7 @@ public class Registration extends AppCompatActivity {
                                 // Sign in success, update UI with the signed-in user's information
                                 Log.d(TAG, "createUserWithEmail:success");
                                 FirebaseUser user = mAuth.getCurrentUser();
+                                saveUserProfile();
                                 updateUI(user);
                             } else {
                                 // If sign in fails, display a message to the user.
@@ -161,6 +174,23 @@ public class Registration extends AppCompatActivity {
                         }
                     });
         }
+
+    public void saveUserProfile() {
+        Map<String, Object> User = new HashMap<>();
+        User.put(KEY_name, firstName.getText().toString());
+        User.put(KEY_lastName, lastName.getText().toString());
+        User.put(KEY_phone, editTextPhone.getText().toString());
+        User.put(KEY_email, editTextEmail.getText().toString());
+        db1.collection("User").add(User)
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(Registration.this,"error",Toast.LENGTH_SHORT).show();
+                        Log.d(TAG, e.toString());
+                    }
+                });
+
+    }
 
         public void updateUI(FirebaseUser currentUser){
         String Keyid=m_db.push().getKey();
