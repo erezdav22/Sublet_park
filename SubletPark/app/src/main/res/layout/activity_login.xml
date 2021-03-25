@@ -44,7 +44,11 @@
         android:onClick="login"
         android:text="התחבר"
         app:backgroundTint="#2A40BC" />
-
+    
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/googleSignIn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
     <ProgressBar
         android:id="@+id/progressBar"
         style="?android:attr/progressBarStyle"

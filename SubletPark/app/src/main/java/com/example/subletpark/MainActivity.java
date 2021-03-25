@@ -64,13 +64,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         Map<String, Object> User = new HashMap<>();
         User.put(KEY_name, firstname);
         User.put(KEY_lastname, lastname);
-        db.collection("User").document("test1").set(User)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Toast.makeText(MainActivity.this,"user saved",Toast.LENGTH_SHORT).show();
-                    }
-                })
+        db.collection("User").add(User)
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
