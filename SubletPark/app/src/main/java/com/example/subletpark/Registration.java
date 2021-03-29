@@ -24,6 +24,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 public class Registration extends AppCompatActivity {
 
@@ -87,6 +88,19 @@ public class Registration extends AppCompatActivity {
             return;
 
         }
+
+
+
+        if(!Pattern.matches("[a-zA-Z\\u0590-\\u05FF]+",first_name)){
+
+            firstName.setError("only letters!");
+            firstName.requestFocus();
+            return;
+
+        }
+
+
+
         if(last_name.isEmpty()){
 
                 lastName.setError("last name is required!");
@@ -94,6 +108,14 @@ public class Registration extends AppCompatActivity {
                 return;
 
         }
+
+            if(!Pattern.matches("[a-zA-Z\\u0590-\\u05FF]+",last_name)){
+
+                firstName.setError("only letters!");
+                firstName.requestFocus();
+                return;
+
+            }
 
         if(phone.isEmpty()){
 
@@ -131,11 +153,16 @@ public class Registration extends AppCompatActivity {
                 return;
 
             }
-            if(password.length()<6){
-                editTextPassword.setError("min password length should be 6 characters");
+
+
+            if(!Pattern.matches("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$",password)){
+
+                editTextPassword.setError("please useat minimum 8 characters, at least one letter and one number in your password!");
                 editTextPassword.requestFocus();
                 return;
+
             }
+
             if(!password.equals(password2)||password2.isEmpty()){
                 editTextPassword2.setError("please enter same password twice");
                 editTextPassword2.requestFocus();
