@@ -36,7 +36,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 
     private FirebaseFirestore db=FirebaseFirestore.getInstance();
     private static final String TAG = "MainActivity";
-     private static final String KEY_name = "firstname";
+    private static final String KEY_name = "firstname";
     private static final String KEY_lastname = "lastname";
 
     private EditText editTextfirstname;
