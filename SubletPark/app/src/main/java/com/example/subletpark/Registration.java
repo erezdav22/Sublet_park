@@ -21,7 +21,9 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.type.Date;
 
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -203,12 +205,15 @@ public class Registration extends AppCompatActivity {
         }
 
     public void saveUserProfile() {
-        Map<String, Object> User = new HashMap<>();
-        User.put(KEY_name, firstName.getText().toString());
-        User.put(KEY_lastName, lastName.getText().toString());
-        User.put(KEY_phone, editTextPhone.getText().toString());
-        User.put(KEY_email, editTextEmail.getText().toString());
-        db1.collection("User").add(User)
+        Map<String, Object> user = new HashMap<>();
+        user.put("uid", mAuth.getCurrentUser().getUid());
+        user.put("lastLoginDate", Calendar.getInstance().getTime());
+        user.put(KEY_name, firstName.getText().toString());
+        user.put(KEY_lastName, lastName.getText().toString());
+        user.put(KEY_phone, editTextPhone.getText().toString());
+        user.put(KEY_email, editTextEmail.getText().toString());
+        db1.collection("User").document(user.get("uid").toString())
+                .set(user)
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
