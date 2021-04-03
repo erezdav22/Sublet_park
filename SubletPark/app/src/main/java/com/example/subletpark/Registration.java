@@ -38,12 +38,10 @@ public class Registration extends AppCompatActivity {
     private EditText editTextPassword2;
     private Button register;
     private FirebaseFirestore db1=FirebaseFirestore.getInstance();
-    private FirebaseDatabase db;
-    private DatabaseReference m_db;
     private FirebaseAuth mAuth;
     private static final String USER ="user";
     private static final String TAG ="registration";
-    private User user;
+
 
     private static final String KEY_name = "firstname";
     private static final String KEY_lastName= "lastname";
@@ -63,8 +61,7 @@ public class Registration extends AppCompatActivity {
         register=findViewById(R.id.register);
         register.setOnClickListener(this::sign_up);
 
-        db=FirebaseDatabase.getInstance();
-        m_db=db.getReference(USER);
+
         mAuth=FirebaseAuth.getInstance();
 
 
@@ -113,8 +110,8 @@ public class Registration extends AppCompatActivity {
 
             if(!Pattern.matches("[a-zA-Z\\u0590-\\u05FF]+",last_name)){
 
-                firstName.setError("only letters!");
-                firstName.requestFocus();
+                lastName.setError("only letters!");
+                lastName.requestFocus();
                 return;
 
             }
@@ -171,7 +168,7 @@ public class Registration extends AppCompatActivity {
                 return;
             }
 
-            user= new User(first_name,last_name,phone,email,password);
+
             registration(email,password);
 
 
@@ -224,9 +221,7 @@ public class Registration extends AppCompatActivity {
 
     }
 
-        public void updateUI(FirebaseUser currentUser){
-        String Keyid=m_db.push().getKey();
-        m_db.child(Keyid).setValue(user);
+       public void updateUI(FirebaseUser currentUser){
             Intent loginIntent= new Intent(this,login.class);
             startActivity(loginIntent);
 

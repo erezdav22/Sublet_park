@@ -63,7 +63,43 @@
         android:id="@+id/updateButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="update"
+        android:onClick="valid"
         android:text="עדכן פרטים" />
+
+    <Button
+        android:id="@+id/PassButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="change_password"
+        android:text="שינוי סיסמא"
+        app:backgroundTint="#CD1608" />
+
+    <EditText
+        android:id="@+id/editTextPassword3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="הכנס סיסמא"
+        android:inputType="textPassword"
+        android:visibility="gone"
+        tools:visibility="gone" />
+
+    <EditText
+        android:id="@+id/editTextPassword4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="הכנס סיסמא שנית"
+        android:inputType="textPassword"
+        android:visibility="gone"
+        tools:visibility="gone" />
+
+    <Button
+        android:id="@+id/ChangeButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="change"
+        android:text="החל שינוי"
+        android:visibility="gone" />
 
 </LinearLayout>
