@@ -19,8 +19,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="15dp"
-        android:text="welcome!"
-        android:textSize="30sp" />
+        android:onClick="addP"
+        android:text="הוסף חניה"
+        android:textSize="24sp" />
 
     <EditText
         android:id="@+id/firstName2"

@@ -115,6 +115,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         MapAPI.addMarker(new MarkerOptions().position(Haifa).title("Haifa"));
         MapAPI.moveCamera(CameraUpdateFactory.newLatLng(Haifa));
 
+
     }
 
 

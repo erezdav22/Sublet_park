@@ -14,7 +14,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.SubletPark">
-        <activity android:name=".addParking"></activity>
+        <activity android:name=".MainPage"></activity>
+        <activity android:name=".addParking" />
         <activity android:name=".ResetPassword" />
         <activity android:name=".ProfileActivity" />
         <activity android:name=".MainActivity" />

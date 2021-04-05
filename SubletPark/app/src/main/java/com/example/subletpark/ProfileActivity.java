@@ -198,7 +198,7 @@ public class ProfileActivity extends AppCompatActivity {
                 @Override
                 public void onSuccess(Void aVoid) {
                     Toast.makeText(ProfileActivity.this,"your profile was updated successfully",Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(ProfileActivity.this,addParking.class));
+
 
 
                 }
@@ -258,6 +258,10 @@ public class ProfileActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    public void addP(View view) {
+        startActivity(new Intent(ProfileActivity.this,addParking.class));
     }
 }
 
