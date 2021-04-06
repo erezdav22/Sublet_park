@@ -62,6 +62,7 @@ public class addParking extends AppCompatActivity implements DatePickerDialog.On
     FirebaseStorage firebaseStorage;
     StorageReference storageReference;
     UploadTask uploadTask;
+    private TextView editTextEndDate;
    
     private static final String KEY_city = "city";
     private static final String KEY_street= "street";
@@ -80,7 +81,7 @@ public class addParking extends AppCompatActivity implements DatePickerDialog.On
         setContentView(R.layout.activity_add_parking);
 
         editTextDateTime = findViewById(R.id.editTextDateTime);
-        editTextDateTime.setOnClickListener(this::picker);
+        editTextDateTime.setOnClickListener(this::picker1);
         editTextCity = findViewById(R.id.editTextCity);
         editTextStreet = findViewById(R.id.editTextStreet);
         editTextStreetNumber = findViewById(R.id.editTextStreetNumber);
@@ -89,20 +90,80 @@ public class addParking extends AppCompatActivity implements DatePickerDialog.On
         buttonUpload = findViewById(R.id.buttonUpload);
         buttonUpload.setOnClickListener(this::upload_parking);
         storageReference=firebaseStorage.getInstance().getReference("parking image");
+        editTextEndDate = findViewById(R.id.editTextEndDate);
+        editTextEndDate.setOnClickListener(this::picker2);
 
     }
 
-    public void picker(View view) {
+    public void picker1(View view) {
         Calendar c= Calendar.getInstance();
         year=c.get(Calendar.YEAR);
         month=c.get(Calendar.MONTH);
         day=c.get(Calendar.DAY_OF_MONTH);
 
-        DatePickerDialog datePickerDialog= new DatePickerDialog(addParking.this,addParking.this,
-                year,month,day);
-        datePickerDialog.show();
+        DatePickerDialog datePickerDialog= new DatePickerDialog(addParking.this,
+                new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                        finalYear= year;
+                        finalMonth=month;
+                        finalDay=dayOfMonth;
 
+                        Calendar c= Calendar.getInstance();
+                        hour=c.get(Calendar.HOUR_OF_DAY);
+                        minute=c.get(Calendar.MINUTE);
+
+                        TimePickerDialog timePickerDialog = new TimePickerDialog(addParking.this, new TimePickerDialog.OnTimeSetListener() {
+                            @Override
+                            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                                finalHour=hourOfDay;
+                                finalMinute=minute;
+                                String dateTime=finalDay+"/"+finalMonth+"/"+finalYear +" "+finalHour+":"+finalMinute;
+                                editTextDateTime.setText(dateTime);
+                            }
+                        },
+                                hour, minute, android.text.format.DateFormat.is24HourFormat(addParking.this));
+                        timePickerDialog.show();
+
+                    }},year,month,day);
+        datePickerDialog.show();
     }
+
+    public void picker2(View view) {
+        Calendar c= Calendar.getInstance();
+        year=c.get(Calendar.YEAR);
+        month=c.get(Calendar.MONTH);
+        day=c.get(Calendar.DAY_OF_MONTH);
+
+        DatePickerDialog datePickerDialog= new DatePickerDialog(addParking.this,
+                new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                        finalYear= year;
+                        finalMonth=month;
+                        finalDay=dayOfMonth;
+
+                        Calendar c= Calendar.getInstance();
+                        hour=c.get(Calendar.HOUR_OF_DAY);
+                        minute=c.get(Calendar.MINUTE);
+
+                        TimePickerDialog timePickerDialog = new TimePickerDialog(addParking.this, new TimePickerDialog.OnTimeSetListener() {
+                            @Override
+                            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                                finalHour=hourOfDay;
+                                finalMinute=minute;
+                                String dateTime=finalDay+"/"+finalMonth+"/"+finalYear +" "+finalHour+":"+finalMinute;
+                                editTextEndDate.setText(dateTime);
+                            }
+                        },
+                                hour, minute, android.text.format.DateFormat.is24HourFormat(addParking.this));
+                        timePickerDialog.show();
+
+                    }},year,month,day);
+                datePickerDialog.show();
+    }
+
+
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
