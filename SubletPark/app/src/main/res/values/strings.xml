@@ -7,8 +7,14 @@
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
+    <string name="login_email_hint">Email</string>
+    <string name="login_password_hint">Password</string>
 
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
+    <string name="forgot_pass" translatable="false">שכחת סיסמה? <u>לחץ כאן</u></string>
+    <string name="regi" translatable="false">עדיין לא נרשמת? <u>הירשם עכשיו</u></string>
+    <string name="addPark" translatable="false"><u>הוסף חניה</u></string>
+    <string name="editProfile" translatable="false"><u>ערוך פרופיל</u></string>
 </resources>

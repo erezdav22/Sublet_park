@@ -4,91 +4,207 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:background="@color/login_bk_color"
+    android:backgroundTint="#CB0850CF"
+    android:focusableInTouchMode="true"
+    android:gravity="center"
     android:orientation="vertical"
     tools:context=".Registration">
 
-    <ImageView
-        android:id="@+id/imageView2"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="15dp"
-        app:srcCompat="@drawable/logo_subletpark" />
+        android:layout_height="156dp"
+        android:orientation="horizontal">
 
-    <EditText
-        android:id="@+id/firstName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="שם פרטי"
-        android:inputType="textPersonName"
-        android:padding="20dp" />
+        <ImageView
+            android:id="@+id/imageView9"
+            android:layout_width="74dp"
+            android:layout_height="139dp"
+            android:layout_margin="12dp"
+            android:layout_weight="1"
 
-    <EditText
-        android:id="@+id/lastName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="שם משפחה"
-        android:inputType="textPersonName"
-        android:padding="20dp" />
+            app:srcCompat="@drawable/ic_login_hero" />
 
-    <EditText
-        android:id="@+id/editTextPhone"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:gravity="right"
-        android:hint="טלפון"
-        android:inputType="phone"
-        android:padding="20dp" />
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="30dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="20dp"
+            android:layout_weight="1"
+            android:text="כמה פרטים קטנים ומתחילים!"
+            android:textAlignment="center"
+            android:textColor="#FBF9F9"
+            android:textSize="30sp" />
 
-    <EditText
-        android:id="@+id/editTextEmail"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="אימייל"
-        android:inputType="textEmailAddress"
-        android:padding="20dp" />
+    </LinearLayout>
 
-    <EditText
-        android:id="@+id/editTextPassword"
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:gravity="right"
-        android:hint="סיסמא"
-        android:inputType="textPassword"
-        android:padding="20dp" />
+        android:layout_margin="12dp"
+        android:background="#FFFFFF"
+        android:backgroundTint="@color/white"
+        app:cardCornerRadius="10dp">
 
-    <EditText
-        android:id="@+id/editTextPassword2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:gravity="right"
-        android:hint="הכנס סיסמא שנית"
-        android:inputType="textPassword"
-        android:padding="20dp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="521dp"
+            android:orientation="vertical">
 
-    <CheckBox
-        android:id="@+id/checkBox"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="20dp"
-        android:text="אני מסכים לתנאי השירות" />
+            <EditText
+                android:id="@+id/firstName"
+                style="@style/modifiedEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="20dp"
+                android:ems="10"
+                android:hint="שם פרטי"
+                android:inputType="textPersonName"
+                android:padding="10dp" />
 
-    <Button
-        android:id="@+id/register"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="5dp"
-        android:layout_marginRight="5dp"
-        android:onClick="sign_up"
-        android:text="הירשם"
-        app:backgroundTint="#2A40BC" />
+            <EditText
+                android:id="@+id/lastName"
+                style="@style/modifiedEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="20dp"
+                android:ems="10"
+                android:hint="שם משפחה"
+                android:inputType="textPersonName"
+                android:padding="10dp" />
+
+            <EditText
+                android:id="@+id/editTextPhone"
+                style="@style/modifiedEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="20dp"
+                android:ems="10"
+                android:gravity="right"
+                android:hint="טלפון"
+                android:inputType="phone"
+                android:padding="10dp" />
+
+            <EditText
+                android:id="@+id/editTextEmail"
+                style="@style/modifiedEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="20dp"
+                android:ems="10"
+                android:hint="אימייל"
+                android:inputType="textEmailAddress"
+                android:padding="10dp" />
+
+            <EditText
+                android:id="@+id/editTextPassword"
+                style="@style/modifiedEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="20dp"
+                android:ems="10"
+                android:gravity="right"
+                android:hint="סיסמא"
+                android:inputType="textPassword"
+                android:padding="10dp" />
+
+            <EditText
+                android:id="@+id/editTextPassword2"
+                style="@style/modifiedEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="20dp"
+                android:ems="10"
+                android:gravity="right"
+                android:hint="הכנס סיסמא שנית"
+                android:inputType="textPassword"
+                android:padding="10dp" />
+
+            <CheckBox
+                android:id="@+id/checkBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:text="אני מסכים לתנאי השירות" />
+
+            <br.com.simplepass.loading_button_lib.customViews.CircularProgressButton
+                android:id="@+id/register"
+                style="@style/loginButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="50dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="50dp"
+                android:onClick="sign_up"
+                android:text="הירשם" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="34dp"
+                android:layout_marginTop="15dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:weightSum="12">
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="3"
+                    android:background="@color/blue" />
+
+                <TextView
+                    style="@style/viewParent.headerText.NoMode"
+                    android:layout_width="20dp"
+                    android:layout_height="25dp"
+                    android:layout_weight="3"
+                    android:text="הירשם באמצעות"
+                    android:textAlignment="center"
+                    android:textColor="@color/blue"
+                    android:textSize="12sp" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="3"
+                    android:background="@color/blue" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_facebook" />
+
+                <ImageView
+                    android:layout_width="55dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:src="@drawable/googlesymbol" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
 
 </LinearLayout>

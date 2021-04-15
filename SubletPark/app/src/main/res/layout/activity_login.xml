@@ -4,22 +4,29 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="12dp"
     android:orientation="vertical"
+    android:background="@color/login_bk_color"
+    android:focusableInTouchMode="true"
+    android:layout_gravity="center"
+    android:gravity="center"
     tools:context=".login">
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/imageView7"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="15dp"
-        android:padding="10dp"
-        app:srcCompat="@drawable/logo_subletpark" />
+        android:layout_height="170dp"
+        app:srcCompat="@drawable/logoremovebg" />
+
 
     <EditText
         android:id="@+id/loginEmail"
+        style="@style/modifiedEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="20dp"
         android:ems="10"
         android:hint="אימייל"
         android:inputType="textEmailAddress"
@@ -27,28 +34,111 @@
 
     <EditText
         android:id="@+id/loginPassword"
+        style="@style/modifiedEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="20dp"
         android:ems="10"
         android:gravity="right"
-        android:hint="סיסמא"
+        android:hint="סיסמה"
         android:inputType="textPassword"
         android:padding="12dp" />
 
-    <Button
-        android:id="@+id/loginButton"
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/forgotPassword"
+        android:layout_width="323dp"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
+        android:onClick="resetPass"
+        android:text="@string/forgot_pass"
+        android:textColor="@color/primaryTextColor"
+        android:textSize="14sp"
+        android:textStyle="bold" />
+
+    <br.com.simplepass.loading_button_lib.customViews.CircularProgressButton
+
+        android:id="@+id/loginButton"
+        style="@style/loginButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"
         android:onClick="login"
-        android:text="התחבר"
-        app:backgroundTint="#2A40BC" />
-    
+        android:text="התחבר" />
+
+    <TextView
+        android:id="@+id/textViewRegister"
+        android:layout_width="342dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        android:onClick="register"
+        android:padding="10dp"
+        android:text="@string/regi"
+        android:textAllCaps="false"
+        android:textColor="@color/primaryTextColor"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="34dp"
+        android:gravity="center"
+        android:layout_marginTop="30dp"
+        android:orientation="horizontal"
+        android:weightSum="12">
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="3"
+            android:background="@color/colorPrimaryDark" />
+
+        <TextView
+            style="@style/viewParent.headerText.NoMode"
+            android:layout_width="20dp"
+            android:layout_height="25dp"
+            android:layout_weight="3"
+            android:text="התחבר באמצעות"
+            android:textAlignment="center"
+            android:textSize="12sp" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="3"
+            android:background="@color/colorPrimaryDark" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_facebook" />
+
+        <ImageView
+            android:layout_width="55dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/googlesymbol" />
+
+    </LinearLayout>
+
     <com.google.android.gms.common.SignInButton
         android:id="@+id/googleSignIn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_width="356dp"
+        android:layout_height="43dp"
+        android:layout_marginStart="7dp"
+        android:layout_marginLeft="7dp"
+        android:visibility="gone" />
+
     <ProgressBar
         android:id="@+id/progressBar"
         style="?android:attr/progressBarStyle"
@@ -56,27 +146,5 @@
         android:layout_height="wrap_content"
         android:visibility="gone" />
 
-    <TextView
-        android:id="@+id/textViewRegister"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="12dp"
-        android:onClick="register"
-        android:padding="10dp"
-        android:text="עדיין לא נרשמת? הירשם עכשיו"
-        android:textAllCaps="false"
-        android:textSize="18sp"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/forgotPassword"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="12dp"
-        android:onClick="resetPass"
-        android:padding="10dp"
-        android:text="שכחת סיסמא? לחץ כאן"
-        android:textSize="18sp"
-        android:textStyle="bold" />
 
 </LinearLayout>

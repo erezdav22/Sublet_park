@@ -72,6 +72,7 @@ public class addParking extends AppCompatActivity implements DatePickerDialog.On
     private static final String KEY_street_number = "street_number";
     private static final String description = "description";
     private static final String start_date = "start_date";
+    private static final String end_date = "end_date";
     private static final String URI = "uri";
     private static final String TAG ="addParking";
     private static final int PICK_IMAGE=1;
@@ -230,6 +231,7 @@ public class addParking extends AppCompatActivity implements DatePickerDialog.On
                     parking.put(KEY_street_number, editTextStreetNumber.getText().toString());
                     parking.put(description, editTextDescription.getText().toString());
                     parking.put(start_date, editTextDateTime.getText().toString());
+                    parking.put(end_date, editTextEndDate.getText().toString());
                     parking.put(URI, downloadUri.toString());
 
                     db.collection("User")
