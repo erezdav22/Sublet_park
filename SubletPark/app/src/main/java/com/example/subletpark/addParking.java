@@ -39,7 +39,10 @@ import org.w3c.dom.Text;
 
 import java.net.URI;
 import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -163,7 +166,16 @@ public class addParking extends AppCompatActivity implements DatePickerDialog.On
                 datePickerDialog.show();
     }
 
-
+    public long dateToLong(String date) throws ParseException {
+        String dateValue = date;
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+        Date date1 = simpleDateFormat.parse(dateValue);
+        simpleDateFormat = new SimpleDateFormat("ddMMyyyyHHmm");
+        String value = simpleDateFormat.format(date);
+        Long result = Long.parseLong(value);
+        System.out.println("Result : "+result);
+        return result;
+    }
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
