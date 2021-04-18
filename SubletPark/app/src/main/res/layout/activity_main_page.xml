@@ -15,41 +15,39 @@
         android:id="@+id/nav_view"
         app:headerLayout="@layout/header"
         app:menu="@menu/activity_main_drawer"
-        android:layout_gravity="start"/>
+        android:layout_gravity="start">
 
+        <TextView
+            android:id="@+id/textViewEdit"
+            android:layout_width="95dp"
+            android:layout_height="37dp"
+            android:layout_margin="15dp"
+            android:layout_marginEnd="236dp"
+            android:onClick="edit_profile"
+            android:padding="10dp"
+            android:text="@string/editProfile"
+            tools:ignore="MissingConstraints" />
+
+    </com.google.android.material.navigation.NavigationView>
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="visible"
-        tools:visibility="visible">
+        android:layout_height="wrap_content">
+
+
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="visible"
-            tools:visibility="visible">
+            android:layout_height="wrap_content">
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="61dp"
                 android:layout_height="50dp"
-                android:backgroundTint="#FAFBFB"
                 android:icon="@drawable/ic_baseline_menu_24"
                 android:navigationIcon="@drawable/ic_baseline_menu_24"
                 tools:ignore="MissingConstraints"></androidx.appcompat.widget.Toolbar>
 
-
-            <TextView
-                android:id="@+id/textViewEdit"
-                android:layout_width="95dp"
-                android:layout_height="37dp"
-                android:layout_margin="15dp"
-                android:onClick="edit_profile"
-                android:padding="10dp"
-                android:text="@string/editProfile"
-                app:layout_constraintEnd_toEndOf="parent"
-                tools:ignore="MissingConstraints" />
 
             <ImageView
                 android:id="@+id/imageView3"
@@ -61,58 +59,51 @@
                 tools:ignore="MissingConstraints"
                 tools:layout_editor_absoluteY="56dp" />
 
-            <LinearLayout
-                android:id="@+id/linearLayout"
-                android:layout_width="387dp"
-                android:layout_height="0dp"
-                android:orientation="horizontal"
-                app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
+
+            <EditText
+                android:id="@+id/editTextSearch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:hint="הכנס כתובת"
+                android:inputType="textPersonName"
+                android:padding="12dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:ignore="MissingConstraints"
+                app:layout_constraintTop_toBottomOf="@+id/imageView3"
+                tools:layout_editor_absoluteY="250dp" />
+
+
+            <ImageView
+                android:id="@+id/imageViewSearch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:contentDescription="TODO"
+                android:onClick="search"
+                app:layout_constraintEnd_toStartOf="@+id/editTextSearch"
+                app:layout_constraintHorizontal_bias="0.323"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageView3"
+                app:srcCompat="@android:drawable/ic_menu_search"
+                tools:ignore="MissingConstraints" />
+
+
+            <fragment
+                android:id="@+id/mapAPI2"
+                android:name="com.google.android.gms.maps.SupportMapFragment"
+                android:layout_width="388dp"
+                android:layout_height="325dp"
+                android:layout_margin="12dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editTextSearch"
+                tools:layout_editor_absoluteY="334dp"
                 tools:ignore="MissingConstraints">
 
-                <ImageView
-                    android:id="@+id/imageViewSearch"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.5"
-                    android:onClick="search"
-                    android:paddingLeft="-30dp"
-                    android:paddingRight="-30dp"
-                    app:srcCompat="@android:drawable/ic_menu_search" />
+            </fragment>
 
-                <EditText
-                    android:id="@+id/editTextSearch"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ems="10"
-                    android:hint="הכנס כתובת"
-                    android:inputType="textPersonName"
-                    android:padding="12dp" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/linearLayout2"
-                android:layout_width="399dp"
-                android:layout_height="371dp"
-                android:layout_weight="0.5"
-                android:orientation="vertical"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                tools:ignore="MissingConstraints"
-                tools:layout_editor_absoluteY="274dp">
-
-                <fragment
-                    android:id="@+id/mapAPI2"
-                    android:name="com.google.android.gms.maps.SupportMapFragment"
-                    android:layout_width="373dp"
-                    android:layout_height="346dp"
-                    android:layout_margin="12dp">
-
-                </fragment>
-            </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
