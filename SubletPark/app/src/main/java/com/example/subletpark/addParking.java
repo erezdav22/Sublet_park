@@ -2,7 +2,11 @@ package com.example.subletpark;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
@@ -12,6 +16,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
@@ -27,6 +32,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -45,7 +51,7 @@ import java.util.Map;
 
 import static java.security.AccessController.getContext;
 
-public class addParking extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
+public class addParking extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener, NavigationView.OnNavigationItemSelectedListener {
 
     TextView editTextDateTime;
     int day,month,year, hour,minute;
@@ -73,13 +79,29 @@ public class addParking extends AppCompatActivity implements DatePickerDialog.On
     private static final String URI = "uri";
     private static final String TAG ="addParking";
     private static final int PICK_IMAGE=1;
-    
+
+    DrawerLayout drawerLayout;
+    NavigationView navigationView;
+    Toolbar toolbar;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_parking);
+
+
+        drawerLayout=findViewById(R.id.drawer_layout);
+        navigationView=findViewById(R.id.nav_view);
+        toolbar=findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        navigationView.bringToFront();
+        ActionBarDrawerToggle toggle= new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.navigation_drawer_open,R.string.navigation_drawer_close);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+        navigationView.setNavigationItemSelectedListener(this);
+        navigationView.setCheckedItem(R.id.nav_addPark);
+
 
         editTextDateTime = findViewById(R.id.editTextDateTime);
         editTextDateTime.setOnClickListener(this::picker1);
@@ -94,6 +116,36 @@ public class addParking extends AppCompatActivity implements DatePickerDialog.On
         editTextEndDate = findViewById(R.id.editTextEndDate);
         editTextEndDate.setOnClickListener(this::picker2);
 
+    }
+
+    public void onBackPressed(){
+        if(drawerLayout.isDrawerOpen(GravityCompat.START)){
+            drawerLayout.closeDrawer(GravityCompat.START);
+        }
+        else {
+            super.onBackPressed();
+        }
+
+    }
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.nav_home:
+                startActivity(new Intent(addParking.this,MainPage.class));
+            case R.id.nav_profile:
+                startActivity(new Intent(addParking.this,ProfileActivity.class));
+
+            case R.id.nav_addPark:
+                break;
+
+            case R.id.nav_MyPark:
+                startActivity(new Intent(addParking.this,edit_park.class));
+
+            case R.id.nav_logout:
+                break;
+        }
+        drawerLayout.closeDrawer(GravityCompat.START);
+        return true;
     }
 
     public void picker1(View view) {
