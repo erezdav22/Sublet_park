@@ -29,6 +29,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -41,6 +42,7 @@ import java.net.URI;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -58,6 +60,7 @@ public class addParking extends AppCompatActivity implements DatePickerDialog.On
     EditText editTextStreet;
     EditText editTextStreetNumber;
     EditText editTextDescription;
+    EditText editTextDailyPrice;
     ImageView uploadPic;
     Button buttonUpload;
     private Uri imageUri;
@@ -70,10 +73,11 @@ public class addParking extends AppCompatActivity implements DatePickerDialog.On
     private static final String KEY_city = "city";
     private static final String KEY_street= "street";
     private static final String KEY_street_number = "street_number";
+    private static final String KEY_daily_price= "daily price";
     private static final String description = "description";
     private static final String start_date = "start_date";
     private static final String end_date = "end_date";
-    private static final String uId = "uId";
+    private static final String userId = "userId";
     private static final String URI = "uri";
     private static final String TAG ="addParking";
     private static final int PICK_IMAGE=1;
@@ -93,10 +97,11 @@ public class addParking extends AppCompatActivity implements DatePickerDialog.On
         editTextDescription = findViewById(R.id.editTextDescription);
         uploadPic = findViewById(R.id.uploadPic);
         buttonUpload = findViewById(R.id.buttonUpload);
-        buttonUpload.setOnClickListener(this::upload_parking);
+        buttonUpload.setOnClickListener(this::add_parking);
         storageReference=firebaseStorage.getInstance().getReference("parking image");
         editTextEndDate = findViewById(R.id.editTextEndDate);
         editTextEndDate.setOnClickListener(this::picker2);
+        editTextDailyPrice = findViewById(R.id.editTextDailyPrice);
 
         mAuth=FirebaseAuth.getInstance();
 
@@ -171,9 +176,8 @@ public class addParking extends AppCompatActivity implements DatePickerDialog.On
     }
 
     public long dateToLong(String date) throws ParseException {
-        String dateValue = date;
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-        Date date1 = simpleDateFormat.parse(dateValue);
+        Date date1 = simpleDateFormat.parse(date);
         simpleDateFormat = new SimpleDateFormat("ddMMyyyyHHmm");
         String value = simpleDateFormat.format(date);
         Long result = Long.parseLong(value);
@@ -267,6 +271,8 @@ public class addParking extends AppCompatActivity implements DatePickerDialog.On
 
     }
 
+
+    
     public void add_parking(View view) {
 
 
@@ -292,14 +298,40 @@ public class addParking extends AppCompatActivity implements DatePickerDialog.On
                     parking.put(KEY_city, editTextCity.getText().toString());
                     parking.put(KEY_street, editTextStreet.getText().toString());
                     parking.put(KEY_street_number, editTextStreetNumber.getText().toString());
+                    parking.put(KEY_daily_price,editTextDailyPrice.getText().toString());
                     parking.put(description, editTextDescription.getText().toString());
                     parking.put(start_date, editTextDateTime.getText().toString());
                     parking.put(end_date, editTextEndDate.getText().toString());
-                    parking.put(uId, mAuth.getCurrentUser().getUid());
+                    parking.put(userId, mAuth.getCurrentUser().getUid());
                     parking.put(URI, downloadUri.toString());
-
-                    db.collection("ParkingSpot").document(parking.get("uid").toString())
-                            .set(parking)
+                    try {
+                        dateToLong(editTextDateTime.getText().toString());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    db.collection("ParkingSpot")
+                            .add(parking)
+                            .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                @Override
+                                public void onSuccess(DocumentReference documentReference) {
+                                    String parkingId = documentReference.getId();
+                                    //add the parkingID to the user parking array.
+                                    DocumentReference userRef = db.collection("User").document(mAuth.getCurrentUser().getUid());
+                                    userRef.update("parking spots", FieldValue.arrayUnion(parkingId))
+                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                @Override
+                                                public void onSuccess(Void aVoid) {
+                                                    Log.d(TAG, "DocumentSnapshot successfully updated!");
+                                                }
+                                            })
+                                            .addOnFailureListener(new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull Exception e) {
+                                                    Log.w(TAG, "Error updating document", e);
+                                                }
+                                            });
+                                }
+                            })
                             .addOnFailureListener(new OnFailureListener() {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
@@ -307,6 +339,7 @@ public class addParking extends AppCompatActivity implements DatePickerDialog.On
                                     Log.d(TAG, e.toString());
                                 }
                             });
+
 
                 }
             }
