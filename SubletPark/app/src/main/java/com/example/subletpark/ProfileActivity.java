@@ -5,19 +5,25 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Patterns;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ComponentActivity;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -28,7 +34,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
-public class ProfileActivity extends AppCompatActivity {
+public class ProfileActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -43,6 +49,10 @@ public class ProfileActivity extends AppCompatActivity {
     private Button updateButton;
     private Button ChangeButton;
 
+    DrawerLayout drawerLayout;
+    NavigationView navigationView;
+    Toolbar toolbar;
+
 
 
     private static final String TAG = "ProfileActivity";
@@ -52,6 +62,18 @@ public class ProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+
+        drawerLayout=findViewById(R.id.drawer_layout);
+        navigationView=findViewById(R.id.nav_view);
+        toolbar=findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        navigationView.bringToFront();
+        ActionBarDrawerToggle toggle= new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.navigation_drawer_open,R.string.navigation_drawer_close);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+        navigationView.setNavigationItemSelectedListener(this);
+        navigationView.setCheckedItem(R.id.nav_profile);
+
 
         firstName2 = findViewById(R.id.firstName2);
         lastName2 = findViewById(R.id.lastName2);
@@ -94,7 +116,36 @@ public class ProfileActivity extends AppCompatActivity {
                 });
     }
 
+    public void onBackPressed(){
+        if(drawerLayout.isDrawerOpen(GravityCompat.START)){
+            drawerLayout.closeDrawer(GravityCompat.START);
+        }
+        else {
+            super.onBackPressed();
+        }
 
+    }
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.nav_home:
+                startActivity(new Intent(ProfileActivity.this,MainPage.class));
+
+            case R.id.nav_profile:
+                break;
+
+            case R.id.nav_addPark:
+                startActivity(new Intent(ProfileActivity.this,addParking.class));
+
+            case R.id.nav_MyPark:
+                startActivity(new Intent(ProfileActivity.this,edit_park.class));
+
+            case R.id.nav_logout:
+                break;
+        }
+        drawerLayout.closeDrawer(GravityCompat.START);
+        return true;
+    }
 
     public void valid(View view) {
 
@@ -260,8 +311,9 @@ public class ProfileActivity extends AppCompatActivity {
         });
     }
 
-    public void addP(View view) {
-        startActivity(new Intent(ProfileActivity.this,addParking.class));
+    @Override
+    public void onPointerCaptureChanged(boolean hasCapture) {
+
     }
 }
 

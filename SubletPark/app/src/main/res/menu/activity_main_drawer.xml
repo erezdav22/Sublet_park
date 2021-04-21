@@ -7,7 +7,7 @@
         <item
             android:id="@+id/nav_home"
             android:icon="@drawable/ic_home"
-            android:title="דף הבית" />
+            android:title="דף הבית"/>
         <item
             android:id="@+id/nav_profile"
             android:icon="@drawable/ic_person"
@@ -16,6 +16,11 @@
             android:id="@+id/nav_addPark"
             android:icon="@drawable/ic_parking_24"
             android:title="הוספת חניה" />
+
+        <item
+            android:id="@+id/nav_MyPark"
+            android:icon="@drawable/ic_parking_24"
+            android:title="החניות שלי" />
     </group>
 
 

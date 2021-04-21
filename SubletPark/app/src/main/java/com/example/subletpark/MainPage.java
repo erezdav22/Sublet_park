@@ -51,11 +51,10 @@ import java.util.List;
 
 import static com.example.subletpark.R.id.editTextSearch;
 
-public class MainPage extends AppCompatActivity implements OnMapReadyCallback{
+public class MainPage extends AppCompatActivity implements OnMapReadyCallback, NavigationView.OnNavigationItemSelectedListener {
 
     GoogleMap MapAPI2;
     SupportMapFragment mapFragment;
-    private TextView textViewEdit;
     private EditText editTextSearch;
     private ImageView imageViewSearch;
     List<Address> addressList = null;
@@ -77,15 +76,16 @@ public class MainPage extends AppCompatActivity implements OnMapReadyCallback{
         navigationView=findViewById(R.id.nav_view);
         toolbar=findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        navigationView.bringToFront();
         ActionBarDrawerToggle toggle= new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.navigation_drawer_open,R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
+        navigationView.setNavigationItemSelectedListener(this);
+        navigationView.setCheckedItem(R.id.nav_home);
 
 
-        textViewEdit=findViewById(R.id.textViewEdit);
         editTextSearch=findViewById(R.id.editTextSearch);
         imageViewSearch=findViewById(R.id.imageViewSearch);
-        textViewEdit.setOnClickListener(this::edit_profile);
         imageViewSearch.setOnClickListener(this::search);
         mapFragment= (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapAPI2);
         mapFragment.getMapAsync(this);
@@ -103,14 +103,28 @@ public class MainPage extends AppCompatActivity implements OnMapReadyCallback{
             super.onBackPressed();
         }
 
+    }
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.nav_home:
+                break;
+            case R.id.nav_profile:
+                startActivity(new Intent(MainPage.this,ProfileActivity.class));
 
+            case R.id.nav_addPark:
+                startActivity(new Intent(MainPage.this,addParking.class));
+
+            case R.id.nav_MyPark:
+                startActivity(new Intent(MainPage.this,edit_park.class));
+
+            case R.id.nav_logout:
+                break;
+        }
+        drawerLayout.closeDrawer(GravityCompat.START);
+        return true;
     }
 
-
-    public void edit_profile(View view) {
-
-        startActivity(new Intent(MainPage.this,ProfileActivity.class));
-    }
 
     public void search(View view) {
 
