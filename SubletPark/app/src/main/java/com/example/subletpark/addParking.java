@@ -76,7 +76,8 @@ public class addParking extends AppCompatActivity implements DatePickerDialog.On
     UploadTask uploadTask;
     private TextView editTextEndDate;
     Long long_start;
-   
+    Long long_finish;
+
     private static final String KEY_city = "city";
     private static final String KEY_street= "street";
     private static final String KEY_street_number = "street_number";
@@ -236,11 +237,8 @@ public class addParking extends AppCompatActivity implements DatePickerDialog.On
        // simpleDateFormat = new SimpleDateFormat("ddMMyyyyHHmm");
         Date date1 = simpleDateFormat.parse(date);
         long dateInLong = date1.getTime();
-       // String value = simpleDateFormat.format(date);
-       // Long result = Long.parseLong(value);
         System.out.println("Date         = " + date1);
         System.out.println("Date in Long = " + dateInLong);
-       // System.out.println("Result : "+result);
         return dateInLong;
     }
 
@@ -348,7 +346,12 @@ public class addParking extends AppCompatActivity implements DatePickerDialog.On
             @Override
             public void onComplete(@NonNull Task<Uri> task) {
                 if(task.isSuccessful()){
-
+                    try {
+                        long_start=dateToLong(editTextDateTime.getText().toString());
+                        long_finish= dateToLong(editTextEndDate.getText().toString());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                     Uri downloadUri=task.getResult();
                     Map<String, Object> parking = new HashMap<>();
                     parking.put(KEY_city, editTextCity.getText().toString());
@@ -356,15 +359,11 @@ public class addParking extends AppCompatActivity implements DatePickerDialog.On
                     parking.put(KEY_street_number, editTextStreetNumber.getText().toString());
                     parking.put(KEY_daily_price,editTextDailyPrice.getText().toString());
                     parking.put(description, editTextDescription.getText().toString());
-                    parking.put(start_date, editTextDateTime.getText().toString());
-                    parking.put(end_date, editTextEndDate.getText().toString());
+                    parking.put(start_date, long_start);
+                    parking.put(end_date, long_finish);
                     parking.put(userId, mAuth.getCurrentUser().getUid());
                     parking.put(URI, downloadUri.toString());
-                   // try {
-                       // long_start=dateToLong(editTextDateTime.getText().toString());
-                 //   } catch (Exception e) {
-                    //    e.printStackTrace();
-                  //  }
+
 
                     db.collection("ParkingSpot")
                             .add(parking)

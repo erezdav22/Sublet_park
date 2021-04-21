@@ -121,12 +121,13 @@ public class MainPage extends AppCompatActivity implements OnMapReadyCallback, N
                 startActivity(new Intent(MainPage.this,edit_park.class));
 
             case R.id.nav_logout:
+                break;
 
-                FirebaseAuth.getInstance().signOut();
+              //  FirebaseAuth.getInstance().signOut();
 
-                startActivity(new Intent(MainPage.this, login.class));
+                //startActivity(new Intent(MainPage.this, login.class));
 
-                finish();
+                //finish();
 
 
         }
