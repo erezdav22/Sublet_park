@@ -41,6 +41,8 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -119,8 +121,16 @@ public class MainPage extends AppCompatActivity implements OnMapReadyCallback, N
                 startActivity(new Intent(MainPage.this,edit_park.class));
 
             case R.id.nav_logout:
-                break;
+
+                FirebaseAuth.getInstance().signOut();
+
+                startActivity(new Intent(MainPage.this, login.class));
+
+                finish();
+
+
         }
+
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }

@@ -141,7 +141,7 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
                 startActivity(new Intent(ProfileActivity.this,edit_park.class));
 
             case R.id.nav_logout:
-                break;
+               break;
         }
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;

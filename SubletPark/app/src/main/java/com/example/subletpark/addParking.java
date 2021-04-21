@@ -75,6 +75,7 @@ public class addParking extends AppCompatActivity implements DatePickerDialog.On
     StorageReference storageReference;
     UploadTask uploadTask;
     private TextView editTextEndDate;
+    Long long_start;
    
     private static final String KEY_city = "city";
     private static final String KEY_street= "street";
@@ -231,12 +232,16 @@ public class addParking extends AppCompatActivity implements DatePickerDialog.On
 
     public long dateToLong(String date) throws ParseException {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+        //Date date1 = simpleDateFormat.parse(date);
+       // simpleDateFormat = new SimpleDateFormat("ddMMyyyyHHmm");
         Date date1 = simpleDateFormat.parse(date);
-        simpleDateFormat = new SimpleDateFormat("ddMMyyyyHHmm");
-        String value = simpleDateFormat.format(date);
-        Long result = Long.parseLong(value);
-        System.out.println("Result : "+result);
-        return result;
+        long dateInLong = date1.getTime();
+       // String value = simpleDateFormat.format(date);
+       // Long result = Long.parseLong(value);
+        System.out.println("Date         = " + date1);
+        System.out.println("Date in Long = " + dateInLong);
+       // System.out.println("Result : "+result);
+        return dateInLong;
     }
 
     @Override
@@ -319,10 +324,6 @@ public class addParking extends AppCompatActivity implements DatePickerDialog.On
         });
 
 
-
-
-
-
     }
 
 
@@ -347,6 +348,7 @@ public class addParking extends AppCompatActivity implements DatePickerDialog.On
             @Override
             public void onComplete(@NonNull Task<Uri> task) {
                 if(task.isSuccessful()){
+
                     Uri downloadUri=task.getResult();
                     Map<String, Object> parking = new HashMap<>();
                     parking.put(KEY_city, editTextCity.getText().toString());
@@ -358,16 +360,18 @@ public class addParking extends AppCompatActivity implements DatePickerDialog.On
                     parking.put(end_date, editTextEndDate.getText().toString());
                     parking.put(userId, mAuth.getCurrentUser().getUid());
                     parking.put(URI, downloadUri.toString());
-                    try {
-                        dateToLong(editTextDateTime.getText().toString());
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                   // try {
+                       // long_start=dateToLong(editTextDateTime.getText().toString());
+                 //   } catch (Exception e) {
+                    //    e.printStackTrace();
+                  //  }
+
                     db.collection("ParkingSpot")
                             .add(parking)
                             .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                 @Override
                                 public void onSuccess(DocumentReference documentReference) {
+                                    Toast.makeText(addParking.this,"parking created",Toast.LENGTH_SHORT).show();
                                     String parkingId = documentReference.getId();
                                     //add the parkingID to the user parking array.
                                     DocumentReference userRef = db.collection("User").document(mAuth.getCurrentUser().getUid());
@@ -376,11 +380,13 @@ public class addParking extends AppCompatActivity implements DatePickerDialog.On
                                                 @Override
                                                 public void onSuccess(Void aVoid) {
                                                     Log.d(TAG, "DocumentSnapshot successfully updated!");
+
                                                 }
                                             })
                                             .addOnFailureListener(new OnFailureListener() {
                                                 @Override
                                                 public void onFailure(@NonNull Exception e) {
+                                                    Toast.makeText(addParking.this,"error",Toast.LENGTH_SHORT).show();
                                                     Log.w(TAG, "Error updating document", e);
                                                 }
                                             });
@@ -403,9 +409,6 @@ public class addParking extends AppCompatActivity implements DatePickerDialog.On
 
             }
         });
-
-
-
 
 
 
