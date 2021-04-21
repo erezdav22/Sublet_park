@@ -42,6 +42,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 
 import org.w3c.dom.Text;
 
@@ -153,6 +154,17 @@ public class MainPage extends AppCompatActivity implements OnMapReadyCallback, N
     public void onMapReady(GoogleMap googleMap) {
         MapAPI2=googleMap;
 
+    }
+
+    public boolean logout_user(MenuItem item){
+        switch (item.getItemId()){
+            case R.id.nav_logout:
+                FirebaseAuth.getInstance().signOut();
+                finish();
+                startActivity(new Intent(this, login.class));
+                break;
+        }
+        return true;
     }
 
 

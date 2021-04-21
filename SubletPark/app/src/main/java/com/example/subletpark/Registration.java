@@ -222,7 +222,7 @@ public class Registration extends AppCompatActivity {
     }
 
        public void updateUI(FirebaseUser currentUser){
-            Intent loginIntent= new Intent(this,login.class);
+            Intent loginIntent= new Intent(this,MainPage.class);
             startActivity(loginIntent);
 
         }
