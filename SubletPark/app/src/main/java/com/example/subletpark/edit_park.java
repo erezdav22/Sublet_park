@@ -28,7 +28,10 @@ import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.Arrays;
 
 public class edit_park extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -39,6 +42,9 @@ public class edit_park extends AppCompatActivity implements NavigationView.OnNav
     Button b;
     ScrollView scrollview;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    Arrays user_parking_spots;
+    private FirebaseAuth mAuth;
+    DocumentReference userRef = db.collection("User").document(mAuth.getCurrentUser().getUid());
 
 
     @Override
