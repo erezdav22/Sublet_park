@@ -18,6 +18,8 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.firebase.geofire.GeoFireUtils;
+import com.firebase.geofire.GeoLocation;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -34,8 +36,10 @@ import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -51,6 +55,29 @@ public class MainPage extends AppCompatActivity implements OnMapReadyCallback, N
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     Toolbar toolbar;
+
+   /** double lat = 51.5074;
+    double lng = 0.1278;
+    String hash = GeoFireUtils.getGeoHashForLocation(new GeoLocation(lat, lng));
+
+    ArrayList arr = new ArrayList<DocumentSnapshot>();
+    db.collection("ParkingSpots").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        @Override
+        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+            if (task.isSuccessful()) {
+                DocumentSnapshot document = task.getResult();
+                if (document.exists()) {
+                    GeoLocation g  = document.getData().getString("geoPoint");
+                    if(g.equals(center))
+                        arr.add(document);
+                } else {
+                    Log.d(TAG, "No such document");
+                }
+            } else {
+                Log.d(TAG, "get failed with ", task.getException());
+            }
+        }
+    }); **/
 
 
 
