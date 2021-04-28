@@ -1,5 +1,26 @@
 package com.example.subletpark;
 
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
+import android.content.ContentResolver;
+import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
+import android.net.Uri;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.MenuItem;
+import android.view.View;
+import android.webkit.MimeTypeMap;
+import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.TimePicker;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -8,44 +29,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-import android.app.DatePickerDialog;
-import android.app.TimePickerDialog;
-import android.content.ContentResolver;
-import android.content.Intent;
-import lombok.Data;
-import android.graphics.Typeface;
-import android.net.Uri;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.MenuItem;
-import android.view.ViewGroup;
-import android.webkit.MimeTypeMap;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.DatePicker;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.ScrollView;
-import android.app.Activity;
-import android.graphics.Typeface;
-import android.os.Bundle;
-import android.view.View;
-import android.view.ViewGroup.LayoutParams;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.TableLayout;
-import android.widget.TableRow;
-import android.widget.TextView;
-import android.widget.TimePicker;
-import android.widget.Toast;
-import android.view.ViewGroup.LayoutParams;
-
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -53,10 +37,8 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldPath;
-import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
@@ -64,17 +46,17 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static java.security.AccessController.getContext;
+import lombok.SneakyThrows;
 
 public class edit_park extends AppCompatActivity implements DatePickerDialog.OnDateSetListener,TimePickerDialog.OnTimeSetListener,NavigationView.OnNavigationItemSelectedListener {
 
@@ -84,7 +66,6 @@ public class edit_park extends AppCompatActivity implements DatePickerDialog.OnD
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private int num=0;
     private int numid=0;
-    TableLayout table;
     String parkid;
     List<String> group;
     ListView list;
@@ -104,6 +85,9 @@ public class edit_park extends AppCompatActivity implements DatePickerDialog.OnD
     FirebaseStorage firebaseStorage;
     StorageReference storageReference;
     UploadTask uploadTask;
+    String string_start;
+    String string_end;
+    List<Address> addressList = null;
 
 
     Long long_start;
@@ -118,6 +102,8 @@ public class edit_park extends AppCompatActivity implements DatePickerDialog.OnD
     private static final String description = "description";
     private static final String start_date = "start_date";
     private static final String end_date = "end_date";
+    private static final String lat = "lat";
+    private static final String lng = "lng";
     private static final String userId = "userId";
     private static final String URI = "uri";
     private static final String TAG ="edit_park";
@@ -141,7 +127,6 @@ public class edit_park extends AppCompatActivity implements DatePickerDialog.OnD
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.setCheckedItem(R.id.nav_MyPark);
-        table=findViewById(R.id.table);
         list=findViewById(R.id.list);
 
         editTextCity1 = findViewById(R.id.editTextCity1);
@@ -168,6 +153,7 @@ public class edit_park extends AppCompatActivity implements DatePickerDialog.OnD
                     Log.d(TAG, "onComplete: "+ group.get(group.size()-1));
                     String curr= group.get(group.size()-1);
                     db.collection("ParkingSpot").whereEqualTo(FieldPath.documentId(), curr).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                        @SneakyThrows
                         @Override
                         public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                             Log.d(TAG, "onComplete: "+queryDocumentSnapshots.getDocuments().get(0).get("city").toString());
@@ -182,13 +168,25 @@ public class edit_park extends AppCompatActivity implements DatePickerDialog.OnD
                             String end_date=queryDocumentSnapshots.getDocuments().get(0).get("end_date").toString();
                             String desc=queryDocumentSnapshots.getDocuments().get(0).get("description").toString();
                             String uri=queryDocumentSnapshots.getDocuments().get(0).get("uri").toString();
+
+//                            Calendar cal = Calendar.getInstance();
+//                            cal.setTimeInMillis(Integer.parseInt(start_date) * 1000);
+//                            System.out.println(cal.getTime());
+
+                            try {
+                                string_start=longToDate(editTextDateTime1.getText().toString());
+                                string_end= longToDate(editTextEndDate1.getText().toString());
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+
                             imageUri1=Uri.parse(uri);
                             editTextCity1.setText(city);
                             editTextStreet1.setText(street);
                             editTextStreetNumber1.setText(street_number);
                             editTextDailyPrice1.setText(price);
-                            editTextDateTime1.setText(start_date);
-                            editTextEndDate1.setText(end_date);
+                            editTextDateTime1.setText(string_start);
+                            editTextEndDate1.setText(string_end);
                             editTextDescription1.setText(desc);
                             uploadPic1.setImageURI(imageUri1);
 
@@ -203,27 +201,7 @@ public class edit_park extends AppCompatActivity implements DatePickerDialog.OnD
 
                             user_parking.add(new Parking_Class( group.get(group.size()-1),city,street,street_number,price,start_date,end_date,uri,desc));
 
-//                            TableRow row = new TableRow(edit_park.this);
-//                            TextView serialText=new TextView(edit_park.this);
-//                            serialText.setText(queryDocumentSnapshots.getDocuments().get(0).get("city").toString()+'\n');
-//                            row.addView(serialText);
-//                            serialText.setId(numid);
-//                            numid++;
-//
-//
-//                            TextView streetText=new TextView(edit_park.this);
-//                            streetText.setText(queryDocumentSnapshots.getDocuments().get(0).get("street").toString()+' ');
-//                            row.addView(streetText);
-//                            streetText.setId(numid);
-//                            numid++;
-//
-//                            TextView streetNumText=new TextView(edit_park.this);
-//                            streetNumText.setText(queryDocumentSnapshots.getDocuments().get(0).get("street").toString()+' ');
-//                            row.addView(streetNumText);
-//                            streetNumText.setId(numid);
-//                            numid++;
-//
-//                            table.addView(row,new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT,TableLayout.LayoutParams.WRAP_CONTENT));
+
 
                         }
                     });
@@ -293,6 +271,16 @@ public class edit_park extends AppCompatActivity implements DatePickerDialog.OnD
         return dateInLong;
     }
 
+    public String longToDate(String date1)throws ParseException {
+        long longtime = Long.parseLong(date1);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+        Date date = (Date) dateFormat.parseObject(longtime + "");
+        String strDate = dateFormat.format(date);
+        System.out.println("str: " +strDate+ "date: "+date);
+
+        return strDate;
+    }
+
 
     public void chooseIMG(View view) {
         Intent intent=new Intent();
@@ -350,6 +338,8 @@ public class edit_park extends AppCompatActivity implements DatePickerDialog.OnD
                     parking.put(KEY_street_number, editTextStreetNumber1.getText().toString());
                     parking.put(KEY_daily_price,editTextDailyPrice1.getText().toString());
                     parking.put(description, editTextDescription1.getText().toString());
+                    parking.put(lat, addressToLatLng().latitude);
+                    parking.put(lng, addressToLatLng().longitude);
                     parking.put(start_date, long_start);
                     parking.put(end_date, long_finish);
                     parking.put(userId, mAuth.getCurrentUser().getUid());
@@ -357,39 +347,24 @@ public class edit_park extends AppCompatActivity implements DatePickerDialog.OnD
 
 
                     db.collection("ParkingSpot")
-                            .add(parking)
-                            .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                                @Override
-                                public void onSuccess(DocumentReference documentReference) {
-                                    Toast.makeText(edit_park.this,"parking created",Toast.LENGTH_SHORT).show();
-                                    String parkingId = documentReference.getId();
-                                    //add the parkingID to the user parking array.
+                            .document(group.get(group.size()-1)).update("city",editTextCity1.getText().toString(),
+                            "street",editTextStreet1.getText().toString(),"street_number",editTextStreetNumber1.getText().toString(),
+                            "daily price",editTextDailyPrice1.getText().toString(),"description",editTextDescription1.getText().toString()
+                    ,"start_date",long_start,"end_date",long_finish,"uri",downloadUri.toString(),"lat",addressToLatLng().latitude,"lng",addressToLatLng().longitude).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(edit_park.this,"error",Toast.LENGTH_SHORT).show();
+                            Log.d(TAG, e.toString());
+                        }
+                    }).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Toast.makeText(edit_park.this,"your parking was updated successfully",Toast.LENGTH_SHORT).show();
 
-                                    DocumentReference userRef = db.collection("User").document(mAuth.getCurrentUser().getUid());
-                                    userRef.update("parking spots", FieldValue.arrayUnion(parkingId))
-                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                @Override
-                                                public void onSuccess(Void aVoid) {
-                                                    Log.d(TAG, "DocumentSnapshot successfully updated!");
 
-                                                }
-                                            })
-                                            .addOnFailureListener(new OnFailureListener() {
-                                                @Override
-                                                public void onFailure(@NonNull Exception e) {
-                                                    Toast.makeText(edit_park.this,"error",Toast.LENGTH_SHORT).show();
-                                                    Log.w(TAG, "Error updating document", e);
-                                                }
-                                            });
-                                }
-                            })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Toast.makeText(edit_park.this,"error",Toast.LENGTH_SHORT).show();
-                                    Log.d(TAG, e.toString());
-                                }
-                            });
+
+                        }
+                    });
 
 
                 }
@@ -402,6 +377,29 @@ public class edit_park extends AppCompatActivity implements DatePickerDialog.OnD
         });
 
 
+    }
+
+    public LatLng addressToLatLng() {
+
+        String location = editTextStreet1.getText().toString()+" "+editTextStreetNumber1.getText().toString()+" "+editTextCity1.getText().toString();
+
+
+        if (location != null || !location.equals("")) {
+            Geocoder geocoder = new Geocoder(this);
+            try {
+                addressList = geocoder.getFromLocationName(location, 1);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            Address address = addressList.get(0);
+            LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
+
+            return latLng;
+
+
+        }
+        return null;
     }
 
     public void picker1(View view) {
