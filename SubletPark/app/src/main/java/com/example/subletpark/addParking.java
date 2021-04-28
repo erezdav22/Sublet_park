@@ -1,18 +1,11 @@
 package com.example.subletpark;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.ContentResolver;
-import android.content.Context;
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -27,6 +20,15 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -42,19 +44,14 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
-import org.w3c.dom.Text;
-
-import java.net.URI;
-import java.text.DateFormat;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-
-import static java.security.AccessController.getContext;
 
 public class addParking extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener, NavigationView.OnNavigationItemSelectedListener {
 
@@ -77,6 +74,7 @@ public class addParking extends AppCompatActivity implements DatePickerDialog.On
     private TextView editTextEndDate;
     Long long_start;
     Long long_finish;
+    List<Address> addressList = null;
 
     private static final String KEY_city = "city";
     private static final String KEY_street= "street";
@@ -85,6 +83,8 @@ public class addParking extends AppCompatActivity implements DatePickerDialog.On
     private static final String description = "description";
     private static final String start_date = "start_date";
     private static final String end_date = "end_date";
+    private static final String lat = "lat";
+    private static final String lng = "lng";
     private static final String userId = "userId";
     private static final String URI = "uri";
     private static final String TAG ="addParking";
@@ -360,6 +360,8 @@ public class addParking extends AppCompatActivity implements DatePickerDialog.On
                     parking.put(KEY_street_number, editTextStreetNumber.getText().toString());
                     parking.put(KEY_daily_price,editTextDailyPrice.getText().toString());
                     parking.put(description, editTextDescription.getText().toString());
+                    parking.put(lat, addressToLatLng().latitude);
+                    parking.put(lng, addressToLatLng().longitude);
                     parking.put(start_date, long_start);
                     parking.put(end_date, long_finish);
                     parking.put(userId, mAuth.getCurrentUser().getUid());
@@ -412,6 +414,29 @@ public class addParking extends AppCompatActivity implements DatePickerDialog.On
 
 
 
+    }
+
+    public LatLng addressToLatLng() {
+
+        String location = editTextStreet.getText().toString()+" "+editTextStreetNumber.getText().toString()+" "+editTextCity.getText().toString();
+
+
+        if (location != null || !location.equals("")) {
+            Geocoder geocoder = new Geocoder(this);
+            try {
+                addressList = geocoder.getFromLocationName(location, 1);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            Address address = addressList.get(0);
+            LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
+
+          return latLng;
+
+
+        }
+        return null;
     }
 
     public void chooseIMG(View view) {

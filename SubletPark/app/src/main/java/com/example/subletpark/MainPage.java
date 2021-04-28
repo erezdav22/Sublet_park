@@ -4,10 +4,14 @@ import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TableLayout;
+import android.widget.TableRow;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -18,14 +22,14 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-import com.firebase.geofire.GeoFireUtils;
-import com.firebase.geofire.GeoLocation;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.api.model.TypeFilter;
@@ -36,12 +40,16 @@ import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+//import com.firebase.geofire.GeoFireUtils;
+//import com.firebase.geofire.GeoLocation;
 
 public class MainPage extends AppCompatActivity implements OnMapReadyCallback, NavigationView.OnNavigationItemSelectedListener {
 
@@ -55,6 +63,10 @@ public class MainPage extends AppCompatActivity implements OnMapReadyCallback, N
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     Toolbar toolbar;
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private static final String TAG ="MainPage";
+    private int numid=0;
+    TableLayout table;
 
    /** double lat = 51.5074;
     double lng = 0.1278;
@@ -97,6 +109,7 @@ public class MainPage extends AppCompatActivity implements OnMapReadyCallback, N
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.setCheckedItem(R.id.nav_home);
+        table=findViewById(R.id.table1);
 
 
         editTextSearch=findViewById(R.id.editTextSearch);
@@ -139,6 +152,45 @@ public class MainPage extends AppCompatActivity implements OnMapReadyCallback, N
 //                startActivityForResult(intent,200);
 //            }
 //        });
+
+
+        db.collection("ParkingSpot").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        Log.d(TAG, document.getId() + " => " + document.getData());
+
+                         TableRow row = new TableRow(MainPage.this);
+                         TextView serialText=new TextView(MainPage.this);
+                         serialText.setText(document.getData().get("city").toString()+'\n');
+                         row.addView(serialText);
+                         serialText.setId(numid);
+                         numid++;
+
+
+                         TextView streetText=new TextView(MainPage.this);
+                         streetText.setText(document.getData().get("street").toString()+' ');
+                         row.addView(streetText);
+                         streetText.setId(numid);
+                         numid++;
+
+                         TextView streetNumText=new TextView(MainPage.this);
+                         streetNumText.setText(document.getData().get("street").toString()+' ');
+                         row.addView(streetNumText);
+                         streetNumText.setId(numid);
+                         numid++;
+
+                         table.addView(row,new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT,TableLayout.LayoutParams.WRAP_CONTENT));
+
+
+                    }
+                } else {
+                    Log.d(TAG, "Error getting documents: ", task.getException());
+                }
+            }
+        });
+
 
 
     }
