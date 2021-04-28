@@ -97,6 +97,7 @@ public class addParking extends AppCompatActivity implements DatePickerDialog.On
 
     private FirebaseAuth mAuth;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -268,7 +269,7 @@ public class addParking extends AppCompatActivity implements DatePickerDialog.On
 
     }
 
-    public void upload_parking(View view) {
+   /** public void upload_parking(View view) {
 
 
 
@@ -325,7 +326,7 @@ public class addParking extends AppCompatActivity implements DatePickerDialog.On
     }
 
 
-    
+    **/
     public void add_parking(View view) {
 
 
