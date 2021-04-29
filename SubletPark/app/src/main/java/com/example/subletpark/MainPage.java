@@ -3,6 +3,7 @@ package com.example.subletpark;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
+import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -43,6 +44,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.protobuf.DescriptorProtos;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -67,6 +69,14 @@ public class MainPage extends AppCompatActivity implements OnMapReadyCallback, N
     private static final String TAG ="MainPage";
     private int numid=0;
     TableLayout table;
+
+    Location center = new Location("");
+    Location test= new Location("");
+
+
+    float distance_in_meters;
+    boolean isWithin1km= distance_in_meters<1000;
+
 
    /** double lat = 51.5074;
     double lng = 0.1278;
@@ -118,7 +128,15 @@ public class MainPage extends AppCompatActivity implements OnMapReadyCallback, N
         mapFragment= (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapAPI2);
         mapFragment.getMapAsync(this);
 
-       Places.initialize(getApplicationContext(),"AIzaSyDC8wMP9MaCDDnTmdWeXx1-npixfiQiUug");
+        center.setLatitude(32.811049);
+        center.setLongitude(34.980722);
+        test.setLatitude(29.557792);
+        test.setLongitude(34.960850);
+        System.out.println("distance in m: "+center.distanceTo(test));
+        float distance_in_meters;
+
+
+        Places.initialize(getApplicationContext(),"AIzaSyDC8wMP9MaCDDnTmdWeXx1-npixfiQiUug");
 
         PlacesClient placesClient = Places.createClient(this);
         AutocompleteSupportFragment autocompleteSupportFragment=(AutocompleteSupportFragment)getSupportFragmentManager()
@@ -194,6 +212,45 @@ public class MainPage extends AppCompatActivity implements OnMapReadyCallback, N
 
 
     }
+
+    public void parkingFinder(Location user_location) {
+        center.setLatitude(user_location.getLatitude());
+        center.setLongitude(user_location.getLongitude());
+        test.setLatitude(29.557792);
+        test.setLongitude(34.960850);
+        distance_in_meters = center.distanceTo(test);
+        System.out.println("distance in m: " + distance_in_meters);
+
+        if (distance_in_meters < 1000) {
+            //present parking spot in page
+
+        }
+    }
+
+    public Location addressToLatLng() {
+
+        String location = editTextSearch.getText().toString();
+        Location user_location = null;
+
+        if (location != null || !location.equals("")) {
+            Geocoder geocoder = new Geocoder(this);
+            try {
+                addressList = geocoder.getFromLocationName(location, 1);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            Address address = addressList.get(0);
+            user_location.setLatitude(address.getLatitude());
+            user_location.setLongitude(address.getLongitude());
+
+            return user_location;
+
+
+        }
+        return null;
+    }
+
 
 
 
