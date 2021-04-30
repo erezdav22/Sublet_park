@@ -1,11 +1,13 @@
 package com.example.subletpark;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
-import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
@@ -16,7 +18,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -24,9 +25,12 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.gms.common.api.Status;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.Circle;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -35,8 +39,6 @@ import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.api.model.TypeFilter;
 import com.google.android.libraries.places.api.net.PlacesClient;
-import com.google.android.libraries.places.widget.Autocomplete;
-import com.google.android.libraries.places.widget.AutocompleteActivity;
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 import com.google.android.material.navigation.NavigationView;
@@ -44,7 +46,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.protobuf.DescriptorProtos;
+import com.google.maps.android.SphericalUtil;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -69,13 +71,9 @@ public class MainPage extends AppCompatActivity implements OnMapReadyCallback, N
     private static final String TAG ="MainPage";
     private int numid=0;
     TableLayout table;
-
-    Location center = new Location("");
-    Location test= new Location("");
+    TableLayout resultTable;
 
 
-    float distance_in_meters;
-    boolean isWithin1km= distance_in_meters<1000;
 
 
    /** double lat = 51.5074;
@@ -120,6 +118,7 @@ public class MainPage extends AppCompatActivity implements OnMapReadyCallback, N
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.setCheckedItem(R.id.nav_home);
         table=findViewById(R.id.table1);
+        resultTable=findViewById(R.id.resultTable);
 
 
         editTextSearch=findViewById(R.id.editTextSearch);
@@ -128,12 +127,7 @@ public class MainPage extends AppCompatActivity implements OnMapReadyCallback, N
         mapFragment= (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapAPI2);
         mapFragment.getMapAsync(this);
 
-        center.setLatitude(32.811049);
-        center.setLongitude(34.980722);
-        test.setLatitude(29.557792);
-        test.setLongitude(34.960850);
-        System.out.println("distance in m: "+center.distanceTo(test));
-        float distance_in_meters;
+
 
 
         Places.initialize(getApplicationContext(),"AIzaSyDC8wMP9MaCDDnTmdWeXx1-npixfiQiUug");
@@ -181,23 +175,22 @@ public class MainPage extends AppCompatActivity implements OnMapReadyCallback, N
 
                          TableRow row = new TableRow(MainPage.this);
                          TextView serialText=new TextView(MainPage.this);
-                         serialText.setText(document.getData().get("city").toString()+'\n');
+                         serialText.setText(document.getData().get("address").toString()+'\n');
                          row.addView(serialText);
                          serialText.setId(numid);
                          numid++;
 
-
-                         TextView streetText=new TextView(MainPage.this);
+/**  TextView streetText=new TextView(MainPage.this);
                          streetText.setText(document.getData().get("street").toString()+' ');
                          row.addView(streetText);
                          streetText.setId(numid);
                          numid++;
 
                          TextView streetNumText=new TextView(MainPage.this);
-                         streetNumText.setText(document.getData().get("street").toString()+' ');
+                         streetNumText.setText(document.getData().get("street_number").toString()+' ');
                          row.addView(streetNumText);
                          streetNumText.setId(numid);
-                         numid++;
+                         numid++;**/
 
                          table.addView(row,new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT,TableLayout.LayoutParams.WRAP_CONTENT));
 
@@ -213,59 +206,6 @@ public class MainPage extends AppCompatActivity implements OnMapReadyCallback, N
 
     }
 
-    public void parkingFinder(Location user_location) {
-        center.setLatitude(user_location.getLatitude());
-        center.setLongitude(user_location.getLongitude());
-        test.setLatitude(29.557792);
-        test.setLongitude(34.960850);
-        distance_in_meters = center.distanceTo(test);
-        System.out.println("distance in m: " + distance_in_meters);
-
-        if (distance_in_meters < 1000) {
-            //present parking spot in page
-
-        }
-    }
-
-    public Location addressToLatLng() {
-
-        String location = editTextSearch.getText().toString();
-        Location user_location = null;
-
-        if (location != null || !location.equals("")) {
-            Geocoder geocoder = new Geocoder(this);
-            try {
-                addressList = geocoder.getFromLocationName(location, 1);
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            Address address = addressList.get(0);
-            user_location.setLatitude(address.getLatitude());
-            user_location.setLongitude(address.getLongitude());
-
-            return user_location;
-
-
-        }
-        return null;
-    }
-
-
-
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode==200&& requestCode==RESULT_OK){
-            Place place= Autocomplete.getPlaceFromIntent(data);
-            editTextSearch.setText(place.getAddress());
-
-        }else if(requestCode== AutocompleteActivity.RESULT_ERROR){
-            Status status = Autocomplete.getStatusFromIntent(data);
-            Toast.makeText(getApplicationContext(),status.getStatusMessage(),Toast.LENGTH_LONG).show();
-        }
-    }
 
     public void onBackPressed(){
         if(drawerLayout.isDrawerOpen(GravityCompat.START)){
@@ -311,6 +251,8 @@ public class MainPage extends AppCompatActivity implements OnMapReadyCallback, N
 
         String location = editTextSearch.getText().toString();
 
+        numid=0;
+
 
         if (location != null || !location.equals("")) {
             Geocoder geocoder = new Geocoder(this);
@@ -326,8 +268,71 @@ public class MainPage extends AppCompatActivity implements OnMapReadyCallback, N
             Toast.makeText(getApplicationContext(),"lat: "+address.getLatitude()+", lng: "+address.getLongitude(),Toast.LENGTH_LONG).show();
             MapAPI2.addMarker(new MarkerOptions().position(latLng).title(location));
 
+            CircleOptions circly = new CircleOptions().center(latLng).radius(1000);
+            Circle circle = MapAPI2.addCircle(circly);
+            circle.setStrokeColor(Color.RED);
+           MapAPI2.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,14.0f));
+           // MapAPI2.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(address.getLatitude(), address.getLongitude()), 12.0f));
+            table.setVisibility(View.GONE);
+
+
+
+
+            db.collection("ParkingSpot").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @SuppressLint("RtlHardcoded")
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            LatLng park_location = new LatLng(Double.parseDouble(document.getData().get("lat").toString()), Double.parseDouble(document.getData().get("lng").toString()));
+
+                            double distance = SphericalUtil.computeDistanceBetween(park_location, latLng);
+
+                            Log.d(TAG, "onComplete: "+distance);
+
+                            if (distance < 1000) {
+                                //present parking spot in page
+                                TableRow row = new TableRow(MainPage.this);
+                                TextView serialText=new TextView(MainPage.this);
+                                serialText.setText(document.getData().get("address").toString()+'\n');
+                                row.addView(serialText);
+                                serialText.setId(numid);
+                                serialText.setGravity(Gravity.RIGHT | Gravity.TOP);
+                                numid++;
+
+
+                              /**  TextView streetText=new TextView(MainPage.this);
+                                streetText.setText(document.getData().get("street").toString()+' ');
+                                row.addView(streetText);
+                                streetText.setId(numid);
+                                streetText.setGravity(Gravity.RIGHT | Gravity.TOP);
+                                numid++;
+
+                                TextView streetNumText=new TextView(MainPage.this);
+                                streetNumText.setText(document.getData().get("street_number").toString()+' ');
+                                row.addView(streetNumText);
+                                streetNumText.setId(numid);
+                                streetNumText.setGravity(Gravity.RIGHT | Gravity.TOP);
+                                numid++;**/
+
+                                resultTable.addView(row,new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT,TableLayout.LayoutParams.WRAP_CONTENT));
+                                resultTable.setGravity(Gravity.RIGHT | Gravity.TOP);
+                                resultTable.setVisibility(View.VISIBLE);
+
+
+                            }
+
+                        }
+                    } else {
+                        Log.d(TAG, "There is no parking available in this place ", task.getException());
+                    }
+                }
+            });
+
 
         }
+
+
     }
 
 

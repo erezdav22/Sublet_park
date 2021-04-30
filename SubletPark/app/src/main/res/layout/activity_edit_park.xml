@@ -71,7 +71,7 @@
 
 
             <EditText
-                android:id="@+id/editTextCity1"
+                android:id="@+id/editTextaddress1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="15dp"
@@ -81,24 +81,6 @@
                 tools:ignore="MissingConstraints" />
 
 
-            <EditText
-                android:id="@+id/editTextStreet1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="15dp"
-                android:inputType="textPersonName"
-                app:layout_constraintTop_toBottomOf="@+id/editTextCity1"
-                tools:ignore="MissingConstraints" />
-
-            <EditText
-                android:id="@+id/editTextStreetNumber1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="15dp"
-                android:inputType="number"
-                app:layout_constraintTop_toBottomOf="@+id/editTextStreet1"
-                tools:ignore="MissingConstraints" />
-
             <TextView
                 android:id="@+id/editTextDateTime1"
                 android:layout_width="match_parent"
@@ -107,7 +89,7 @@
                 android:onClick="picker1"
                 android:paddingTop="20dp"
                 android:textSize="19sp"
-                app:layout_constraintTop_toBottomOf="@+id/editTextStreetNumber1"
+                app:layout_constraintTop_toBottomOf="@+id/editTextaddress1"
                 tools:ignore="MissingConstraints" />
 
             <TextView
