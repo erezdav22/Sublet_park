@@ -44,34 +44,15 @@
 
 
         <EditText
-            android:id="@+id/editTextCity"
+            android:id="@+id/editTextaddress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
-            android:hint="עיר"
+            android:hint="כתובת מלאה: אבן גבירול 70 תל אביב"
             android:inputType="textPersonName"
             app:layout_constraintTop_toBottomOf="@+id/imageView5"
             tools:ignore="MissingConstraints" />
 
-        <EditText
-            android:id="@+id/editTextStreet"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="15dp"
-            android:hint="רחוב"
-            android:inputType="textPersonName"
-            app:layout_constraintTop_toBottomOf="@+id/editTextCity"
-            tools:ignore="MissingConstraints" />
-
-        <EditText
-            android:id="@+id/editTextStreetNumber"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="15dp"
-            android:hint="מספר בית"
-            android:inputType="number"
-            app:layout_constraintTop_toBottomOf="@+id/editTextStreet"
-            tools:ignore="MissingConstraints" />
 
         <TextView
             android:id="@+id/editTextDateTime"
@@ -82,7 +63,7 @@
             android:onClick="picker1"
             android:paddingTop="20dp"
             android:textSize="19sp"
-            app:layout_constraintTop_toBottomOf="@+id/editTextStreetNumber"
+            app:layout_constraintTop_toBottomOf="@+id/editTextaddress"
             tools:ignore="MissingConstraints" />
 
         <TextView

@@ -28,12 +28,20 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.api.model.TypeFilter;
+import com.google.android.libraries.places.api.net.PlacesClient;
+import com.google.android.libraries.places.widget.Autocomplete;
+import com.google.android.libraries.places.widget.AutocompleteActivity;
+import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
@@ -47,6 +55,7 @@ import com.squareup.picasso.Picasso;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -59,9 +68,9 @@ public class addParking extends AppCompatActivity implements DatePickerDialog.On
     int day,month,year, hour,minute;
     int finalDay,finalMonth,finalYear,finalHour,finalMinute;
 
-    EditText editTextCity;
-    EditText editTextStreet;
-    EditText editTextStreetNumber;
+    EditText editTextaddress;
+    //EditText editTextStreet;
+    //EditText editTextStreetNumber;
     EditText editTextDescription;
     EditText editTextDailyPrice;
     ImageView uploadPic;
@@ -76,7 +85,7 @@ public class addParking extends AppCompatActivity implements DatePickerDialog.On
     Long long_finish;
     List<Address> addressList = null;
 
-    private static final String KEY_city = "city";
+    private static final String KEY_address = "address";
     private static final String KEY_street= "street";
     private static final String KEY_street_number = "street_number";
     private static final String KEY_daily_price= "daily price";
@@ -89,6 +98,7 @@ public class addParking extends AppCompatActivity implements DatePickerDialog.On
     private static final String URI = "uri";
     private static final String TAG ="addParking";
     private static final int PICK_IMAGE=1;
+    private static final int PICK_PLACE=2;
 
 
     DrawerLayout drawerLayout;
@@ -118,9 +128,9 @@ public class addParking extends AppCompatActivity implements DatePickerDialog.On
 
         editTextDateTime = findViewById(R.id.editTextDateTime);
         editTextDateTime.setOnClickListener(this::picker1);
-        editTextCity = findViewById(R.id.editTextCity);
-        editTextStreet = findViewById(R.id.editTextStreet);
-        editTextStreetNumber = findViewById(R.id.editTextStreetNumber);
+        editTextaddress = findViewById(R.id.editTextaddress);
+        //editTextStreet = findViewById(R.id.editTextStreet);
+        //editTextStreetNumber = findViewById(R.id.editTextStreetNumber);
         editTextDescription = findViewById(R.id.editTextDescription);
         uploadPic = findViewById(R.id.uploadPic);
         buttonUpload = findViewById(R.id.buttonUpload);
@@ -132,7 +142,25 @@ public class addParking extends AppCompatActivity implements DatePickerDialog.On
 
         mAuth=FirebaseAuth.getInstance();
 
+        Places.initialize(getApplicationContext(),"AIzaSyDC8wMP9MaCDDnTmdWeXx1-npixfiQiUug");
+
+        PlacesClient placesClient = Places.createClient(this);
+
+
+          editTextaddress.setFocusable(false);
+
+          editTextaddress.setOnClickListener(new View.OnClickListener() {
+           @Override
+            public void onClick(View v) {
+                List<Place.Field> fieldList= Arrays.asList(Place.Field.ADDRESS, Place.Field.LAT_LNG, Place.Field.NAME);
+                Intent intent=new Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY,fieldList).setTypeFilter(TypeFilter.ADDRESS).build(addParking.this);
+               startActivityForResult(intent,PICK_PLACE);
+
+           }
+        });
+
     }
+
 
     public void onBackPressed(){
         if(drawerLayout.isDrawerOpen(GravityCompat.START)){
@@ -355,9 +383,9 @@ public class addParking extends AppCompatActivity implements DatePickerDialog.On
                     }
                     Uri downloadUri=task.getResult();
                     Map<String, Object> parking = new HashMap<>();
-                    parking.put(KEY_city, editTextCity.getText().toString());
-                    parking.put(KEY_street, editTextStreet.getText().toString());
-                    parking.put(KEY_street_number, editTextStreetNumber.getText().toString());
+                    parking.put(KEY_address, editTextaddress.getText().toString());
+                   // parking.put(KEY_street, editTextStreet.getText().toString());
+                   // parking.put(KEY_street_number, editTextStreetNumber.getText().toString());
                     parking.put(KEY_daily_price,editTextDailyPrice.getText().toString());
                     parking.put(description, editTextDescription.getText().toString());
                     parking.put(lat, addressToLatLng().latitude);
@@ -418,7 +446,8 @@ public class addParking extends AppCompatActivity implements DatePickerDialog.On
 
     public LatLng addressToLatLng() {
 
-        String location = editTextStreet.getText().toString()+" "+editTextStreetNumber.getText().toString()+" "+editTextCity.getText().toString();
+        //String location = editTextStreet.getText().toString()+" "+editTextStreetNumber.getText().toString()+" "+editTextCity.getText().toString();
+        String location = editTextaddress.getText().toString();
 
 
         if (location != null || !location.equals("")) {
@@ -450,12 +479,26 @@ public class addParking extends AppCompatActivity implements DatePickerDialog.On
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode==PICK_IMAGE||requestCode==RESULT_OK || data!=null ||data.getData()!=null){
-            imageUri=data.getData();
+        if(requestCode==PICK_IMAGE){
+            if(resultCode==RESULT_OK || data!=null ||data.getData()!=null) {
+                imageUri = data.getData();
 
-            Picasso.with(this).load(imageUri).into(uploadPic);
+                Picasso.with(this).load(imageUri).into(uploadPic);
+            }
 
         }
+        else if (requestCode==PICK_PLACE) {
+            if (resultCode == RESULT_OK) {
+                Place place = Autocomplete.getPlaceFromIntent(data);
+                editTextaddress.setText(place.getAddress());
+            }
+
+
+        }else if(requestCode== AutocompleteActivity.RESULT_ERROR){
+            Status status = Autocomplete.getStatusFromIntent(data);
+            Toast.makeText(getApplicationContext(),status.getStatusMessage(),Toast.LENGTH_LONG).show();
+        }
+
     }
     private String getFileExt(Uri uri){
         ContentResolver contentResolver=getContentResolver();

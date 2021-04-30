@@ -29,12 +29,20 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.api.model.TypeFilter;
+import com.google.android.libraries.places.api.net.PlacesClient;
+import com.google.android.libraries.places.widget.Autocomplete;
+import com.google.android.libraries.places.widget.AutocompleteActivity;
+import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -50,6 +58,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -70,9 +79,9 @@ public class edit_park extends AppCompatActivity implements DatePickerDialog.OnD
     List<String> group;
     ListView list;
     List<Parking_Class> user_parking=new ArrayList<Parking_Class>();
-    EditText editTextCity1;
-    EditText editTextStreet1;
-    EditText editTextStreetNumber1;
+    EditText editTextaddress1;
+   // EditText editTextStreet1;
+   // EditText editTextStreetNumber1;
     EditText editTextDescription1;
     EditText editTextDailyPrice1;
     ImageView uploadPic1;
@@ -95,7 +104,7 @@ public class edit_park extends AppCompatActivity implements DatePickerDialog.OnD
 
     FirebaseAuth mAuth;
 
-    private static final String KEY_city = "city";
+    private static final String KEY_address = "address";
     private static final String KEY_street= "street";
     private static final String KEY_street_number = "street_number";
     private static final String KEY_daily_price= "daily price";
@@ -108,6 +117,7 @@ public class edit_park extends AppCompatActivity implements DatePickerDialog.OnD
     private static final String URI = "uri";
     private static final String TAG ="edit_park";
     private static final int PICK_IMAGE=1;
+    private static final int PICK_PLACE=2;
 
 
 
@@ -129,9 +139,9 @@ public class edit_park extends AppCompatActivity implements DatePickerDialog.OnD
         navigationView.setCheckedItem(R.id.nav_MyPark);
         list=findViewById(R.id.list);
 
-        editTextCity1 = findViewById(R.id.editTextCity1);
-        editTextStreet1 = findViewById(R.id.editTextStreet1);
-        editTextStreetNumber1 = findViewById(R.id.editTextStreetNumber1);
+        editTextaddress1 = findViewById(R.id.editTextaddress1);
+        //editTextStreet1 = findViewById(R.id.editTextStreet1);
+       // editTextStreetNumber1 = findViewById(R.id.editTextStreetNumber1);
         editTextDateTime1 = findViewById(R.id.editTextDateTime1);
         editTextEndDate1 = findViewById(R.id.editTextEndDate1);
         editTextDailyPrice1 = findViewById(R.id.editTextDailyPrice1);
@@ -141,6 +151,22 @@ public class edit_park extends AppCompatActivity implements DatePickerDialog.OnD
         buttonUpload1 = findViewById(R.id.buttonUpload1);
         buttonUpload1.setOnClickListener(this::update_parking);
         storageReference=firebaseStorage.getInstance().getReference("parking image");
+        Places.initialize(getApplicationContext(),"AIzaSyDC8wMP9MaCDDnTmdWeXx1-npixfiQiUug");
+
+        PlacesClient placesClient = Places.createClient(this);
+
+
+        editTextaddress1.setFocusable(false);
+
+        editTextaddress1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                List<Place.Field> fieldList= Arrays.asList(Place.Field.ADDRESS, Place.Field.LAT_LNG, Place.Field.NAME);
+                Intent intent=new Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY,fieldList).setTypeFilter(TypeFilter.ADDRESS).build(edit_park.this);
+                startActivityForResult(intent,PICK_PLACE);
+
+            }
+        });
 
 
         db.collection("User")
@@ -156,13 +182,13 @@ public class edit_park extends AppCompatActivity implements DatePickerDialog.OnD
                         @SneakyThrows
                         @Override
                         public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                            Log.d(TAG, "onComplete: "+queryDocumentSnapshots.getDocuments().get(0).get("city").toString());
+                            Log.d(TAG, "onComplete: "+queryDocumentSnapshots.getDocuments().get(0).get("address").toString());
 
 
 
-                            String city=queryDocumentSnapshots.getDocuments().get(0).get("city").toString();
-                            String street=queryDocumentSnapshots.getDocuments().get(0).get("street").toString();
-                            String street_number=queryDocumentSnapshots.getDocuments().get(0).get("street_number").toString();
+                            String address=queryDocumentSnapshots.getDocuments().get(0).get("address").toString();
+                            //String street=queryDocumentSnapshots.getDocuments().get(0).get("street").toString();
+                           // String street_number=queryDocumentSnapshots.getDocuments().get(0).get("street_number").toString();
                             String price=queryDocumentSnapshots.getDocuments().get(0).get("daily price").toString();
                             String start_date=queryDocumentSnapshots.getDocuments().get(0).get("start_date").toString();
                             String end_date=queryDocumentSnapshots.getDocuments().get(0).get("end_date").toString();
@@ -181,9 +207,9 @@ public class edit_park extends AppCompatActivity implements DatePickerDialog.OnD
                             }
 
                             imageUri1=Uri.parse(uri);
-                            editTextCity1.setText(city);
-                            editTextStreet1.setText(street);
-                            editTextStreetNumber1.setText(street_number);
+                            editTextaddress1.setText(address);
+                            //editTextStreet1.setText(street);
+                            //editTextStreetNumber1.setText(street_number);
                             editTextDailyPrice1.setText(price);
                             editTextDateTime1.setText(string_start);
                             editTextEndDate1.setText(string_end);
@@ -199,7 +225,7 @@ public class edit_park extends AppCompatActivity implements DatePickerDialog.OnD
 //                                    uri(queryDocumentSnapshots.getDocuments().get(0).get("uri").toString()).build());
 
 
-                            user_parking.add(new Parking_Class( group.get(group.size()-1),city,street,street_number,price,start_date,end_date,uri,desc));
+                            user_parking.add(new Parking_Class( group.get(group.size()-1),address,price,start_date,end_date,uri,desc));
 
 
 
@@ -293,12 +319,26 @@ public class edit_park extends AppCompatActivity implements DatePickerDialog.OnD
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode==PICK_IMAGE||requestCode==RESULT_OK || data!=null ||data.getData()!=null){
-            imageUri1=data.getData();
+        if(requestCode==PICK_IMAGE){
+            if(resultCode==RESULT_OK || data!=null ||data.getData()!=null) {
+                imageUri1 = data.getData();
 
-            Picasso.with(this).load(imageUri1).into(uploadPic1);
+                Picasso.with(this).load(imageUri1).into(uploadPic1);
+            }
 
         }
+        else if (requestCode==PICK_PLACE) {
+            if (resultCode == RESULT_OK) {
+                Place place = Autocomplete.getPlaceFromIntent(data);
+                editTextaddress1.setText(place.getAddress());
+            }
+
+
+        }else if(requestCode== AutocompleteActivity.RESULT_ERROR){
+            Status status = Autocomplete.getStatusFromIntent(data);
+            Toast.makeText(getApplicationContext(),status.getStatusMessage(),Toast.LENGTH_LONG).show();
+        }
+
     }
 
     private String getFileExt(Uri uri){
@@ -333,9 +373,9 @@ public class edit_park extends AppCompatActivity implements DatePickerDialog.OnD
                     }
                     Uri downloadUri=task.getResult();
                     Map<String, Object> parking = new HashMap<>();
-                    parking.put(KEY_city, editTextCity1.getText().toString());
-                    parking.put(KEY_street, editTextStreet1.getText().toString());
-                    parking.put(KEY_street_number, editTextStreetNumber1.getText().toString());
+                    parking.put(KEY_address, editTextaddress1.getText().toString());
+                    //parking.put(KEY_street, editTextStreet1.getText().toString());
+                   // parking.put(KEY_street_number, editTextStreetNumber1.getText().toString());
                     parking.put(KEY_daily_price,editTextDailyPrice1.getText().toString());
                     parking.put(description, editTextDescription1.getText().toString());
                     parking.put(lat, addressToLatLng().latitude);
@@ -347,8 +387,7 @@ public class edit_park extends AppCompatActivity implements DatePickerDialog.OnD
 
 
                     db.collection("ParkingSpot")
-                            .document(group.get(group.size()-1)).update("city",editTextCity1.getText().toString(),
-                            "street",editTextStreet1.getText().toString(),"street_number",editTextStreetNumber1.getText().toString(),
+                            .document(group.get(group.size()-1)).update("city",editTextaddress1.getText().toString(),
                             "daily price",editTextDailyPrice1.getText().toString(),"description",editTextDescription1.getText().toString()
                     ,"start_date",long_start,"end_date",long_finish,"uri",downloadUri.toString(),"lat",addressToLatLng().latitude,"lng",addressToLatLng().longitude).addOnFailureListener(new OnFailureListener() {
                         @Override
@@ -381,7 +420,7 @@ public class edit_park extends AppCompatActivity implements DatePickerDialog.OnD
 
     public LatLng addressToLatLng() {
 
-        String location = editTextStreet1.getText().toString()+" "+editTextStreetNumber1.getText().toString()+" "+editTextCity1.getText().toString();
+        String location = editTextaddress1.getText().toString();
 
 
         if (location != null || !location.equals("")) {
