@@ -14,6 +14,7 @@
 
 
     <application
+        android:name=".Home"
         android:allowBackup="true"
         android:largeHeap="true"
         android:icon="@mipmap/ic_launcher"
@@ -26,6 +27,7 @@
             android:theme="@style/AppTheme.NoActionBar" ></activity>
         <activity
             android:name=".MainPage"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" ></activity>
         <activity
             android:name=".addParking"
@@ -54,6 +56,7 @@
 
         <activity
             android:name=".login"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

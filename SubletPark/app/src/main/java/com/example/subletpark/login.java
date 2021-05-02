@@ -74,7 +74,7 @@ public class login extends AppCompatActivity {
 
         if(password.isEmpty()){
 
-            loginPassword.setError("email is required!");
+            loginPassword.setError("password is required!");
             loginPassword.requestFocus();
             return;
 
@@ -100,7 +100,6 @@ public class login extends AppCompatActivity {
                 }
             }
         });
-
     }
 
     public void register(View view) {
