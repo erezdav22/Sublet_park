@@ -17,4 +17,8 @@
     <string name="regi" translatable="false">עדיין לא נרשמת? <u>הירשם עכשיו</u></string>
     <string name="addPark" translatable="false"><u>הוסף חניה</u></string>
     <string name="editProfile" translatable="false"><u>ערוך פרופיל</u></string>
+    <string name="facebook_app_id">136598543118446</string>
+    <string name="fb_login_protocol_scheme">fb136598543118446</string>
+
+
 </resources>
