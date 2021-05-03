@@ -55,6 +55,7 @@ import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -63,9 +64,13 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import lombok.SneakyThrows;
+
+import static java.lang.String.format;
+import static java.text.DateFormat.*;
 
 public class edit_park extends AppCompatActivity implements DatePickerDialog.OnDateSetListener,TimePickerDialog.OnTimeSetListener,NavigationView.OnNavigationItemSelectedListener {
 
@@ -214,7 +219,8 @@ public class edit_park extends AppCompatActivity implements DatePickerDialog.OnD
                             editTextDateTime1.setText(string_start);
                             editTextEndDate1.setText(string_end);
                             editTextDescription1.setText(desc);
-                            uploadPic1.setImageURI(imageUri1);
+                            Picasso.with(getApplicationContext()).load(imageUri1).into(uploadPic1);
+                           // uploadPic1.setImageURI(imageUri1);
 
                             //Parking_Class park=new Parking_Class(parking_spot,city,street,street_number,price,start_date,end_date,uri,desc);
 
@@ -298,13 +304,15 @@ public class edit_park extends AppCompatActivity implements DatePickerDialog.OnD
     }
 
     public String longToDate(String date1)throws ParseException {
-        long longtime = Long.parseLong(date1);
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+        long millisecond = Long.parseLong(date1);
+        String dateString = format("dd/MM/yyyy HH:mm", new Date(millisecond).toString());
+        System.out.println("date is: "+dateString);
+        /**SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
         Date date = (Date) dateFormat.parseObject(longtime + "");
         String strDate = dateFormat.format(date);
         System.out.println("str: " +strDate+ "date: "+date);
-
-        return strDate;
+        **/
+        return dateString;
     }
 
 
