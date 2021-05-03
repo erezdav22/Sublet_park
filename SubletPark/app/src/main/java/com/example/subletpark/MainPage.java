@@ -76,6 +76,7 @@ public class MainPage extends AppCompatActivity implements OnMapReadyCallback, N
 
 
 
+
    /** double lat = 51.5074;
     double lng = 0.1278;
     String hash = GeoFireUtils.getGeoHashForLocation(new GeoLocation(lat, lng));
@@ -119,6 +120,7 @@ public class MainPage extends AppCompatActivity implements OnMapReadyCallback, N
         navigationView.setCheckedItem(R.id.nav_home);
         table=findViewById(R.id.table1);
         resultTable=findViewById(R.id.resultTable);
+
 
 
         editTextSearch=findViewById(R.id.editTextSearch);
@@ -342,17 +344,12 @@ public class MainPage extends AppCompatActivity implements OnMapReadyCallback, N
 
     }
 
-    public boolean logout_user(MenuItem item){
-        switch (item.getItemId()){
-            case R.id.nav_logout:
-                FirebaseAuth.getInstance().signOut();
-                finish();
-                startActivity(new Intent(this, login.class));
-                break;
-        }
-        return true;
+
+
+    public void logout_user(View view) {
+        FirebaseAuth.getInstance().signOut();
+        finish();
+        startActivity(new Intent(this, login.class));
+
     }
-
-
-
 }
