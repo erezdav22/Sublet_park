@@ -35,6 +35,17 @@
                 android:navigationIcon="@drawable/ic_baseline_menu_24"
                 tools:ignore="MissingConstraints"></androidx.appcompat.widget.Toolbar>
 
+            <Button
+                android:id="@+id/logout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:backgroundTint="#DD0A0A"
+                android:onClick="logout_user"
+                android:text="התנתק"
+                app:layout_constraintTop_toBottomOf="@+id/toolbar"
+                tools:ignore="MissingConstraints" />
+
 
             <EditText
                 android:id="@+id/editTextSearch"
@@ -47,7 +58,7 @@
                 android:inputType="textPersonName"
                 android:padding="12dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/toolbar"
+                app:layout_constraintTop_toBottomOf="@+id/logout"
                 tools:ignore="MissingConstraints" />
 
 
@@ -61,7 +72,7 @@
                 android:contentDescription="TODO"
                 android:onClick="search"
                 app:layout_constraintEnd_toStartOf="@+id/editTextSearch"
-                app:layout_constraintTop_toBottomOf="@+id/toolbar"
+                app:layout_constraintTop_toBottomOf="@+id/logout"
                 app:srcCompat="@android:drawable/ic_menu_search"
                 tools:ignore="MissingConstraints" />
 
