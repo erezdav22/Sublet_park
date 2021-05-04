@@ -205,8 +205,8 @@ public class edit_park extends AppCompatActivity implements DatePickerDialog.OnD
 //                            System.out.println(cal.getTime());
 
                             try {
-                                string_start=longToDate(editTextDateTime1.getText().toString());
-                                string_end= longToDate(editTextEndDate1.getText().toString());
+                                string_start=longToDate(start_date);
+                                string_end= longToDate(end_date);
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
@@ -220,7 +220,7 @@ public class edit_park extends AppCompatActivity implements DatePickerDialog.OnD
                             editTextEndDate1.setText(string_end);
                             editTextDescription1.setText(desc);
                             Picasso.with(getApplicationContext()).load(imageUri1).into(uploadPic1);
-                           // uploadPic1.setImageURI(imageUri1);
+                          // uploadPic1.setImageURI(imageUri1);
 
                             //Parking_Class park=new Parking_Class(parking_spot,city,street,street_number,price,start_date,end_date,uri,desc);
 
@@ -304,15 +304,16 @@ public class edit_park extends AppCompatActivity implements DatePickerDialog.OnD
     }
 
     public String longToDate(String date1)throws ParseException {
-        long millisecond = Long.parseLong(date1);
-        String dateString = format("dd/MM/yyyy HH:mm", new Date(millisecond).toString());
-        System.out.println("date is: "+dateString);
-        /**SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-        Date date = (Date) dateFormat.parseObject(longtime + "");
-        String strDate = dateFormat.format(date);
-        System.out.println("str: " +strDate+ "date: "+date);
-        **/
-        return dateString;
+        DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+        long milliSeconds=Long.parseLong(date1);
+        Date date = new Date(milliSeconds);
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(milliSeconds);
+        System.out.println(formatter.format(calendar.getTime()));
+        System.out.println(formatter.format(date));
+        System.out.println("sioot is: "+formatter.format(date));
+
+        return formatter.format(date);
     }
 
 
@@ -383,7 +384,7 @@ public class edit_park extends AppCompatActivity implements DatePickerDialog.OnD
                     Map<String, Object> parking = new HashMap<>();
                     parking.put(KEY_address, editTextaddress1.getText().toString());
                     //parking.put(KEY_street, editTextStreet1.getText().toString());
-                   // parking.put(KEY_street_number, editTextStreetNumber1.getText().toString());
+                   //parking.put(KEY_street_number, editTextStreetNumber1.getText().toString());
                     parking.put(KEY_daily_price,editTextDailyPrice1.getText().toString());
                     parking.put(description, editTextDescription1.getText().toString());
                     parking.put(lat, addressToLatLng().latitude);
@@ -460,7 +461,7 @@ public class edit_park extends AppCompatActivity implements DatePickerDialog.OnD
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                         finalYear= year;
-                        finalMonth=month;
+                        finalMonth=month+1;
                         finalDay=dayOfMonth;
 
                         Calendar c= Calendar.getInstance();
@@ -494,7 +495,7 @@ public class edit_park extends AppCompatActivity implements DatePickerDialog.OnD
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                         finalYear= year;
-                        finalMonth=month;
+                        finalMonth=month+1;
                         finalDay=dayOfMonth;
 
                         Calendar c= Calendar.getInstance();
