@@ -53,7 +53,7 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="@string/map_key" />
+            android:value="AIzaSyDC8wMP9MaCDDnTmdWeXx1-npixfiQiUug" />
 
         <activity
             android:name=".login"
@@ -89,7 +89,6 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
-
 
 
 

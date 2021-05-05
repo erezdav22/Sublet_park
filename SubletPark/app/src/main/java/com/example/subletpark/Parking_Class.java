@@ -28,4 +28,64 @@ public class Parking_Class {
         this.uri = uri;
         this.desc = desc;
     }
+
+    public Parking_Class(){
+
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public void setPrice(String price) {
+        this.price = price;
+    }
+
+    public void setStart_date(String start_date) {
+        this.start_date = start_date;
+    }
+
+    public void setEnd_date(String end_date) {
+        this.end_date = end_date;
+    }
+
+    public void setUri(String uri) {
+        this.uri = uri;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public String getPrice() {
+        return price;
+    }
+
+    public String getStart_date() {
+        return start_date;
+    }
+
+    public String getEnd_date() {
+        return end_date;
+    }
+
+    public String getUri() {
+        return uri;
+    }
+
+    public String getDesc() {
+        return desc;
+    }
 }
