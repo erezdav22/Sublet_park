@@ -1,6 +1,5 @@
 package com.example.subletpark;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,23 +14,16 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.ComponentActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.util.Objects;
 import java.util.regex.Pattern;
 
 public class ProfileActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -127,22 +119,32 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
     }
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.nav_home:
-                startActivity(new Intent(ProfileActivity.this,MainPage.class));
-
+                startActivity(new Intent(getApplicationContext(), MainPage.class));
+                break;
             case R.id.nav_profile:
+
+
                 break;
 
             case R.id.nav_addPark:
-                startActivity(new Intent(ProfileActivity.this,addParking.class));
+                startActivity(new Intent(getApplicationContext(), addParking.class));
+
+                break;
 
             case R.id.nav_MyPark:
-                startActivity(new Intent(ProfileActivity.this,edit_park.class));
+                startActivity(new Intent(getApplicationContext(), edit_park.class));
+                break;
 
             case R.id.nav_logout:
-               break;
+                FirebaseAuth.getInstance().signOut();
+                finish();
+                startActivity(new Intent(getApplicationContext(), login.class));
+                break;
+
         }
+
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }

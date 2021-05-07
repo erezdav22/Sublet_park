@@ -2,25 +2,25 @@
 <androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_edit_park"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/drawer_layout"
-    tools:context=".edit_park"
+    android:background="@android:color/white"
     android:fitsSystemWindows="true"
+    tools:context=".edit_park"
     tools:openDrawer="start">
 
     <com.google.android.material.navigation.NavigationView
+        android:id="@+id/nav_view"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:id="@+id/nav_view"
+        android:layout_gravity="start"
         app:headerLayout="@layout/header"
-        app:menu="@menu/activity_main_drawer"
-        android:layout_gravity="start"/>
+        app:menu="@menu/activity_main_drawer" />
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -38,8 +38,8 @@
                 android:id="@+id/imageView5"
                 android:layout_width="match_parent"
                 android:layout_height="147dp"
-                app:srcCompat="@drawable/logoremovebg"
                 app:layout_constraintTop_toBottomOf="@+id/toolbar"
+                app:srcCompat="@drawable/logoremovebg"
                 tools:ignore="MissingConstraints" />
 
             <TextView
@@ -50,12 +50,11 @@
                 android:layout_weight="1"
                 android:ems="10"
                 android:inputType="textPersonName"
-                android:text="אין לך עוד חניות"
                 android:padding="12dp"
+                android:text="אין לך עוד חניות"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/imageView5"
                 tools:ignore="MissingConstraints" />
-
 
 
             <ListView
@@ -67,7 +66,6 @@
                 tools:visibility="gone">
 
             </ListView>
-
 
 
             <EditText
@@ -108,9 +106,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="15dp"
-                tools:ignore="MissingConstraints"
+                android:inputType="number"
                 app:layout_constraintTop_toBottomOf="@+id/editTextEndDate1"
-                android:inputType="number" />
+                tools:ignore="MissingConstraints" />
 
             <EditText
                 android:id="@+id/editTextDescription1"
@@ -138,9 +136,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
                 android:onClick="update_parking"
+                android:text="עדכן חניה"
                 app:layout_constraintTop_toBottomOf="@+id/uploadPic1"
-                tools:ignore="MissingConstraints"
-                android:text="עדכן חניה" />
+                tools:ignore="MissingConstraints" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

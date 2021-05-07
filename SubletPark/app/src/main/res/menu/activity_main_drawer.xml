@@ -21,10 +21,13 @@
             android:id="@+id/nav_MyPark"
             android:icon="@drawable/ic_parking_24"
             android:title="החניות שלי" />
+
     </group>
 
-
+<item android:title="logout">
+    <menu>
     <group android:checkableBehavior="single">
+
         <item
             android:id="@+id/nav_logout"
             android:icon="@drawable/ic_baseline_reply_24"
@@ -32,5 +35,7 @@
 
 
     </group>
+    </menu>
+</item>
 
 </menu>
