@@ -315,7 +315,7 @@ public class login extends AppCompatActivity {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
                     startActivity(new Intent(login.this, MainPage.class));
-
+                  // finish();
 
 
                 }else{

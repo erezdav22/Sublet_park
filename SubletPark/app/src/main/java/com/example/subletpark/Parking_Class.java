@@ -2,11 +2,10 @@ package com.example.subletpark;
 
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
 @Builder
-@NoArgsConstructor
+//@NoArgsConstructor
 //@AllArgsConstructor
 public class Parking_Class {
     private String id;

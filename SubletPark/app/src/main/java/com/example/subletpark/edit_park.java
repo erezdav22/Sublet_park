@@ -64,13 +64,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 import lombok.SneakyThrows;
-
-import static java.lang.String.format;
-import static java.text.DateFormat.*;
 
 public class edit_park extends AppCompatActivity implements DatePickerDialog.OnDateSetListener,TimePickerDialog.OnTimeSetListener,NavigationView.OnNavigationItemSelectedListener {
 
@@ -132,7 +128,7 @@ public class edit_park extends AppCompatActivity implements DatePickerDialog.OnD
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_park);
 
-        drawerLayout=findViewById(R.id.drawer_layout);
+        drawerLayout=findViewById(R.id.activity_edit_park);
         navigationView=findViewById(R.id.nav_view);
         toolbar=findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -271,24 +267,34 @@ public class edit_park extends AppCompatActivity implements DatePickerDialog.OnD
 
     }
     //till here is the dynamic button
-    @Override
+   @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.nav_home:
-                startActivity(new Intent(edit_park.this,MainPage.class));
-
+                startActivity(new Intent(getApplicationContext(), MainPage.class));
+                break;
             case R.id.nav_profile:
-                startActivity(new Intent(edit_park.this,ProfileActivity.class));
+                startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
+
+                break;
 
             case R.id.nav_addPark:
-                startActivity(new Intent(edit_park.this,addParking.class));
+                startActivity(new Intent(getApplicationContext(), addParking.class));
+
+                break;
 
             case R.id.nav_MyPark:
+
                 break;
 
             case R.id.nav_logout:
+                FirebaseAuth.getInstance().signOut();
+                finish();
+                startActivity(new Intent(getApplicationContext(), login.class));
                 break;
+
         }
+
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }

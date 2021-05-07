@@ -171,23 +171,34 @@ public class addParking extends AppCompatActivity implements DatePickerDialog.On
         }
 
     }
+
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.nav_home:
-                startActivity(new Intent(addParking.this,MainPage.class));
+                startActivity(new Intent(getApplicationContext(), MainPage.class));
+                break;
             case R.id.nav_profile:
-                startActivity(new Intent(addParking.this,ProfileActivity.class));
+                startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
+
+                break;
 
             case R.id.nav_addPark:
+
                 break;
 
             case R.id.nav_MyPark:
-                startActivity(new Intent(addParking.this,edit_park.class));
+                startActivity(new Intent(getApplicationContext(), edit_park.class));
+                break;
 
             case R.id.nav_logout:
+                FirebaseAuth.getInstance().signOut();
+                finish();
+                startActivity(new Intent(getApplicationContext(), login.class));
                 break;
+
         }
+
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
