@@ -406,6 +406,11 @@ public class addParking extends AppCompatActivity implements DatePickerDialog.On
                     parking.put(userId, mAuth.getCurrentUser().getUid());
                     parking.put(URI, downloadUri.toString());
 
+                    if (long_start>long_finish){
+                        editTextDateTime.setError("נא לבחור תאריך סיום חניה מאוחר מתאריך תחילת חניה");
+                        editTextDateTime.requestFocus();
+                        return;
+                    }
 
                     db.collection("ParkingSpot")
                             .add(parking)
