@@ -216,7 +216,7 @@ public class edit_park extends AppCompatActivity implements DatePickerDialog.OnD
                             editTextEndDate1.setText(string_end);
                             editTextDescription1.setText(desc);
                             Picasso.with(getApplicationContext()).load(imageUri1).into(uploadPic1);
-                          // uploadPic1.setImageURI(imageUri1);
+                            uploadPic1.setImageURI(imageUri1);
 
                             //Parking_Class park=new Parking_Class(parking_spot,city,street,street_number,price,start_date,end_date,uri,desc);
 
@@ -317,7 +317,6 @@ public class edit_park extends AppCompatActivity implements DatePickerDialog.OnD
         calendar.setTimeInMillis(milliSeconds);
         System.out.println(formatter.format(calendar.getTime()));
         System.out.println(formatter.format(date));
-        System.out.println("sioot is: "+formatter.format(date));
 
         return formatter.format(date);
     }
@@ -400,6 +399,11 @@ public class edit_park extends AppCompatActivity implements DatePickerDialog.OnD
                     parking.put(userId, mAuth.getCurrentUser().getUid());
                     parking.put(URI, downloadUri.toString());
 
+                    if (long_start>long_finish){
+                        editTextDateTime1.setError("נא לבחור תאריך סיום חניה מאוחר מתאריך תחילת חניה");
+                        editTextDateTime1.requestFocus();
+                        return;
+                    }
 
                     db.collection("ParkingSpot")
                             .document(group.get(group.size()-1)).update("city",editTextaddress1.getText().toString(),
