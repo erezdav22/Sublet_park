@@ -40,6 +40,7 @@ import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
@@ -58,6 +59,7 @@ import com.google.maps.android.SphericalUtil;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 
 public class MainPage extends AppCompatActivity implements OnMapReadyCallback, NavigationView.OnNavigationItemSelectedListener, LocationListener {
@@ -77,7 +79,13 @@ public class MainPage extends AppCompatActivity implements OnMapReadyCallback, N
     private int numid = 0;
     TableLayout table;
     TableLayout resultTable;
+<<<<<<< HEAD
    // Button button;
+=======
+    Button button;
+    private TextView greeting;
+    private String name_of_user;
+>>>>>>> cb4fb007bd9cab7be7c5cf9d6e630f1fc9b9a2d4
 
     LocationManager locationManager;
     Location mikum;
@@ -128,7 +136,44 @@ public class MainPage extends AppCompatActivity implements OnMapReadyCallback, N
         navigationView.setCheckedItem(R.id.nav_home);
         table = findViewById(R.id.table1);
         resultTable = findViewById(R.id.resultTable);
+<<<<<<< HEAD
         //button=findViewById(R.id.button);
+=======
+        button = findViewById(R.id.button);
+        greeting=findViewById(R.id.greeting);
+
+        String displayed_greet= null;
+        Calendar c=Calendar.getInstance();
+        int time_of_day=c.get(Calendar.HOUR_OF_DAY);
+        System.out.println("time is: ----->"+time_of_day);
+        if (time_of_day>=0 && time_of_day<12)
+            displayed_greet= "בוקר טוב ";
+        else if (time_of_day>=12 && time_of_day<16)
+            displayed_greet="צהריים טובים ";
+        else if (time_of_day>=16 && time_of_day<21)
+            displayed_greet="ערב טוב ";
+        else if (time_of_day>=21 && time_of_day<24)
+            displayed_greet="לילה טוב ";
+
+        String finalDisplayed_greet = displayed_greet;
+        db.collection("User")
+                .whereEqualTo("uid", FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot querySnapshot) {
+                        if (!querySnapshot.isEmpty()) {
+                            // System.out.println(querySnapshot.getDocuments().get(0).get("lastLoginDate"));
+                           name_of_user = querySnapshot.getDocuments().get(0).get("firstname").toString();
+                            System.out.println("name in onSuccess is: "+name_of_user);
+                            greeting.setText(finalDisplayed_greet+" "+name_of_user+"!");
+
+                        }}});
+        System.out.println("name is: "+name_of_user);
+
+
+
+>>>>>>> cb4fb007bd9cab7be7c5cf9d6e630f1fc9b9a2d4
 
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -143,13 +188,13 @@ public class MainPage extends AppCompatActivity implements OnMapReadyCallback, N
         }
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 10, this);
 
-        mikum=locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        mikum = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
 
-        editTextSearch=findViewById(R.id.editTextSearch);
-        imageViewSearch=findViewById(R.id.imageViewSearch);
+        editTextSearch = findViewById(R.id.editTextSearch);
+        imageViewSearch = findViewById(R.id.imageViewSearch);
         imageViewSearch.setOnClickListener(this::search);
-        mapFragment= (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapAPI2);
+        mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapAPI2);
         mapFragment.getMapAsync(new OnMapReadyCallback() {
             @Override
             public void onMapReady(GoogleMap googleMap) {
@@ -166,11 +211,10 @@ public class MainPage extends AppCompatActivity implements OnMapReadyCallback, N
         });
 
 
-
-        Places.initialize(getApplicationContext(),"AIzaSyDC8wMP9MaCDDnTmdWeXx1-npixfiQiUug");
+        Places.initialize(getApplicationContext(), "AIzaSyDC8wMP9MaCDDnTmdWeXx1-npixfiQiUug");
 
         PlacesClient placesClient = Places.createClient(this);
-        AutocompleteSupportFragment autocompleteSupportFragment=(AutocompleteSupportFragment)getSupportFragmentManager()
+        AutocompleteSupportFragment autocompleteSupportFragment = (AutocompleteSupportFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.autoComplete_fragment);
 
         autocompleteSupportFragment.setTypeFilter(TypeFilter.ADDRESS);
@@ -187,7 +231,7 @@ public class MainPage extends AppCompatActivity implements OnMapReadyCallback, N
             @Override
             public void onError(@NonNull Status status) {
 
-                Toast.makeText(getApplicationContext(),status.getStatusMessage(),Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), status.getStatusMessage(), Toast.LENGTH_LONG).show();
             }
         });
 
@@ -211,29 +255,27 @@ public class MainPage extends AppCompatActivity implements OnMapReadyCallback, N
                         Log.d(TAG, document.getId() + " => " + document.getData());
 
 
+                        String uid = document.getData().get("userId").toString();
 
-                        String uid=document.getData().get("userId").toString();
-
-                        String address=document.getData().get("address").toString();
-                        String price=document.getData().get("daily price").toString();
-                        String start_date=document.getData().get("start_date").toString();
-                        String end_date=document.getData().get("end_date").toString();
-                        String desc=document.getData().get("description").toString();
-                        String uri=document.getData().get("uri").toString();
-
-
-                        parkings.add(new Parking_Class(uid,address,price,start_date,end_date,uri,desc));
+                        String address = document.getData().get("address").toString();
+                        String price = document.getData().get("daily price").toString();
+                        String start_date = document.getData().get("start_date").toString();
+                        String end_date = document.getData().get("end_date").toString();
+                        String desc = document.getData().get("description").toString();
+                        String uri = document.getData().get("uri").toString();
 
 
+                        parkings.add(new Parking_Class(uid, address, price, start_date, end_date, uri, desc));
 
-                         TableRow row = new TableRow(MainPage.this);
-                         TextView serialText=new TextView(MainPage.this);
-                         serialText.setText(document.getData().get("address").toString()+'\n');
-                         row.addView(serialText);
-                         serialText.setId(numid);
-                         numid++;
 
-                         /**  TextView streetText=new TextView(MainPage.this);
+                        TableRow row = new TableRow(MainPage.this);
+                        TextView serialText = new TextView(MainPage.this);
+                        serialText.setText(document.getData().get("address").toString() + '\n');
+                        row.addView(serialText);
+                        serialText.setId(numid);
+                        numid++;
+
+                        /**  TextView streetText=new TextView(MainPage.this);
                          streetText.setText(document.getData().get("street").toString()+' ');
                          row.addView(streetText);
                          streetText.setId(numid);
@@ -245,7 +287,7 @@ public class MainPage extends AppCompatActivity implements OnMapReadyCallback, N
                          streetNumText.setId(numid);
                          numid++;**/
 
-                         table.addView(row,new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT,TableLayout.LayoutParams.WRAP_CONTENT));
+                        table.addView(row, new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT));
 
 
                     }
@@ -257,15 +299,26 @@ public class MainPage extends AppCompatActivity implements OnMapReadyCallback, N
 
 
         //CardFragment cardFragment=new CardFragment(parkings);
+<<<<<<< HEAD
        // getSupportFragmentManager().beginTransaction().add(cardFragment,null).commit();
        // getSupportFragmentManager().beginTransaction().add(R.id.root_layout,cardFragment,null).commit();
 
        // setUpRecyclerView();
+=======
+        // getSupportFragmentManager().beginTransaction().add(cardFragment,null).commit();
+        // getSupportFragmentManager().beginTransaction().add(R.id.root_layout,cardFragment,null).commit();
+    }
+      /**  setUpRecyclerView();
+>>>>>>> cb4fb007bd9cab7be7c5cf9d6e630f1fc9b9a2d4
 
 
     }
 
+<<<<<<< HEAD
   /**  private void setUpRecyclerView() {
+=======
+   private void setUpRecyclerView() {
+>>>>>>> cb4fb007bd9cab7be7c5cf9d6e630f1fc9b9a2d4
        Query query=notebookRef.orderBy("address",Query.Direction.DESCENDING);
        // Task<QuerySnapshot> query=notebookRef.get();
 
@@ -292,7 +345,7 @@ public class MainPage extends AppCompatActivity implements OnMapReadyCallback, N
         super.onStop();
         adapter2.stopListening();
     }
-
+    */
     public void onBackPressed(){
         if(drawerLayout.isDrawerOpen(GravityCompat.START)){
             drawerLayout.closeDrawer(GravityCompat.START);
