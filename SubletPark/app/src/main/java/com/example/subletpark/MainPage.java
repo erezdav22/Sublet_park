@@ -15,7 +15,6 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TableLayout;
@@ -30,10 +29,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -56,7 +52,6 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.maps.android.SphericalUtil;
@@ -66,9 +61,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
-
-//import com.firebase.geofire.GeoFireUtils;
-//import com.firebase.geofire.GeoLocation;
 
 public class MainPage extends AppCompatActivity implements OnMapReadyCallback, NavigationView.OnNavigationItemSelectedListener, LocationListener {
 
@@ -87,9 +79,13 @@ public class MainPage extends AppCompatActivity implements OnMapReadyCallback, N
     private int numid = 0;
     TableLayout table;
     TableLayout resultTable;
+
+   // Button button;
+=======
     Button button;
     private TextView greeting;
     private String name_of_user;
+
 
     LocationManager locationManager;
     Location mikum;
@@ -140,6 +136,9 @@ public class MainPage extends AppCompatActivity implements OnMapReadyCallback, N
         navigationView.setCheckedItem(R.id.nav_home);
         table = findViewById(R.id.table1);
         resultTable = findViewById(R.id.resultTable);
+
+        //button=findViewById(R.id.button);
+=======
         button = findViewById(R.id.button);
         greeting=findViewById(R.id.greeting);
 
@@ -171,6 +170,7 @@ public class MainPage extends AppCompatActivity implements OnMapReadyCallback, N
 
                         }}});
         System.out.println("name is: "+name_of_user);
+
 
 
 
@@ -299,15 +299,26 @@ public class MainPage extends AppCompatActivity implements OnMapReadyCallback, N
 
 
         //CardFragment cardFragment=new CardFragment(parkings);
+
+       // getSupportFragmentManager().beginTransaction().add(cardFragment,null).commit();
+       // getSupportFragmentManager().beginTransaction().add(R.id.root_layout,cardFragment,null).commit();
+
+       // setUpRecyclerView();
+=======
         // getSupportFragmentManager().beginTransaction().add(cardFragment,null).commit();
         // getSupportFragmentManager().beginTransaction().add(R.id.root_layout,cardFragment,null).commit();
     }
       /**  setUpRecyclerView();
 
 
+
     }
 
+
+  /**  private void setUpRecyclerView() {
+=======
    private void setUpRecyclerView() {
+
        Query query=notebookRef.orderBy("address",Query.Direction.DESCENDING);
        // Task<QuerySnapshot> query=notebookRef.get();
 
@@ -328,7 +339,7 @@ public class MainPage extends AppCompatActivity implements OnMapReadyCallback, N
         super.onStart();
         adapter2.startListening();
     }
-
+**/
     @Override
     protected void onStop() {
         super.onStop();
