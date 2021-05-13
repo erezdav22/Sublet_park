@@ -1,24 +1,22 @@
+
 package com.example.subletpark;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
-import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,9 +24,10 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.ActivityCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -57,103 +56,87 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.maps.android.SphericalUtil;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
-public class MainPage extends AppCompatActivity implements OnMapReadyCallback, NavigationView.OnNavigationItemSelectedListener, LocationListener {
+//import com.firebase.geofire.GeoFireUtils;
+//import com.firebase.geofire.GeoLocation;
+
+public class MainPage extends AppCompatActivity implements OnMapReadyCallback, NavigationView.OnNavigationItemSelectedListener {
 
     GoogleMap MapAPI2;
     SupportMapFragment mapFragment;
     private EditText editTextSearch;
     private ImageView imageViewSearch;
     List<Address> addressList = null;
-    Address address = null;
-    String location = null;
+    Address address=null;
+    String location=null;
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     Toolbar toolbar;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private static final String TAG = "MainPage";
-    private int numid = 0;
+    private static final String TAG ="MainPage";
+    private int numid=0;
     TableLayout table;
     TableLayout resultTable;
-<<<<<<< HEAD
-   // Button button;
-=======
-    Button button;
+
     private TextView greeting;
     private String name_of_user;
->>>>>>> cb4fb007bd9cab7be7c5cf9d6e630f1fc9b9a2d4
 
     LocationManager locationManager;
     Location mikum;
-   // List<Parking_Class>parkings = null;
-    List<Parking_Class> parkings=new ArrayList<Parking_Class>();
 
     private ParkingAdapter2 adapter2;
+    private ParkingAdapter3 adapter3;
     private CollectionReference notebookRef=db.collection("ParkingSpot");
-
-
-    /** double lat = 51.5074;
-     double lng = 0.1278;
-     String hash = GeoFireUtils.getGeoHashForLocation(new GeoLocation(lat, lng));
-
-     ArrayList arr = new ArrayList<DocumentSnapshot>();
-     db.collection("ParkingSpots").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-    @Override public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-    if (task.isSuccessful()) {
-    DocumentSnapshot document = task.getResult();
-    if (document.exists()) {
-    GeoLocation g  = document.getData().getString("geoPoint");
-    if(g.equals(center))
-    arr.add(document);
-    } else {
-    Log.d(TAG, "No such document");
-    }
-    } else {
-    Log.d(TAG, "get failed with ", task.getException());
-    }
-    }
-    }); **/
-
+    ArrayList<Parking_Class> datalist;
+    String string_start;
+    String string_end;
+    private Uri imageUri1;
+    TextView noParking1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_page);
 
-        drawerLayout = findViewById(R.id.root_layout);
-        navigationView = findViewById(R.id.nav_view);
-        toolbar = findViewById(R.id.toolbar);
+        drawerLayout=findViewById(R.id.root_layout);
+        navigationView=findViewById(R.id.nav_view);
+        toolbar=findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         navigationView.bringToFront();
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        ActionBarDrawerToggle toggle= new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.navigation_drawer_open,R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.setCheckedItem(R.id.nav_home);
-        table = findViewById(R.id.table1);
-        resultTable = findViewById(R.id.resultTable);
-<<<<<<< HEAD
-        //button=findViewById(R.id.button);
-=======
-        button = findViewById(R.id.button);
+        table=findViewById(R.id.table1);
+        resultTable=findViewById(R.id.resultTable);
+
         greeting=findViewById(R.id.greeting);
+
+        greeting=findViewById(R.id.greeting);
+        noParking1=findViewById(R.id.noParking1);
 
         String displayed_greet= null;
         Calendar c=Calendar.getInstance();
         int time_of_day=c.get(Calendar.HOUR_OF_DAY);
         System.out.println("time is: ----->"+time_of_day);
         if (time_of_day>=0 && time_of_day<12)
-            displayed_greet= "בוקר טוב ";
+            displayed_greet= "בוקר טוב";
         else if (time_of_day>=12 && time_of_day<16)
-            displayed_greet="צהריים טובים ";
+            displayed_greet="צהריים טובים";
         else if (time_of_day>=16 && time_of_day<21)
-            displayed_greet="ערב טוב ";
+            displayed_greet="ערב טוב";
         else if (time_of_day>=21 && time_of_day<24)
-            displayed_greet="לילה טוב ";
+            displayed_greet="לילה טוב";
 
         String finalDisplayed_greet = displayed_greet;
         db.collection("User")
@@ -164,18 +147,13 @@ public class MainPage extends AppCompatActivity implements OnMapReadyCallback, N
                     public void onSuccess(QuerySnapshot querySnapshot) {
                         if (!querySnapshot.isEmpty()) {
                             // System.out.println(querySnapshot.getDocuments().get(0).get("lastLoginDate"));
-                           name_of_user = querySnapshot.getDocuments().get(0).get("firstname").toString();
+                            name_of_user = querySnapshot.getDocuments().get(0).get("firstname").toString();
                             System.out.println("name in onSuccess is: "+name_of_user);
                             greeting.setText(finalDisplayed_greet+" "+name_of_user+"!");
 
                         }}});
-        System.out.println("name is: "+name_of_user);
 
-
-
->>>>>>> cb4fb007bd9cab7be7c5cf9d6e630f1fc9b9a2d4
-
-        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+       /** locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
@@ -186,35 +164,39 @@ public class MainPage extends AppCompatActivity implements OnMapReadyCallback, N
             // for ActivityCompat#requestPermissions for more details.
             return;
         }
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 10, this);
+      locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 10, (LocationListener) this);
+**/
+      //  mikum = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
-        mikum = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
 
-        editTextSearch = findViewById(R.id.editTextSearch);
-        imageViewSearch = findViewById(R.id.imageViewSearch);
+        editTextSearch=findViewById(R.id.editTextSearch);
+        imageViewSearch=findViewById(R.id.imageViewSearch);
         imageViewSearch.setOnClickListener(this::search);
+
+
         mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapAPI2);
         mapFragment.getMapAsync(new OnMapReadyCallback() {
             @Override
             public void onMapReady(GoogleMap googleMap) {
                 MapAPI2 = googleMap;
 
-                LatLng latLng = new LatLng(mikum.getLatitude(), mikum.getLongitude());
-                if (latLng != null || !latLng.equals("")) {
+                LatLng latLng = new LatLng(32.069294, 34.774589);
 
-                    MapAPI2.addMarker(new MarkerOptions().position(latLng));
+                   // MapAPI2.addMarker(new MarkerOptions().position(latLng));
                     MapAPI2.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 14.0f));
-                }
+
 
             }
         });
 
 
-        Places.initialize(getApplicationContext(), "AIzaSyDC8wMP9MaCDDnTmdWeXx1-npixfiQiUug");
+
+
+        Places.initialize(getApplicationContext(),"AIzaSyDC8wMP9MaCDDnTmdWeXx1-npixfiQiUug", Locale.forLanguageTag("iw"));
 
         PlacesClient placesClient = Places.createClient(this);
-        AutocompleteSupportFragment autocompleteSupportFragment = (AutocompleteSupportFragment) getSupportFragmentManager()
+        AutocompleteSupportFragment autocompleteSupportFragment=(AutocompleteSupportFragment)getSupportFragmentManager()
                 .findFragmentById(R.id.autoComplete_fragment);
 
         autocompleteSupportFragment.setTypeFilter(TypeFilter.ADDRESS);
@@ -231,22 +213,13 @@ public class MainPage extends AppCompatActivity implements OnMapReadyCallback, N
             @Override
             public void onError(@NonNull Status status) {
 
-                Toast.makeText(getApplicationContext(), status.getStatusMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(),status.getStatusMessage(),Toast.LENGTH_LONG).show();
             }
         });
 
-//        editTextSearch.setFocusable(false);
-//
-//        editTextSearch.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                List<Place .Field> fieldList= Arrays.asList(Place.Field.ADDRESS, Place.Field.LAT_LNG, Place.Field.NAME);
-//                Intent intent=new Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY,fieldList).build(MainPage.this);
-//                startActivityForResult(intent,200);
-//            }
-//        });
 
 
+/**
         db.collection("ParkingSpot").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -254,40 +227,26 @@ public class MainPage extends AppCompatActivity implements OnMapReadyCallback, N
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         Log.d(TAG, document.getId() + " => " + document.getData());
 
-
-                        String uid = document.getData().get("userId").toString();
-
-                        String address = document.getData().get("address").toString();
-                        String price = document.getData().get("daily price").toString();
-                        String start_date = document.getData().get("start_date").toString();
-                        String end_date = document.getData().get("end_date").toString();
-                        String desc = document.getData().get("description").toString();
-                        String uri = document.getData().get("uri").toString();
-
-
-                        parkings.add(new Parking_Class(uid, address, price, start_date, end_date, uri, desc));
-
-
                         TableRow row = new TableRow(MainPage.this);
-                        TextView serialText = new TextView(MainPage.this);
-                        serialText.setText(document.getData().get("address").toString() + '\n');
+                        TextView serialText=new TextView(MainPage.this);
+                        serialText.setText(document.getData().get("address").toString()+'\n');
                         row.addView(serialText);
                         serialText.setId(numid);
                         numid++;
 
-                        /**  TextView streetText=new TextView(MainPage.this);
-                         streetText.setText(document.getData().get("street").toString()+' ');
-                         row.addView(streetText);
-                         streetText.setId(numid);
-                         numid++;
+/**  TextView streetText=new TextView(MainPage.this);
+ streetText.setText(document.getData().get("street").toString()+' ');
+ row.addView(streetText);
+ streetText.setId(numid);
+ numid++;
 
-                         TextView streetNumText=new TextView(MainPage.this);
-                         streetNumText.setText(document.getData().get("street_number").toString()+' ');
-                         row.addView(streetNumText);
-                         streetNumText.setId(numid);
-                         numid++;**/
+ TextView streetNumText=new TextView(MainPage.this);
+ streetNumText.setText(document.getData().get("street_number").toString()+' ');
+ row.addView(streetNumText);
+ streetNumText.setId(numid);
+ numid++;
 
-                        table.addView(row, new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT));
+                        table.addView(row,new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT,TableLayout.LayoutParams.WRAP_CONTENT));
 
 
                     }
@@ -295,57 +254,101 @@ public class MainPage extends AppCompatActivity implements OnMapReadyCallback, N
                     Log.d(TAG, "Error getting documents: ", task.getException());
                 }
             }
-        });
+        });**/
+
+        RecyclerView recyclerView = findViewById(R.id.recycler_view_id);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        datalist=new ArrayList<Parking_Class>();
+        adapter3=new ParkingAdapter3(datalist);
+        /**
+        db.collection("ParkingSpot").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                List<DocumentSnapshot>list=queryDocumentSnapshots.getDocuments();
+                for(DocumentSnapshot d:list){
+
+                    String address=d.getData().get("address").toString();
+                    String price=d.getData().get("daily price").toString();
+                    String desc=d.getData().get("description").toString();
+                    String start_date=d.getData().get("start_date").toString();
+                    String end_date=d.getData().get("end_date").toString();
+                    String uri=d.getData().get("uri").toString();
+                    try{
+                        string_start=longToDate(start_date);
+                        string_end=longToDate(end_date);
+
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                  // imageUri1=Uri.parse(uri);
+                  //  Picasso.with(getApplicationContext().lo)
+                  Parking_Class parking_class=new Parking_Class(address,price,string_start,string_end,uri,desc);
+
+                    //ParkTest parkTest= new ParkTest(address,price,desc);
+                  //  Log.d(TAG, "onSuccess: "+ parkTest.getAddress()+parkTest.getPrice()+parkTest.getDesc());
+                    datalist.add(parking_class);
+                }
+                adapter3.notifyDataSetChanged();
+                recyclerView.setAdapter(adapter3);
+            }
+        });**/
 
 
-        //CardFragment cardFragment=new CardFragment(parkings);
-<<<<<<< HEAD
-       // getSupportFragmentManager().beginTransaction().add(cardFragment,null).commit();
-       // getSupportFragmentManager().beginTransaction().add(R.id.root_layout,cardFragment,null).commit();
+        // setUpRecyclerView();
 
-       // setUpRecyclerView();
-=======
-        // getSupportFragmentManager().beginTransaction().add(cardFragment,null).commit();
-        // getSupportFragmentManager().beginTransaction().add(R.id.root_layout,cardFragment,null).commit();
     }
-      /**  setUpRecyclerView();
->>>>>>> cb4fb007bd9cab7be7c5cf9d6e630f1fc9b9a2d4
 
 
-    }
-
-<<<<<<< HEAD
-  /**  private void setUpRecyclerView() {
-=======
-   private void setUpRecyclerView() {
->>>>>>> cb4fb007bd9cab7be7c5cf9d6e630f1fc9b9a2d4
-       Query query=notebookRef.orderBy("address",Query.Direction.DESCENDING);
-       // Task<QuerySnapshot> query=notebookRef.get();
+    /**
+    private void setUpRecyclerView() {
+       Query query=notebookRef;
+        //.orderBy("address",Query.Direction.DESCENDING);
+        // Task<QuerySnapshot> query=notebookRef.get();
+        System.out.println("--->"+query);
 
 
         FirestoreRecyclerOptions<ParkTest> options=new FirestoreRecyclerOptions.Builder<ParkTest>()
                 .setQuery(query,ParkTest.class).build();
 
-        adapter2=new ParkingAdapter2(options);
-        RecyclerView recyclerView = findViewById(R.id.recycler_view_id);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(adapter2);
+                adapter2=new ParkingAdapter2(options);
+                RecyclerView recyclerView = findViewById(R.id.recycler_view_id);
+                recyclerView.setHasFixedSize(true);
+                recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                recyclerView.setAdapter(adapter2);
+
+
 
     }
-      @Override
+
+    @Override
     protected void onStart() {
 
         super.onStart();
         adapter2.startListening();
     }
-**/
+
     @Override
     protected void onStop() {
         super.onStop();
         adapter2.stopListening();
     }
-    */
+
+**/
+
+    public String longToDate(String date1)throws ParseException {
+        DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+        long milliSeconds=Long.parseLong(date1);
+        Date date = new Date(milliSeconds);
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(milliSeconds);
+        System.out.println(formatter.format(calendar.getTime()));
+        System.out.println(formatter.format(date));
+
+        return formatter.format(date);
+    }
+
+
+
     public void onBackPressed(){
         if(drawerLayout.isDrawerOpen(GravityCompat.START)){
             drawerLayout.closeDrawer(GravityCompat.START);
@@ -361,35 +364,29 @@ public class MainPage extends AppCompatActivity implements OnMapReadyCallback, N
         switch (item.getItemId()) {
             case R.id.nav_home:
 
-               // getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new MenuMainPage()).commit();
-               // getSupportFragmentManager().beginTransaction().add(R.id.root_layout,new MenuEditPark(),null).commit();
                 break;
             case R.id.nav_profile:
                 startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
-                //getSupportFragmentManager().beginTransaction().add(R.id.root_layout,new MenuEditPark(),null).commit();
 
-            // getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new MenuProfile()).commit();
                 break;
 
             case R.id.nav_addPark:
                 startActivity(new Intent(getApplicationContext(), addParking.class));
-               // getSupportFragmentManager().beginTransaction().add(R.id.root_layout,new MenuEditPark(),null).commit();
 
-            // getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new MenuAddPark()).commit();
                 break;
 
             case R.id.nav_MyPark:
                 startActivity(new Intent(getApplicationContext(), edit_park.class));
-               // getSupportFragmentManager().beginTransaction().add(R.id.root_layout,new MenuEditPark(),null).commit();
+
                 break;
 
             case R.id.nav_logout:
-                //getSupportFragmentManager().beginTransaction().add(R.id.root_layout,new MenuEditPark(),null).commit();
+
                 FirebaseAuth.getInstance().signOut();
                 finish();
                 startActivity(new Intent(getApplicationContext(), login.class));
 
-            // getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new MenuLogOut()).commit();
+
                 break;
 
         }
@@ -424,12 +421,12 @@ public class MainPage extends AppCompatActivity implements OnMapReadyCallback, N
             CircleOptions circly = new CircleOptions().center(latLng).radius(1000);
             Circle circle = MapAPI2.addCircle(circly);
             circle.setStrokeColor(Color.RED);
-           MapAPI2.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,14.0f));
-           // MapAPI2.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(address.getLatitude(), address.getLongitude()), 12.0f));
+            MapAPI2.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,14.0f));
+            // MapAPI2.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(address.getLatitude(), address.getLongitude()), 12.0f));
             table.setVisibility(View.GONE);
 
 
-
+            RecyclerView recyclerView = findViewById(R.id.recycler_view_id);
 
             db.collection("ParkingSpot").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                 @SuppressLint("RtlHardcoded")
@@ -443,9 +440,36 @@ public class MainPage extends AppCompatActivity implements OnMapReadyCallback, N
 
                             Log.d(TAG, "onComplete: "+distance);
 
-                            if (distance < 1000) {
+                            if (distance <= 1000) {
+
+
+                                String uid=document.getData().get("userId").toString();
+                                String address=document.getData().get("address").toString();
+                                String price=document.getData().get("daily price").toString();
+                                String desc=document.getData().get("description").toString();
+                                String start_date=document.getData().get("start_date").toString();
+                                String end_date=document.getData().get("end_date").toString();
+                                String uri=document.getData().get("uri").toString();
+                                try{
+                                    string_start=longToDate(start_date);
+                                    string_end=longToDate(end_date);
+
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
+                                }
+                                /**  imageUri1=Uri.parse(uri);
+                                 Picasso.with(getApplicationContext().lo)**/
+                                Parking_Class parking_class=new Parking_Class(uid,address,price,string_start,string_end,uri,desc);
+
+                                //ParkTest parkTest= new ParkTest(address,price,desc);
+                                //  Log.d(TAG, "onSuccess: "+ parkTest.getAddress()+parkTest.getPrice()+parkTest.getDesc());
+                                datalist.add(parking_class);
+
+                            adapter3.notifyDataSetChanged();
+
+
                                 //present parking spot in page
-                                TableRow row = new TableRow(MainPage.this);
+                               /** TableRow row = new TableRow(MainPage.this);
                                 TextView serialText=new TextView(MainPage.this);
                                 serialText.setText(document.getData().get("address").toString()+'\n');
                                 row.addView(serialText);
@@ -454,23 +478,25 @@ public class MainPage extends AppCompatActivity implements OnMapReadyCallback, N
                                 numid++;
 
 
-                              /**  TextView streetText=new TextView(MainPage.this);
-                                streetText.setText(document.getData().get("street").toString()+' ');
-                                row.addView(streetText);
-                                streetText.setId(numid);
-                                streetText.setGravity(Gravity.RIGHT | Gravity.TOP);
-                                numid++;
+                                /**  TextView streetText=new TextView(MainPage.this);
+                                 streetText.setText(document.getData().get("street").toString()+' ');
+                                 row.addView(streetText);
+                                 streetText.setId(numid);
+                                 streetText.setGravity(Gravity.RIGHT | Gravity.TOP);
+                                 numid++;
 
-                                TextView streetNumText=new TextView(MainPage.this);
-                                streetNumText.setText(document.getData().get("street_number").toString()+' ');
-                                row.addView(streetNumText);
-                                streetNumText.setId(numid);
-                                streetNumText.setGravity(Gravity.RIGHT | Gravity.TOP);
-                                numid++;**/
+                                 TextView streetNumText=new TextView(MainPage.this);
+                                 streetNumText.setText(document.getData().get("street_number").toString()+' ');
+                                 row.addView(streetNumText);
+                                 streetNumText.setId(numid);
+                                 streetNumText.setGravity(Gravity.RIGHT | Gravity.TOP);
+                                 numid++;
 
                                 resultTable.addView(row,new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT,TableLayout.LayoutParams.WRAP_CONTENT));
                                 resultTable.setGravity(Gravity.RIGHT | Gravity.TOP);
-                                resultTable.setVisibility(View.VISIBLE);
+                                resultTable.setVisibility(View.VISIBLE);**/
+
+
 
 
                             }
@@ -478,7 +504,12 @@ public class MainPage extends AppCompatActivity implements OnMapReadyCallback, N
                         }
                     } else {
                         Log.d(TAG, "There is no parking available in this place ", task.getException());
+
                     }
+                    ViewGroup.LayoutParams params = mapFragment.getView().getLayoutParams();
+                    params.height = 420;
+                    mapFragment.getView().setLayoutParams(params);
+                    recyclerView.setAdapter(adapter3);
                 }
             });
 
@@ -492,12 +523,6 @@ public class MainPage extends AppCompatActivity implements OnMapReadyCallback, N
     @Override
     public void onMapReady(GoogleMap googleMap) {
         MapAPI2=googleMap;
-        LatLng latLng = new LatLng(mikum.getLatitude(), mikum.getLongitude());
-        if (latLng != null || !latLng.equals("")) {
-
-            MapAPI2.addMarker(new MarkerOptions().position(latLng));
-            MapAPI2.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 14.0f));
-        }
 
     }
 
@@ -510,17 +535,5 @@ public class MainPage extends AppCompatActivity implements OnMapReadyCallback, N
 
     }
 
-    @Override
-    public void onLocationChanged(@NonNull Location location) {
 
-
-        LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-        if (latLng != null || !latLng.equals("")) {
-
-            MapAPI2.addMarker(new MarkerOptions().position(latLng));
-            MapAPI2.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 14.0f));
-        }
-
-
-    }
 }

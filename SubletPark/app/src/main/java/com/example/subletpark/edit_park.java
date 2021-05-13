@@ -26,6 +26,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -64,6 +65,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import lombok.SneakyThrows;
@@ -88,8 +90,8 @@ public class edit_park extends AppCompatActivity implements DatePickerDialog.OnD
     ImageView uploadPic1;
     Button buttonUpload1;
     private Uri imageUri1;
-    TextView editTextDateTime1;
-    TextView editTextEndDate1;
+    EditText editTextDateTime1;
+    EditText editTextEndDate1;
     int day,month,year, hour,minute;
     int finalDay,finalMonth,finalYear,finalHour,finalMinute;
     FirebaseStorage firebaseStorage;
@@ -98,6 +100,8 @@ public class edit_park extends AppCompatActivity implements DatePickerDialog.OnD
     String string_start;
     String string_end;
     List<Address> addressList = null;
+    TextView noParking;
+    CardView cardP;
 
 
     Long long_start;
@@ -150,9 +154,11 @@ public class edit_park extends AppCompatActivity implements DatePickerDialog.OnD
         uploadPic1 = findViewById(R.id.uploadPic1);
         mAuth=FirebaseAuth.getInstance();
         buttonUpload1 = findViewById(R.id.buttonUpload1);
+        noParking=findViewById(R.id.noParking);
+        cardP=findViewById(R.id.cardP);
         buttonUpload1.setOnClickListener(this::update_parking);
         storageReference=firebaseStorage.getInstance().getReference("parking image");
-        Places.initialize(getApplicationContext(),"AIzaSyDC8wMP9MaCDDnTmdWeXx1-npixfiQiUug");
+        Places.initialize(getApplicationContext(),"AIzaSyDC8wMP9MaCDDnTmdWeXx1-npixfiQiUug", Locale.forLanguageTag("iw"));
 
         PlacesClient placesClient = Places.createClient(this);
 
@@ -175,6 +181,10 @@ public class edit_park extends AppCompatActivity implements DatePickerDialog.OnD
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 DocumentSnapshot document = task.getResult();
+                if(document.get("parking spots")==null){
+                    noParking.setVisibility(View.VISIBLE);
+                    cardP.setVisibility(View.GONE);
+                }else{
                 group = (List<String>) document.get("parking spots");
               // for (String parking_spot:group) {
                     Log.d(TAG, "onComplete: "+ group.get(group.size()-1));
@@ -199,6 +209,8 @@ public class edit_park extends AppCompatActivity implements DatePickerDialog.OnD
 //                            Calendar cal = Calendar.getInstance();
 //                            cal.setTimeInMillis(Integer.parseInt(start_date) * 1000);
 //                            System.out.println(cal.getTime());
+
+
 
                             try {
                                 string_start=longToDate(start_date);
@@ -232,7 +244,12 @@ public class edit_park extends AppCompatActivity implements DatePickerDialog.OnD
 
 
                         }
-                    });
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(edit_park.this,"error",Toast.LENGTH_LONG).show();
+                        }
+                    });}
 
 
             }
@@ -400,8 +417,8 @@ public class edit_park extends AppCompatActivity implements DatePickerDialog.OnD
                     parking.put(URI, downloadUri.toString());
 
                     if (long_start>long_finish){
-                        editTextDateTime1.setError("נא לבחור תאריך סיום חניה מאוחר מתאריך תחילת חניה");
-                        editTextDateTime1.requestFocus();
+                        editTextEndDate1.setError("נא לבחור תאריך סיום חניה מאוחר מתאריך תחילת חניה");
+                        editTextEndDate1.requestFocus();
                         return;
                     }
 

@@ -41,6 +41,21 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="whatsappButton" parent="viewParent">
+        <item name="android:background">@drawable/button_background_blue</item>
+        <item name="android:backgroundTint">@color/green</item>
+        <item name="android:textColor">@color/whiteTextColor</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+
+    <style name="changePass" parent="viewParent">
+        <item name="android:background">@drawable/button_background_blue</item>
+        <item name="android:backgroundTint">@color/red</item>
+        <item name="android:textColor">@color/whiteTextColor</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
     <style name="spinnerHintText" parent="parent">
         <item name="android:textColor">@color/colorAccent</item>
         <item name="android:paddingLeft">5dp</item>

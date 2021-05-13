@@ -28,6 +28,16 @@ public class Parking_Class {
         this.desc = desc;
     }
 
+    public Parking_Class(String address, String price, String start_date, String end_date, String uri, String desc) {
+        this.address = address;
+        this.price = price;
+        this.start_date = start_date;
+        this.end_date = end_date;
+        this.uri = uri;
+        this.desc = desc;
+    }
+
+
     public Parking_Class(){
 
     }
