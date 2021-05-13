@@ -24,6 +24,7 @@ public class ParkingAdapter2 extends FirestoreRecyclerAdapter<ParkTest,ParkingAd
         viewHolder.getAddress().setText(parkTest.getAddress());
         viewHolder.getDesc().setText(parkTest.getDesc());
         viewHolder.getDaily_price().setText(parkTest.getPrice());
+
     }
 
     @NonNull
@@ -40,7 +41,15 @@ public class ParkingAdapter2 extends FirestoreRecyclerAdapter<ParkTest,ParkingAd
         TextView desc;
         TextView daily_price;
 
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
 
+            address=itemView.findViewById(R.id.address);
+            desc=itemView.findViewById(R.id.desc);
+            daily_price=itemView.findViewById(R.id.daily_price);
+
+
+        }
 
         public TextView getAddress() {
             return address;
@@ -58,14 +67,6 @@ public class ParkingAdapter2 extends FirestoreRecyclerAdapter<ParkTest,ParkingAd
 
 
 
-        public ViewHolder(@NonNull View itemView) {
-            super(itemView);
 
-            address=itemView.findViewById(R.id.address);
-            desc=itemView.findViewById(R.id.desc);
-            daily_price=itemView.findViewById(R.id.daily_price);
-
-
-        }
     }
 }

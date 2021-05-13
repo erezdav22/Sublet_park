@@ -33,57 +33,148 @@
             <LinearLayout
                 android:layout_gravity="center"
                 android:layout_height="wrap_content"
-                android:layout_weight="3"
+                android:layout_weight="5"
                 android:layout_width="0dp"
                 android:orientation="vertical">
 
+
+
                 <TextView
                     android:id="@+id/address"
-                    android:layout_height="wrap_content"
                     android:layout_width="match_parent"
-                    android:text="Iben Gvirol 70"
-                    android:textSize="30sp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:text="אבן גבירול 70"
+                    android:textSize="20sp"
+                    android:layout_margin="10dp"
                     android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/start_date"
-                    android:layout_height="wrap_content"
+                <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"
-                    android:text="60 nis"
-                    android:textSize="20sp" />
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/start_date"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="12.5.2021"
+                        android:textSize="15sp"
+                        android:layout_margin="10dp"
+                        android:layout_width="0dp" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:layout_weight="1"
+                        android:text="תחילת השכרה:"
+                        android:textColor="@color/blue"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/end_date"
+                        android:layout_height="wrap_content"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:text="20.5.2021"
+                        android:layout_margin="10dp"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:text="סיום השכרה:"
+                        android:textStyle="bold"
+                        android:textSize="15sp"
+                        android:layout_margin="10dp"
+                        android:textColor="@color/blue"
+                        android:layout_width="0dp" />
+
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+
+                    <TextView
+                        android:id="@+id/daily_price"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:text="60"
+                        android:layout_margin="10dp"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:text="סכום בשקלים:"
+                        android:textStyle="bold"
+                        android:textSize="15sp"
+                        android:layout_margin="10dp"
+                        android:textColor="@color/blue"
+                        android:layout_width="0dp" />
+
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
 
                 <TextView
-                    android:id="@+id/end_date"
+                    android:id="@+id/desc"
                     android:layout_height="wrap_content"
                     android:layout_width="match_parent"
-                    android:text="60 nis"
-                    android:textSize="20sp" />
+                    android:text="חניה טובה"
+                    android:layout_margin="10dp"
+                    android:textSize="15sp" />
 
 
-                <TextView
-                    android:id="@+id/daily_price"
-                    android:layout_height="wrap_content"
+
+                <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"
-                    android:text="60 nis"
-                    android:textSize="20sp" />
-
-                <TextView
-                    android:id="@+id/decr"
                     android:layout_height="wrap_content"
-                    android:layout_width="match_parent"
-                    android:text="nice parking"
-                    android:textSize="20sp" />
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/cardBtn"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="שלח הודעה לבעל החניה"
+                        style="@style/whatsappButton"
+                        android:layout_weight="1"
+                        android:layout_margin="10dp"
+                        android:layout_gravity="center"/>
+
+                    <Button
+                        android:id="@+id/cardBtncall"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="חייג לבעל החניה"
+                        style="@style/loginButton"
+                        android:layout_weight="1"
+                        android:layout_margin="10dp"
+                        android:layout_gravity="center"/>
+
+
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
 
 
             </LinearLayout>
 
-            <ImageButton
-                android:id="@+id/cardBtn"
-                android:layout_gravity="center"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:src="@drawable/ic_baseline_phone" />
+
 
 
         </LinearLayout>

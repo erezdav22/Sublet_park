@@ -60,13 +60,20 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class addParking extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener, NavigationView.OnNavigationItemSelectedListener {
 
-    TextView editTextDateTime;
+    EditText editTextDateTime;
     int day,month,year, hour,minute;
     int finalDay,finalMonth,finalYear,finalHour,finalMinute;
+    TextView setDate;
+    ImageView calender1;
+    TextView setDate2;
+    ImageView calender2;
+    TextView startHead;
+    TextView endHead;
 
     EditText editTextaddress;
     //EditText editTextStreet;
@@ -80,7 +87,7 @@ public class addParking extends AppCompatActivity implements DatePickerDialog.On
     FirebaseStorage firebaseStorage;
     StorageReference storageReference;
     UploadTask uploadTask;
-    private TextView editTextEndDate;
+    EditText editTextEndDate;
     Long long_start;
     Long long_finish;
     List<Address> addressList = null;
@@ -139,10 +146,16 @@ public class addParking extends AppCompatActivity implements DatePickerDialog.On
         editTextEndDate = findViewById(R.id.editTextEndDate);
         editTextEndDate.setOnClickListener(this::picker2);
         editTextDailyPrice = findViewById(R.id.editTextDailyPrice);
+        setDate = findViewById(R.id.setStartDate);
+        calender1=findViewById(R.id.calender1);
+        setDate2 = findViewById(R.id.setEndDate);
+        calender2=findViewById(R.id.calender2);
+        startHead = findViewById(R.id.startHead);
+        endHead = findViewById(R.id.endHead);
 
         mAuth=FirebaseAuth.getInstance();
 
-        Places.initialize(getApplicationContext(),"AIzaSyDC8wMP9MaCDDnTmdWeXx1-npixfiQiUug");
+        Places.initialize(getApplicationContext(),"AIzaSyDC8wMP9MaCDDnTmdWeXx1-npixfiQiUug", Locale.forLanguageTag("iw"));
 
         PlacesClient placesClient = Places.createClient(this);
 
@@ -214,7 +227,7 @@ public class addParking extends AppCompatActivity implements DatePickerDialog.On
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                         finalYear= year;
-                        finalMonth=month;
+                        finalMonth=month+1;
                         finalDay=dayOfMonth;
 
                         Calendar c= Calendar.getInstance();
@@ -227,7 +240,12 @@ public class addParking extends AppCompatActivity implements DatePickerDialog.On
                                 finalHour=hourOfDay;
                                 finalMinute=minute;
                                 String dateTime=finalDay+"/"+finalMonth+"/"+finalYear +" "+finalHour+":"+finalMinute;
+                                editTextDateTime.setVisibility(View.VISIBLE);
+                                startHead.setVisibility(View.VISIBLE);
                                 editTextDateTime.setText(dateTime);
+                                calender1.setVisibility(View.GONE);
+                                setDate.setVisibility(View.GONE);
+
                             }
                         },
                                 hour, minute, android.text.format.DateFormat.is24HourFormat(addParking.this));
@@ -248,7 +266,7 @@ public class addParking extends AppCompatActivity implements DatePickerDialog.On
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                         finalYear= year;
-                        finalMonth=month;
+                        finalMonth=month+1;
                         finalDay=dayOfMonth;
 
                         Calendar c= Calendar.getInstance();
@@ -261,7 +279,12 @@ public class addParking extends AppCompatActivity implements DatePickerDialog.On
                                 finalHour=hourOfDay;
                                 finalMinute=minute;
                                 String dateTime=finalDay+"/"+finalMonth+"/"+finalYear +" "+finalHour+":"+finalMinute;
+                                editTextEndDate.setVisibility(View.VISIBLE);
+                                endHead.setVisibility(View.VISIBLE);
                                 editTextEndDate.setText(dateTime);
+
+                                calender2.setVisibility(View.GONE);
+                                setDate2.setVisibility(View.GONE);
                             }
                         },
                                 hour, minute, android.text.format.DateFormat.is24HourFormat(addParking.this));
@@ -407,8 +430,9 @@ public class addParking extends AppCompatActivity implements DatePickerDialog.On
                     parking.put(URI, downloadUri.toString());
 
                     if (long_start>long_finish){
-                        editTextDateTime.setError("נא לבחור תאריך סיום חניה מאוחר מתאריך תחילת חניה");
-                        editTextDateTime.requestFocus();
+                        editTextEndDate.setError("נא לבחור תאריך סיום חניה מאוחר מתאריך תחילת חניה");
+                        editTextEndDate.requestFocus();
+
                         return;
                     }
 
