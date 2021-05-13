@@ -392,6 +392,11 @@ public class addParking extends AppCompatActivity implements DatePickerDialog.On
     public void add_parking(View view) {
 
 
+        if (imageUri == null){
+            Toast.makeText(addParking.this,"נא להוסיף תמונת חניה",Toast.LENGTH_SHORT).show();
+            uploadPic.requestFocus();
+            return;
+        }
 
         final StorageReference reference=storageReference.child(System.currentTimeMillis()+"."+getFileExt(imageUri));
         uploadTask=reference.putFile(imageUri);
@@ -409,6 +414,25 @@ public class addParking extends AppCompatActivity implements DatePickerDialog.On
             @Override
             public void onComplete(@NonNull Task<Uri> task) {
                 if(task.isSuccessful()){
+                    if (editTextDateTime.getText().toString().isEmpty()){
+                        editTextDateTime.setError("נא להזין תאריך תחילת השכרה");
+                        editTextDateTime.requestFocus();
+                        return;
+                    }
+
+                    if (editTextEndDate.getText().toString().isEmpty()){
+                        editTextDateTime.setError("נא להזין תאריך סיום השכרה");
+                        editTextEndDate.requestFocus();
+                        return;
+                    }
+
+
+
+                    if(editTextaddress.getText().toString().isEmpty()){
+                        editTextaddress.setError("נא להזין כתובת");
+                        editTextaddress.requestFocus();
+                        return;
+                    }
                     try {
                         long_start=dateToLong(editTextDateTime.getText().toString());
                         long_finish= dateToLong(editTextEndDate.getText().toString());
@@ -435,6 +459,16 @@ public class addParking extends AppCompatActivity implements DatePickerDialog.On
 
                         return;
                     }
+
+
+
+                    if(editTextDailyPrice.getText().toString().isEmpty()){
+                        editTextDailyPrice.setError("נא להזין מחיר יומי לחניה");
+                        editTextDailyPrice.requestFocus();
+                        return;
+                    }
+
+
 
                     db.collection("ParkingSpot")
                             .add(parking)
@@ -506,6 +540,7 @@ public class addParking extends AppCompatActivity implements DatePickerDialog.On
 
         }
         return null;
+
     }
 
     public void chooseIMG(View view) {
