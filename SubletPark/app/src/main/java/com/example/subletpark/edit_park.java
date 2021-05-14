@@ -48,6 +48,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldPath;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
@@ -80,6 +81,7 @@ public class edit_park extends AppCompatActivity implements DatePickerDialog.OnD
     private int numid=0;
     String parkid;
     List<String> group;
+    List<String> park_group;
     ListView list;
     List<Parking_Class> user_parking=new ArrayList<Parking_Class>();
     EditText editTextaddress1;
@@ -567,6 +569,48 @@ public class edit_park extends AppCompatActivity implements DatePickerDialog.OnD
         finalMinute=minute;
         String dateTime=finalDay+"/"+finalMonth+"/"+finalYear +" "+finalHour+":"+finalMinute;
         editTextDateTime1.setText(dateTime);
+
+    }
+
+    public void delete_parking(View view) {
+
+        db.collection("User").document(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                DocumentSnapshot document = task.getResult();
+                park_group = (List<String>) document.get("parking spots");
+
+                if(document.get("parking spots")!=null){
+                    String curr1= park_group.get(park_group.size()-1);
+                    db.collection("ParkingSpot").document(curr1).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+
+                            Log.d(TAG, "Parking successfully deleted!");
+                        }
+
+
+                    });
+                }
+                park_group.remove(park_group.size()-1);
+                Map<String,Object> updates = new HashMap<>();
+                updates.put("parking spots", FieldValue.delete());
+                if(park_group.size()>0) {
+                    updates.put("parking spots", park_group);
+                }
+
+                db.collection("User").document(FirebaseAuth.getInstance().getCurrentUser().getUid()).update(updates).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "Parking array successfully updated!");
+                        startActivity(new Intent(edit_park.this,edit_park.class));
+
+                    }
+                });
+            }
+        });
+
 
     }
 }
