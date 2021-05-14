@@ -34,6 +34,22 @@
                 android:navigationIcon="@drawable/ic_baseline_menu_24"
                 tools:ignore="MissingConstraints"></androidx.appcompat.widget.Toolbar>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginTop="56dp"
+                android:onClick="delete_parking"
+                android:id="@+id/deleteP"
+                android:text="מחיקת חניה"
+                android:textColor="@color/red"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.905"
+                app:layout_constraintStart_toEndOf="@+id/toolbar"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.354"
+                tools:ignore="MissingConstraints" />
+
             <ImageView
                 android:id="@+id/imageView51"
                 android:layout_width="match_parent"

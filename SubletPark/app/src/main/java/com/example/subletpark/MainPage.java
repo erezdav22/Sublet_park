@@ -6,8 +6,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
-import android.location.Location;
-import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,7 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TableLayout;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -66,9 +64,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-//import com.firebase.geofire.GeoFireUtils;
-//import com.firebase.geofire.GeoLocation;
-
 public class MainPage extends AppCompatActivity implements OnMapReadyCallback, NavigationView.OnNavigationItemSelectedListener {
 
     GoogleMap MapAPI2;
@@ -84,14 +79,15 @@ public class MainPage extends AppCompatActivity implements OnMapReadyCallback, N
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private static final String TAG ="MainPage";
     private int numid=0;
-    TableLayout table;
-    TableLayout resultTable;
+
 
     private TextView greeting;
     private String name_of_user;
 
-    LocationManager locationManager;
-    Location mikum;
+    SeekBar seekBar1;
+    TextView radiusHead;
+    SeekBar seekBar2;
+    TextView priceHead;
 
     private ParkingAdapter2 adapter2;
     private ParkingAdapter3 adapter3;
@@ -101,6 +97,8 @@ public class MainPage extends AppCompatActivity implements OnMapReadyCallback, N
     String string_end;
     private Uri imageUri1;
     TextView noParking1;
+    final int[] distanceProgress = {1000};
+    final int[] priceProgress = {2147483647};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,8 +115,11 @@ public class MainPage extends AppCompatActivity implements OnMapReadyCallback, N
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.setCheckedItem(R.id.nav_home);
-        table=findViewById(R.id.table1);
-        resultTable=findViewById(R.id.resultTable);
+        radiusHead=(TextView)findViewById(R.id.radiusHead);
+        seekBar1=findViewById(R.id.seekBar1);
+        priceHead=(TextView)findViewById(R.id.priceHead);
+        seekBar2=findViewById(R.id.seekBar2);
+
 
         greeting=findViewById(R.id.greeting);
 
@@ -218,6 +219,43 @@ public class MainPage extends AppCompatActivity implements OnMapReadyCallback, N
         });
 
 
+        seekBar1.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                distanceProgress[0] =progress;
+                radiusHead.setText(String.valueOf(progress));
+
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
+        seekBar2.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                priceProgress[0] =progress;
+                priceHead.setText(String.valueOf(progress));
+
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
 
 /**
         db.collection("ParkingSpot").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -418,12 +456,12 @@ public class MainPage extends AppCompatActivity implements OnMapReadyCallback, N
             Toast.makeText(getApplicationContext(),"lat: "+address.getLatitude()+", lng: "+address.getLongitude(),Toast.LENGTH_LONG).show();
             MapAPI2.addMarker(new MarkerOptions().position(latLng).title(location));
 
-            CircleOptions circly = new CircleOptions().center(latLng).radius(1000);
+            CircleOptions circly = new CircleOptions().center(latLng).radius(distanceProgress[0]);
             Circle circle = MapAPI2.addCircle(circly);
             circle.setStrokeColor(Color.RED);
             MapAPI2.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,14.0f));
             // MapAPI2.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(address.getLatitude(), address.getLongitude()), 12.0f));
-            table.setVisibility(View.GONE);
+
 
 
             RecyclerView recyclerView = findViewById(R.id.recycler_view_id);
@@ -438,9 +476,14 @@ public class MainPage extends AppCompatActivity implements OnMapReadyCallback, N
 
                             double distance = SphericalUtil.computeDistanceBetween(park_location, latLng);
 
+                            Long currentDate= System.currentTimeMillis();
+                            Long endParking= Long.valueOf(document.getData().get("end_date").toString());
+                            int currentprice= Integer.parseInt(document.getData().get("daily price").toString());
+
+
                             Log.d(TAG, "onComplete: "+distance);
 
-                            if (distance <= 1000) {
+                            if (distance <= distanceProgress[0] && currentDate<endParking && currentprice<=priceProgress[0]) {
 
 
                                 String uid=document.getData().get("userId").toString();
@@ -468,46 +511,25 @@ public class MainPage extends AppCompatActivity implements OnMapReadyCallback, N
                             adapter3.notifyDataSetChanged();
 
 
-                                //present parking spot in page
-                               /** TableRow row = new TableRow(MainPage.this);
-                                TextView serialText=new TextView(MainPage.this);
-                                serialText.setText(document.getData().get("address").toString()+'\n');
-                                row.addView(serialText);
-                                serialText.setId(numid);
-                                serialText.setGravity(Gravity.RIGHT | Gravity.TOP);
-                                numid++;
-
-
-                                /**  TextView streetText=new TextView(MainPage.this);
-                                 streetText.setText(document.getData().get("street").toString()+' ');
-                                 row.addView(streetText);
-                                 streetText.setId(numid);
-                                 streetText.setGravity(Gravity.RIGHT | Gravity.TOP);
-                                 numid++;
-
-                                 TextView streetNumText=new TextView(MainPage.this);
-                                 streetNumText.setText(document.getData().get("street_number").toString()+' ');
-                                 row.addView(streetNumText);
-                                 streetNumText.setId(numid);
-                                 streetNumText.setGravity(Gravity.RIGHT | Gravity.TOP);
-                                 numid++;
-
-                                resultTable.addView(row,new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT,TableLayout.LayoutParams.WRAP_CONTENT));
-                                resultTable.setGravity(Gravity.RIGHT | Gravity.TOP);
-                                resultTable.setVisibility(View.VISIBLE);**/
-
 
 
 
                             }
 
                         }
+
+                        if(datalist.isEmpty()){
+                            noParking1.setVisibility(View.VISIBLE);
+
+
+                        }
+
                     } else {
                         Log.d(TAG, "There is no parking available in this place ", task.getException());
 
                     }
                     ViewGroup.LayoutParams params = mapFragment.getView().getLayoutParams();
-                    params.height = 420;
+                    params.height = 450;
                     mapFragment.getView().setLayoutParams(params);
                     recyclerView.setAdapter(adapter3);
                 }
@@ -534,6 +556,8 @@ public class MainPage extends AppCompatActivity implements OnMapReadyCallback, N
         startActivity(new Intent(this, login.class));
 
     }
+
+
 
 
 }
