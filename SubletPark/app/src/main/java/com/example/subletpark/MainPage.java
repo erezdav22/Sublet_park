@@ -465,6 +465,8 @@ public class MainPage extends AppCompatActivity implements OnMapReadyCallback, N
 
 
             RecyclerView recyclerView = findViewById(R.id.recycler_view_id);
+            datalist.clear();
+            adapter3.notifyDataSetChanged();
 
             db.collection("ParkingSpot").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                 @SuppressLint("RtlHardcoded")
@@ -522,6 +524,8 @@ public class MainPage extends AppCompatActivity implements OnMapReadyCallback, N
                             noParking1.setVisibility(View.VISIBLE);
 
 
+                        }else {
+                            noParking1.setVisibility(View.GONE);
                         }
 
                     } else {
