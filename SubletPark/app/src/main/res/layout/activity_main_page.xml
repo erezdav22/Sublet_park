@@ -259,6 +259,19 @@
                 app:layout_constraintTop_toBottomOf="@+id/mapAPI2"
                 tools:ignore="MissingConstraints" />
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/avg_price"
+                android:text="לא נמצאו חניות זמינות באזור שחיפשת"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:layout_margin="15dp"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@+id/recycler_view_id"
+                tools:ignore="MissingConstraints" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>

@@ -88,6 +88,7 @@ public class MainPage extends AppCompatActivity implements OnMapReadyCallback, N
     TextView radiusHead;
     SeekBar seekBar2;
     TextView priceHead;
+    TextView avg_price;
 
     private ParkingAdapter2 adapter2;
     private ParkingAdapter3 adapter3;
@@ -99,6 +100,8 @@ public class MainPage extends AppCompatActivity implements OnMapReadyCallback, N
     TextView noParking1;
     final int[] distanceProgress = {1000};
     final int[] priceProgress = {2147483647};
+    private int price_sum = 0;
+    private int parking_spots_count = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,6 +122,7 @@ public class MainPage extends AppCompatActivity implements OnMapReadyCallback, N
         seekBar1=findViewById(R.id.seekBar1);
         priceHead=(TextView)findViewById(R.id.priceHead);
         seekBar2=findViewById(R.id.seekBar2);
+        avg_price=findViewById(R.id.avg_price);
 
 
         greeting=findViewById(R.id.greeting);
@@ -392,7 +396,12 @@ public class MainPage extends AppCompatActivity implements OnMapReadyCallback, N
             drawerLayout.closeDrawer(GravityCompat.START);
         }
         else {
-            super.onBackPressed();
+            Intent a = new Intent(Intent.ACTION_MAIN);
+            a.addCategory(Intent.CATEGORY_HOME);
+            a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(a);
+            //finishAffinity();
+            //super.onBackPressed();
         }
 
     }
@@ -480,17 +489,19 @@ public class MainPage extends AppCompatActivity implements OnMapReadyCallback, N
 
                             Long currentDate= System.currentTimeMillis();
                             Long endParking= Long.valueOf(document.getData().get("end_date").toString());
-                            int currentprice= Integer.parseInt(document.getData().get("daily price").toString());
+                            int current_price= Integer.parseInt(document.getData().get("daily price").toString());
 
 
                             Log.d(TAG, "onComplete: "+distance);
 
-                            if (distance <= distanceProgress[0] && currentDate<endParking && currentprice<=priceProgress[0]) {
+                            if (distance <= distanceProgress[0] && currentDate<endParking && current_price<=priceProgress[0]) {
 
 
                                 String uid=document.getData().get("userId").toString();
                                 String address=document.getData().get("address").toString();
                                 String price=document.getData().get("daily price").toString();
+                                price_sum = price_sum + Integer.parseInt(price);
+                                parking_spots_count = parking_spots_count + 1;
                                 String desc=document.getData().get("description").toString();
                                 String start_date=document.getData().get("start_date").toString();
                                 String end_date=document.getData().get("end_date").toString();
@@ -538,7 +549,8 @@ public class MainPage extends AppCompatActivity implements OnMapReadyCallback, N
                     recyclerView.setAdapter(adapter3);
                 }
             });
-
+            System.out.println(price_sum/parking_spots_count+"<-------avg is this");
+            avg_price.setText(price_sum/parking_spots_count);
 
         }
 
