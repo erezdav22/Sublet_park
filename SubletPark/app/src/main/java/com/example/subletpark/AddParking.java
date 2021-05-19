@@ -180,7 +180,8 @@ public class AddParking extends AppCompatActivity implements DatePickerDialog.On
             drawerLayout.closeDrawer(GravityCompat.START);
         }
         else {
-            super.onBackPressed();
+            startActivity(new Intent(AddParking.this, MainPage.class));
+
         }
 
     }

@@ -277,8 +277,7 @@ public class MainPage extends AppCompatActivity implements OnMapReadyCallback, N
             a.addCategory(Intent.CATEGORY_HOME);
             a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(a);
-            //finishAffinity();
-            //super.onBackPressed();
+
         }
 
     }

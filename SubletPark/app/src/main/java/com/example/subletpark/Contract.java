@@ -42,7 +42,8 @@ public class Contract extends AppCompatActivity implements NavigationView.OnNavi
             drawerLayout.closeDrawer(GravityCompat.START);
         }
         else {
-            super.onBackPressed();
+            startActivity(new Intent(Contract.this, MainPage.class));
+
         }
 
     }

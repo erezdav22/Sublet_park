@@ -283,8 +283,10 @@ public class Edit_park extends AppCompatActivity implements DatePickerDialog.OnD
     public void onBackPressed() {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
+        }
+        else {
+            startActivity(new Intent(Edit_park.this, MainPage.class));
+
         }
 
     }
