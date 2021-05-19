@@ -120,7 +120,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 
 
     public void signin(View view) {
-        startActivity(new Intent(this, login.class));
+        startActivity(new Intent(this, Login.class));
 
     }
 }

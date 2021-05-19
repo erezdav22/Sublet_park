@@ -1,77 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".About_the_app">
 
+    <ImageView
+        android:id="@+id/imageView6"
+        android:layout_width="match_parent"
+        android:layout_height="151dp"
+        app:srcCompat="@drawable/logoremovebg" />
+
     <TextView
-        android:id="@+id/header"
-        android:layout_width="wrap_content"
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:gravity="center"
+        android:text="ברוכים הבאים!"
+        android:textAlignment="center"
+        android:textColor="@color/blue"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:gravity="center"
+        android:text="סאבלט פארק הינה אפליקציה לפרסום ומציאת חניות בתל אביב."
+        android:textColor="@color/black"
+        android:textSize="18sp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="28dp"
+        android:gravity="center"
         android:text="אז איך זה עובד?"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.09" />
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/step1"
-        android:layout_width="166dp"
-        android:layout_height="266dp"
-        android:text="אתם מפרסמים את החניה הפנויה שלכם"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.189" />
-
-    <TextView
-        android:id="@+id/addParkingLink"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="goToAddParking"
-        android:text="ממש כאן"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.477" />
+        android:layout_width="match_parent"
+        android:layout_height="77dp"
+        android:layout_margin="10dp"
+        android:gravity="center"
+        android:text="באמצעות לחיצה על כפתור הוספת חניה בתפריט תוכלו לפרסם את החניה שלכם."
+        android:textColor="@color/black"
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/step2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="מעוניינים לחפש חניה להשכרה? מעולה! "
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.504"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.593" />
+        android:layout_width="match_parent"
+        android:layout_height="85dp"
+        android:layout_margin="10dp"
+        android:gravity="center"
+        android:text="מעוניינים לחפש חניה להשכרה? מעולה!  בעמוד הראשי של האפליקציה תוכלו לחפש אחר חניה לפי כתובת, רדיוס ומחיר :)"
+        android:textColor="@color/black"
+        android:textSize="18sp" />
 
     <TextView
-        android:id="@+id/mainPageLink"
-        android:layout_width="wrap_content"
+        android:id="@+id/textView5"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="goToMainPage"
-        android:text="לחצו כאן ותוכלו לחפש חניה בקלות"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.655" />
+        android:layout_margin="10dp"
+        android:gravity="center"
+        android:text="כל מה שנותר לכם הוא לנסות!"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/step3"
-        android:layout_width="34dp"
-        android:layout_height="304dp"
-        android:text="וזהו! בעוד רגע נמצא לכם חניה מתאימה"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.923" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <Button
+        android:id="@+id/buttonStart"
+        style="@style/loginButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:onClick="move_to_login"
+        android:text="בואו נתחיל" />
+
+</LinearLayout>

@@ -7,7 +7,6 @@ import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -49,6 +48,7 @@ public class ParkingAdapter3 extends RecyclerView.Adapter<ParkingAdapter3.ViewHo
         holder.daily_price.setText(datalist.get(position).getPrice());
         holder.start_date.setText(datalist.get(position).getStart_date());
         holder.end_date.setText(datalist.get(position).getEnd_date());
+        //holder.owner_name.setText(datalist.get(position).getOwner_name());
         String uri=datalist.get(position).getUri();
         Uri uri1=Uri.parse(uri);
         Picasso.with(holder.parking_image.getContext()).load(uri1).into(holder.parking_image);
@@ -62,7 +62,7 @@ public class ParkingAdapter3 extends RecyclerView.Adapter<ParkingAdapter3.ViewHo
             }
         });
 
-        holder.cardBtn.setOnClickListener(new View.OnClickListener() {
+        holder.whatsappicon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String uid=datalist.get(position).getId();
@@ -79,10 +79,10 @@ public class ParkingAdapter3 extends RecyclerView.Adapter<ParkingAdapter3.ViewHo
                       boolean isInstalled=whatsappAvailable("com.whatsapp");
                       if (isInstalled){
                           Intent whatsapp= new Intent(Intent.ACTION_VIEW,Uri.parse("https://api.whatsapp.com/send?phone="+phone1+"&text="+msg));
-                          holder.cardBtn.getContext().startActivity(whatsapp);
+                          holder.whatsappicon.getContext().startActivity(whatsapp);
 
                       }else {
-                          Toast.makeText(holder.cardBtn.getContext(),"whatsapp is not installed in your device",Toast.LENGTH_LONG).show();
+                          Toast.makeText(holder.whatsappicon.getContext(),"whatsapp is not installed in your device",Toast.LENGTH_LONG).show();
 
                       }
 
@@ -93,7 +93,7 @@ public class ParkingAdapter3 extends RecyclerView.Adapter<ParkingAdapter3.ViewHo
             }
         });
 
-        holder.cardBtncall.setOnClickListener(new View.OnClickListener() {
+        holder.phoneicon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -110,7 +110,7 @@ public class ParkingAdapter3 extends RecyclerView.Adapter<ParkingAdapter3.ViewHo
                         Intent callIntent = new Intent(Intent.ACTION_DIAL);
                         callIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_NO_USER_ACTION);
                         callIntent.setData(Uri.parse("tel:"+phone));
-                        holder.cardBtncall.getContext().startActivity(callIntent);
+                        holder.phoneicon.getContext().startActivity(callIntent);
 
                     }
                 });
@@ -132,9 +132,13 @@ public class ParkingAdapter3 extends RecyclerView.Adapter<ParkingAdapter3.ViewHo
         TextView daily_price;
         TextView start_date;
         TextView end_date;
+        //TextView owner_name;
         ImageView parking_image;
-        Button cardBtn;
-        Button cardBtncall;
+       // Button cardBtn;
+        //Button cardBtncall;
+        ImageView phoneicon;
+        ImageView whatsappicon;
+
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -145,24 +149,15 @@ public class ParkingAdapter3 extends RecyclerView.Adapter<ParkingAdapter3.ViewHo
             start_date=itemView.findViewById(R.id.start_date);
             end_date=itemView.findViewById(R.id.end_date);
             parking_image=itemView.findViewById(R.id.parking_image);
-            cardBtn=itemView.findViewById(R.id.cardBtn);
-            cardBtncall=itemView.findViewById(R.id.cardBtncall);
+            //cardBtn=itemView.findViewById(R.id.cardBtn);
+            //cardBtncall=itemView.findViewById(R.id.cardBtncall);
+            phoneicon=itemView.findViewById(R.id.phoneicon);
+            whatsappicon=itemView.findViewById(R.id.whatsappicon);
+            //owner_name=itemView.findViewById(R.id.owner_name);
 
 
         }
 
-        public TextView getAddress() {
-            return address;
-        }
-
-
-        public TextView getDesc() {
-            return desc;
-        }
-
-        public TextView getDaily_price() {
-            return daily_price;
-        }
 
 
     }

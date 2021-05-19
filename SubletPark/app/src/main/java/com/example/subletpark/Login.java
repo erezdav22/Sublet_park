@@ -25,7 +25,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-public class login extends AppCompatActivity {
+public class Login extends AppCompatActivity {
 
     private TextView textViewRegister,forgotPassword;
     private EditText loginEmail,loginPassword;
@@ -134,24 +134,24 @@ public class login extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
-                    startActivity(new Intent(login.this, MainPage.class));
+                    startActivity(new Intent(Login.this, MainPage.class));
                   // finish();
 
 
                 }else{
-                    Toast.makeText(login.this,"Failed to login, please try again",Toast.LENGTH_LONG).show();
+                    Toast.makeText(Login.this,"Failed to login, please try again",Toast.LENGTH_LONG).show();
                 }
             }
         });
     }
 
     public void register(View view) {
-        startActivity(new Intent(login.this,Registration.class));
+        startActivity(new Intent(Login.this,Registration.class));
     }
 
     public void resetPass(View view) {
 
-        startActivity(new Intent(login.this,ResetPassword.class));
+        startActivity(new Intent(Login.this,ResetPassword.class));
     }
 
 
