@@ -71,7 +71,7 @@ import java.util.Map;
 
 import lombok.SneakyThrows;
 
-public class edit_park extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener, NavigationView.OnNavigationItemSelectedListener {
+public class Edit_park extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener, NavigationView.OnNavigationItemSelectedListener {
 
     DrawerLayout drawerLayout;
     NavigationView navigationView;
@@ -104,6 +104,7 @@ public class edit_park extends AppCompatActivity implements DatePickerDialog.OnD
     List<Address> addressList = null;
     TextView noParking;
     CardView cardP;
+    TextView delete_park;
 
 
     Long long_start;
@@ -146,6 +147,7 @@ public class edit_park extends AppCompatActivity implements DatePickerDialog.OnD
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.setCheckedItem(R.id.nav_MyPark);
         list = findViewById(R.id.list);
+        delete_park=findViewById(R.id.deleteP);
 
         editTextaddress1 = findViewById(R.id.editTextaddress1);
         //editTextStreet1 = findViewById(R.id.editTextStreet1);
@@ -172,7 +174,7 @@ public class edit_park extends AppCompatActivity implements DatePickerDialog.OnD
             @Override
             public void onClick(View v) {
                 List<Place.Field> fieldList = Arrays.asList(Place.Field.ADDRESS, Place.Field.LAT_LNG, Place.Field.NAME);
-                Intent intent = new Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY, fieldList).setTypeFilter(TypeFilter.ADDRESS).build(edit_park.this);
+                Intent intent = new Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY, fieldList).setTypeFilter(TypeFilter.ADDRESS).build(Edit_park.this);
                 startActivityForResult(intent, PICK_PLACE);
 
             }
@@ -187,6 +189,8 @@ public class edit_park extends AppCompatActivity implements DatePickerDialog.OnD
                 if (document.get("parking spots") == null) {
                     noParking.setVisibility(View.VISIBLE);
                     cardP.setVisibility(View.GONE);
+                    delete_park.setVisibility(View.GONE);
+
                 } else {
                     group = (List<String>) document.get("parking spots");
                     // for (String parking_spot:group) {
@@ -247,7 +251,7 @@ public class edit_park extends AppCompatActivity implements DatePickerDialog.OnD
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(edit_park.this, "error", Toast.LENGTH_LONG).show();
+                            Toast.makeText(Edit_park.this, "error", Toast.LENGTH_LONG).show();
                         }
                     });
                 }
@@ -298,7 +302,7 @@ public class edit_park extends AppCompatActivity implements DatePickerDialog.OnD
                 break;
 
             case R.id.nav_addPark:
-                startActivity(new Intent(getApplicationContext(), addParking.class));
+                startActivity(new Intent(getApplicationContext(), AddParking.class));
 
                 break;
 
@@ -306,10 +310,14 @@ public class edit_park extends AppCompatActivity implements DatePickerDialog.OnD
 
                 break;
 
+            case R.id.nav_contract:
+                startActivity(new Intent(getApplicationContext(),Contract.class));
+                break;
+
             case R.id.nav_logout:
                 FirebaseAuth.getInstance().signOut();
                 finish();
-                startActivity(new Intent(getApplicationContext(), login.class));
+                startActivity(new Intent(getApplicationContext(), Login.class));
                 break;
 
         }
@@ -442,13 +450,13 @@ public class edit_park extends AppCompatActivity implements DatePickerDialog.OnD
                 , "start_date", long_start, "end_date", long_finish, "uri", downloadUri.toString(), "lat", addressToLatLng().latitude, "lng", addressToLatLng().longitude).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Toast.makeText(edit_park.this, "error", Toast.LENGTH_SHORT).show();
+                Toast.makeText(Edit_park.this, "error", Toast.LENGTH_SHORT).show();
                 Log.d(TAG, e.toString());
             }
         }).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                Toast.makeText(edit_park.this, "your parking was updated successfully", Toast.LENGTH_SHORT).show();
+                Toast.makeText(Edit_park.this, "your parking was updated successfully", Toast.LENGTH_SHORT).show();
 
 
             }
@@ -484,7 +492,7 @@ public class edit_park extends AppCompatActivity implements DatePickerDialog.OnD
         month = c.get(Calendar.MONTH);
         day = c.get(Calendar.DAY_OF_MONTH);
 
-        DatePickerDialog datePickerDialog = new DatePickerDialog(edit_park.this,
+        DatePickerDialog datePickerDialog = new DatePickerDialog(Edit_park.this,
                 new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
@@ -496,7 +504,7 @@ public class edit_park extends AppCompatActivity implements DatePickerDialog.OnD
                         hour = c.get(Calendar.HOUR_OF_DAY);
                         minute = c.get(Calendar.MINUTE);
 
-                        TimePickerDialog timePickerDialog = new TimePickerDialog(edit_park.this, new TimePickerDialog.OnTimeSetListener() {
+                        TimePickerDialog timePickerDialog = new TimePickerDialog(Edit_park.this, new TimePickerDialog.OnTimeSetListener() {
                             @Override
                             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                                 finalHour = hourOfDay;
@@ -505,7 +513,7 @@ public class edit_park extends AppCompatActivity implements DatePickerDialog.OnD
                                 editTextDateTime1.setText(dateTime);
                             }
                         },
-                                hour, minute, android.text.format.DateFormat.is24HourFormat(edit_park.this));
+                                hour, minute, android.text.format.DateFormat.is24HourFormat(Edit_park.this));
                         timePickerDialog.show();
 
                     }
@@ -519,7 +527,7 @@ public class edit_park extends AppCompatActivity implements DatePickerDialog.OnD
         month = c.get(Calendar.MONTH);
         day = c.get(Calendar.DAY_OF_MONTH);
 
-        DatePickerDialog datePickerDialog = new DatePickerDialog(edit_park.this,
+        DatePickerDialog datePickerDialog = new DatePickerDialog(Edit_park.this,
                 new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
@@ -531,7 +539,7 @@ public class edit_park extends AppCompatActivity implements DatePickerDialog.OnD
                         hour = c.get(Calendar.HOUR_OF_DAY);
                         minute = c.get(Calendar.MINUTE);
 
-                        TimePickerDialog timePickerDialog = new TimePickerDialog(edit_park.this, new TimePickerDialog.OnTimeSetListener() {
+                        TimePickerDialog timePickerDialog = new TimePickerDialog(Edit_park.this, new TimePickerDialog.OnTimeSetListener() {
                             @Override
                             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                                 finalHour = hourOfDay;
@@ -540,7 +548,7 @@ public class edit_park extends AppCompatActivity implements DatePickerDialog.OnD
                                 editTextEndDate1.setText(dateTime);
                             }
                         },
-                                hour, minute, android.text.format.DateFormat.is24HourFormat(edit_park.this));
+                                hour, minute, android.text.format.DateFormat.is24HourFormat(Edit_park.this));
                         timePickerDialog.show();
 
                     }
@@ -557,7 +565,7 @@ public class edit_park extends AppCompatActivity implements DatePickerDialog.OnD
         hour = c.get(Calendar.HOUR_OF_DAY);
         minute = c.get(Calendar.MINUTE);
 
-        TimePickerDialog timePickerDialog = new TimePickerDialog(edit_park.this, edit_park.this,
+        TimePickerDialog timePickerDialog = new TimePickerDialog(Edit_park.this, Edit_park.this,
                 hour, minute, android.text.format.DateFormat.is24HourFormat(this));
         timePickerDialog.show();
 
@@ -605,7 +613,7 @@ public class edit_park extends AppCompatActivity implements DatePickerDialog.OnD
                     @Override
                     public void onSuccess(Void aVoid) {
                         Log.d(TAG, "Parking array successfully updated!");
-                        startActivity(new Intent(edit_park.this, edit_park.class));
+                        startActivity(new Intent(Edit_park.this, Edit_park.class));
 
                     }
                 });

@@ -140,18 +140,22 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
                 break;
 
             case R.id.nav_addPark:
-                startActivity(new Intent(getApplicationContext(), addParking.class));
+                startActivity(new Intent(getApplicationContext(), AddParking.class));
 
                 break;
 
             case R.id.nav_MyPark:
-                startActivity(new Intent(getApplicationContext(), edit_park.class));
+                startActivity(new Intent(getApplicationContext(), Edit_park.class));
+                break;
+
+            case R.id.nav_contract:
+                startActivity(new Intent(getApplicationContext(),Contract.class));
                 break;
 
             case R.id.nav_logout:
                 FirebaseAuth.getInstance().signOut();
                 finish();
-                startActivity(new Intent(getApplicationContext(), login.class));
+                startActivity(new Intent(getApplicationContext(), Login.class));
                 break;
 
         }
@@ -375,7 +379,7 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
                             public void onComplete(@NonNull Task<Void> task) {
                                 if (task.isSuccessful()) {
                                     Log.d(TAG, "User account deleted.");
-                                    startActivity(new Intent(ProfileActivity.this, login.class));
+                                    startActivity(new Intent(ProfileActivity.this, Login.class));
                                 }
                             }
                         });

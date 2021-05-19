@@ -10,8 +10,7 @@ import lombok.Data;
 public class Parking_Class {
     private String id;
     private String address;
-   // private String street;
-   // private String street_num;
+    private String owner_name;
     private String price;
     private String start_date;
     private String end_date;
@@ -28,18 +27,24 @@ public class Parking_Class {
         this.desc = desc;
     }
 
-    public Parking_Class(String address, String price, String start_date, String end_date, String uri, String desc) {
+    public Parking_Class(String owner_name, String id,String address, String price, String start_date, String end_date, String uri, String desc) {
         this.address = address;
         this.price = price;
         this.start_date = start_date;
         this.end_date = end_date;
         this.uri = uri;
         this.desc = desc;
+        this.id=id;
+        this.owner_name=owner_name;
     }
 
 
     public Parking_Class(){
 
+    }
+
+    public String getOwner_name() {
+        return owner_name;
     }
 
     public void setId(String id) {

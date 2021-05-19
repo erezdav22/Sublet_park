@@ -14,7 +14,7 @@
             android:title="פרופיל" />
         <item
             android:id="@+id/nav_addPark"
-            android:icon="@drawable/ic_parking_24"
+            android:icon="@drawable/add_icon"
             android:title="הוספת חניה" />
 
         <item
@@ -22,9 +22,14 @@
             android:icon="@drawable/ic_parking_24"
             android:title="החניות שלי" />
 
+        <item
+            android:id="@+id/nav_contract"
+            android:icon="@drawable/contract_icon"
+            android:title="חוזה לדוגמא" />
+
     </group>
 
-<item android:title="logout">
+<item android:title="יציאה">
     <menu>
     <group android:checkableBehavior="single">
 

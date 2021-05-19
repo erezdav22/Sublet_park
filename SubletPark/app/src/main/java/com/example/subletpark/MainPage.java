@@ -89,8 +89,9 @@ public class MainPage extends AppCompatActivity implements OnMapReadyCallback, N
     SeekBar seekBar2;
     TextView priceHead;
     TextView avg_price;
+    String owner_name;
 
-    private ParkingAdapter2 adapter2;
+
     private ParkingAdapter3 adapter3;
     private CollectionReference notebookRef=db.collection("ParkingSpot");
     ArrayList<Parking_Class> datalist;
@@ -158,22 +159,6 @@ public class MainPage extends AppCompatActivity implements OnMapReadyCallback, N
 
                         }}});
 
-       /** locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
-      locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 10, (LocationListener) this);
-**/
-      //  mikum = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-
-
 
         editTextSearch=findViewById(R.id.editTextSearch);
         imageViewSearch=findViewById(R.id.imageViewSearch);
@@ -194,8 +179,6 @@ public class MainPage extends AppCompatActivity implements OnMapReadyCallback, N
 
             }
         });
-
-
 
 
         Places.initialize(getApplicationContext(),"AIzaSyDC8wMP9MaCDDnTmdWeXx1-npixfiQiUug", Locale.forLanguageTag("iw"));
@@ -261,121 +244,15 @@ public class MainPage extends AppCompatActivity implements OnMapReadyCallback, N
             }
         });
 
-/**
-        db.collection("ParkingSpot").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        Log.d(TAG, document.getId() + " => " + document.getData());
-
-                        TableRow row = new TableRow(MainPage.this);
-                        TextView serialText=new TextView(MainPage.this);
-                        serialText.setText(document.getData().get("address").toString()+'\n');
-                        row.addView(serialText);
-                        serialText.setId(numid);
-                        numid++;
-
-/**  TextView streetText=new TextView(MainPage.this);
- streetText.setText(document.getData().get("street").toString()+' ');
- row.addView(streetText);
- streetText.setId(numid);
- numid++;
-
- TextView streetNumText=new TextView(MainPage.this);
- streetNumText.setText(document.getData().get("street_number").toString()+' ');
- row.addView(streetNumText);
- streetNumText.setId(numid);
- numid++;
-
-                        table.addView(row,new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT,TableLayout.LayoutParams.WRAP_CONTENT));
-
-
-                    }
-                } else {
-                    Log.d(TAG, "Error getting documents: ", task.getException());
-                }
-            }
-        });**/
 
         RecyclerView recyclerView = findViewById(R.id.recycler_view_id);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         datalist=new ArrayList<Parking_Class>();
         adapter3=new ParkingAdapter3(datalist);
-        /**
-        db.collection("ParkingSpot").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-            @Override
-            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                List<DocumentSnapshot>list=queryDocumentSnapshots.getDocuments();
-                for(DocumentSnapshot d:list){
-
-                    String address=d.getData().get("address").toString();
-                    String price=d.getData().get("daily price").toString();
-                    String desc=d.getData().get("description").toString();
-                    String start_date=d.getData().get("start_date").toString();
-                    String end_date=d.getData().get("end_date").toString();
-                    String uri=d.getData().get("uri").toString();
-                    try{
-                        string_start=longToDate(start_date);
-                        string_end=longToDate(end_date);
-
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-                  // imageUri1=Uri.parse(uri);
-                  //  Picasso.with(getApplicationContext().lo)
-                  Parking_Class parking_class=new Parking_Class(address,price,string_start,string_end,uri,desc);
-
-                    //ParkTest parkTest= new ParkTest(address,price,desc);
-                  //  Log.d(TAG, "onSuccess: "+ parkTest.getAddress()+parkTest.getPrice()+parkTest.getDesc());
-                    datalist.add(parking_class);
-                }
-                adapter3.notifyDataSetChanged();
-                recyclerView.setAdapter(adapter3);
-            }
-        });**/
-
-
-        // setUpRecyclerView();
-
-    }
-
-
-    /**
-    private void setUpRecyclerView() {
-       Query query=notebookRef;
-        //.orderBy("address",Query.Direction.DESCENDING);
-        // Task<QuerySnapshot> query=notebookRef.get();
-        System.out.println("--->"+query);
-
-
-        FirestoreRecyclerOptions<ParkTest> options=new FirestoreRecyclerOptions.Builder<ParkTest>()
-                .setQuery(query,ParkTest.class).build();
-
-                adapter2=new ParkingAdapter2(options);
-                RecyclerView recyclerView = findViewById(R.id.recycler_view_id);
-                recyclerView.setHasFixedSize(true);
-                recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-                recyclerView.setAdapter(adapter2);
-
 
 
     }
 
-    @Override
-    protected void onStart() {
-
-        super.onStart();
-        adapter2.startListening();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        adapter2.stopListening();
-    }
-
-**/
 
     public String longToDate(String date1)throws ParseException {
         DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm");
@@ -418,20 +295,24 @@ public class MainPage extends AppCompatActivity implements OnMapReadyCallback, N
                 break;
 
             case R.id.nav_addPark:
-                startActivity(new Intent(getApplicationContext(), addParking.class));
+                startActivity(new Intent(getApplicationContext(), AddParking.class));
 
                 break;
 
             case R.id.nav_MyPark:
-                startActivity(new Intent(getApplicationContext(), edit_park.class));
+                startActivity(new Intent(getApplicationContext(), Edit_park.class));
 
+                break;
+
+            case R.id.nav_contract:
+                startActivity(new Intent(getApplicationContext(),Contract.class));
                 break;
 
             case R.id.nav_logout:
 
                 FirebaseAuth.getInstance().signOut();
                 finish();
-                startActivity(new Intent(getApplicationContext(), login.class));
+                startActivity(new Intent(getApplicationContext(), Login.class));
 
 
                 break;
@@ -462,7 +343,6 @@ public class MainPage extends AppCompatActivity implements OnMapReadyCallback, N
             Address address = addressList.get(0);
             LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
 
-            Toast.makeText(getApplicationContext(),"lat: "+address.getLatitude()+", lng: "+address.getLongitude(),Toast.LENGTH_LONG).show();
             MapAPI2.addMarker(new MarkerOptions().position(latLng).title(location));
 
             CircleOptions circly = new CircleOptions().center(latLng).radius(distanceProgress[0]);
@@ -492,6 +372,7 @@ public class MainPage extends AppCompatActivity implements OnMapReadyCallback, N
                             int current_price= Integer.parseInt(document.getData().get("daily price").toString());
 
 
+
                             Log.d(TAG, "onComplete: "+distance);
 
                             if (distance <= distanceProgress[0] && currentDate<endParking && current_price<=priceProgress[0]) {
@@ -513,18 +394,22 @@ public class MainPage extends AppCompatActivity implements OnMapReadyCallback, N
                                 } catch (ParseException e) {
                                     e.printStackTrace();
                                 }
-                                /**  imageUri1=Uri.parse(uri);
-                                 Picasso.with(getApplicationContext().lo)**/
-                                Parking_Class parking_class=new Parking_Class(uid,address,price,string_start,string_end,uri,desc);
 
-                                //ParkTest parkTest= new ParkTest(address,price,desc);
-                                //  Log.d(TAG, "onSuccess: "+ parkTest.getAddress()+parkTest.getPrice()+parkTest.getDesc());
+                                /**
+                                db.collection("User").document(uid).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                        owner_name=documentSnapshot.getData().get("firstname").toString();
+
+
+                                    }
+                                });**/
+
+
+                                Parking_Class parking_class=new Parking_Class(uid,address,price,string_start,string_end,uri,desc);
                                 datalist.add(parking_class);
 
-                            adapter3.notifyDataSetChanged();
-
-
-
+                                adapter3.notifyDataSetChanged();
 
 
                             }
@@ -533,10 +418,13 @@ public class MainPage extends AppCompatActivity implements OnMapReadyCallback, N
 
                         if(datalist.isEmpty()){
                             noParking1.setVisibility(View.VISIBLE);
+                            avg_price.setVisibility(View.GONE);
 
 
                         }else {
                             noParking1.setVisibility(View.GONE);
+                            avg_price.setVisibility(View.VISIBLE);
+                            avg_price.setText("מחיר חניות ממוצע באזור (ש״ח): "+price_sum/parking_spots_count);
                         }
 
                     } else {
@@ -547,10 +435,11 @@ public class MainPage extends AppCompatActivity implements OnMapReadyCallback, N
                     params.height = 450;
                     mapFragment.getView().setLayoutParams(params);
                     recyclerView.setAdapter(adapter3);
+                    System.out.println(price_sum/parking_spots_count+"<-------avg is this");
+
                 }
             });
-            System.out.println(price_sum/parking_spots_count+"<-------avg is this");
-            avg_price.setText(price_sum/parking_spots_count);
+
 
         }
 
@@ -569,7 +458,7 @@ public class MainPage extends AppCompatActivity implements OnMapReadyCallback, N
     public void logout_user(View view) {
         FirebaseAuth.getInstance().signOut();
         finish();
-        startActivity(new Intent(this, login.class));
+        startActivity(new Intent(this, Login.class));
 
     }
 
