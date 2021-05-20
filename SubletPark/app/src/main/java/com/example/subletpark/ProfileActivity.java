@@ -22,6 +22,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -45,6 +46,7 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
     private EditText editTextPassword4;
     private Button updateButton;
     private Button ChangeButton;
+    Snackbar snackbar;
 
     DrawerLayout drawerLayout;
     NavigationView navigationView;
@@ -105,14 +107,22 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
                                 editTextEmail2.setText(querySnapshot.getDocuments().get(0).get("email").toString());
 
                         } else {
-                            Toast.makeText(ProfileActivity.this, "document does not exist", Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(ProfileActivity.this, "נסה שנית", Toast.LENGTH_SHORT).show();
+                            View view= findViewById(R.id.content);
+                            snackbar=snackbar.make(view,"נסה שנית",Snackbar.LENGTH_INDEFINITE);
+                            snackbar.setDuration(5000);
+                            snackbar.show();
                         }
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(ProfileActivity.this, "Error!", Toast.LENGTH_SHORT).show();
+                      //  Toast.makeText(ProfileActivity.this, "נסה שנית", Toast.LENGTH_SHORT).show();
+                        View view= findViewById(R.id.content);
+                        snackbar=snackbar.make(view,"נסה שנית",Snackbar.LENGTH_INDEFINITE);
+                        snackbar.setDuration(5000);
+                        snackbar.show();
                         Log.d(TAG, e.toString());
 
                     }
@@ -260,14 +270,21 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
                     "lastname",lastName2.getText().toString()).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Toast.makeText(ProfileActivity.this,"error",Toast.LENGTH_SHORT).show();
+               // Toast.makeText(ProfileActivity.this,"error",Toast.LENGTH_SHORT).show();
+                View view= findViewById(R.id.content);
+                snackbar=snackbar.make(view,"נסה שנית",Snackbar.LENGTH_INDEFINITE);
+                snackbar.setDuration(5000);
+                snackbar.show();
                 Log.d(TAG, e.toString());
             }
         }).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
-                    Toast.makeText(ProfileActivity.this,"your profile was updated successfully",Toast.LENGTH_SHORT).show();
-
+                  //  Toast.makeText(ProfileActivity.this,"פרטי הפרופיל עודכנו בהצלחה!",Toast.LENGTH_SHORT).show();
+                    View view= findViewById(R.id.content);
+                    snackbar=snackbar.make(view,"נסה שנית",Snackbar.LENGTH_INDEFINITE);
+                    snackbar.setDuration(5000);
+                    snackbar.show();
 
 
                 }
@@ -301,7 +318,7 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
 
         if(!Pattern.matches("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$",password)){
 
-            editTextPassword3.setError("please useat minimum 8 characters, at least one letter and one number in your password!");
+            editTextPassword3.setError("please use at minimum 8 characters, at least one letter and one number in your password!");
             editTextPassword3.requestFocus();
             return;
 
@@ -316,14 +333,21 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
         FirebaseAuth.getInstance().getCurrentUser().updatePassword(editTextPassword3.getText().toString()).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Toast.makeText(ProfileActivity.this,"error",Toast.LENGTH_SHORT).show();
+                //Toast.makeText(ProfileActivity.this,"נסה שנית",Toast.LENGTH_SHORT).show();
+              //  View view= findViewById(R.id.content);
+                snackbar=snackbar.make(view,"נסה שנית",Snackbar.LENGTH_INDEFINITE);
+                snackbar.setDuration(5000);
+                snackbar.show();
                 Log.d(TAG, e.toString());
             }
         }).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                Toast.makeText(ProfileActivity.this,"your password was updated successfully",Toast.LENGTH_SHORT).show();
-
+               // Toast.makeText(ProfileActivity.this,"הסיסמה שלך עודכנה בהצלחה!",Toast.LENGTH_SHORT).show();
+             //   View view= findViewById(R.id.content);
+                snackbar=snackbar.make(view,"נסה שנית",Snackbar.LENGTH_INDEFINITE);
+                snackbar.setDuration(5000);
+                snackbar.show();
 
             }
         });

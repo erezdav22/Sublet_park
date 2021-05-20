@@ -20,6 +20,7 @@ import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -46,6 +47,7 @@ public class Login extends AppCompatActivity {
     String email;
     String first_name;
     String last_name;
+    Snackbar snackbar;
 
 
     @Override
@@ -139,7 +141,11 @@ public class Login extends AppCompatActivity {
 
 
                 }else{
-                    Toast.makeText(Login.this,"Failed to login, please try again",Toast.LENGTH_LONG).show();
+                   // Toast.makeText(Login.this,"נראה שאחד מפרטי ההתחברות שלך לא נכונים, שננסה שוב?",Toast.LENGTH_LONG).show();
+                    //View view= findViewById(R.id.content);
+                    snackbar=snackbar.make(view,"נראה שאחד מפרטי ההתחברות שלך לא נכונים, שננסה שוב?",Snackbar.LENGTH_INDEFINITE);
+                    snackbar.setDuration(5000);
+                    snackbar.show();
                 }
             }
         });

@@ -43,6 +43,7 @@ import com.google.android.libraries.places.widget.Autocomplete;
 import com.google.android.libraries.places.widget.AutocompleteActivity;
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FieldValue;
@@ -113,6 +114,7 @@ public class AddParking extends AppCompatActivity implements DatePickerDialog.On
     Toolbar toolbar;
 
     private FirebaseAuth mAuth;
+   Snackbar snackbar;
 
 
     @Override
@@ -398,7 +400,10 @@ public class AddParking extends AppCompatActivity implements DatePickerDialog.On
 
 
         if (imageUri == null){
-            Toast.makeText(AddParking.this,"נא להוסיף תמונת חניה",Toast.LENGTH_SHORT).show();
+         //   Toast.makeText(AddParking.this,"נא להוסיף תמונת חניה",Toast.LENGTH_SHORT).show();
+            snackbar=snackbar.make(view,"נא להוסיף תמונת חניה", Snackbar.LENGTH_INDEFINITE);
+            snackbar.setDuration(5000);
+            snackbar.show();
             uploadPic.requestFocus();
             return;
         }
@@ -480,7 +485,10 @@ public class AddParking extends AppCompatActivity implements DatePickerDialog.On
                             .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                 @Override
                                 public void onSuccess(DocumentReference documentReference) {
-                                    Toast.makeText(AddParking.this,"parking created",Toast.LENGTH_SHORT).show();
+                                    //Toast.makeText(AddParking.this,"החניה נשמרה בהצלחה!",Toast.LENGTH_SHORT).show();
+                                    snackbar=snackbar.make(view,"החניה נשמרה בהצלחה!",Snackbar.LENGTH_INDEFINITE);
+                                    snackbar.setDuration(5000);
+                                    snackbar.show();
                                     String parkingId = documentReference.getId();
                                     //add the parkingID to the user parking array.
                                     DocumentReference userRef = db.collection("User").document(mAuth.getCurrentUser().getUid());
@@ -495,7 +503,10 @@ public class AddParking extends AppCompatActivity implements DatePickerDialog.On
                                             .addOnFailureListener(new OnFailureListener() {
                                                 @Override
                                                 public void onFailure(@NonNull Exception e) {
-                                                    Toast.makeText(AddParking.this,"error",Toast.LENGTH_SHORT).show();
+                                                    //Toast.makeText(AddParking.this,"שגיאה בשמירת החניה, נסה שנית",Toast.LENGTH_SHORT).show();
+                                                    snackbar=snackbar.make(view,"שגיאה בשמירת החניה, נסה שנית",Snackbar.LENGTH_INDEFINITE);
+                                                    snackbar.setDuration(5000);
+                                                    snackbar.show();
                                                     Log.w(TAG, "Error updating document", e);
                                                 }
                                             });
@@ -504,7 +515,10 @@ public class AddParking extends AppCompatActivity implements DatePickerDialog.On
                             .addOnFailureListener(new OnFailureListener() {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
-                                    Toast.makeText(AddParking.this,"error",Toast.LENGTH_SHORT).show();
+                                   // Toast.makeText(AddParking.this,"שגיאה בשמירת החניה, נסה שנית",Toast.LENGTH_SHORT).show();
+                                    snackbar=snackbar.make(view,"שגיאה בשמירת החניה, נסה שנית",Snackbar.LENGTH_INDEFINITE);
+                                    snackbar.setDuration(5000);
+                                    snackbar.show();
                                     Log.d(TAG, e.toString());
                                 }
                             });

@@ -45,6 +45,7 @@ import com.google.android.libraries.places.widget.Autocomplete;
 import com.google.android.libraries.places.widget.AutocompleteActivity;
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldPath;
@@ -105,6 +106,8 @@ public class Edit_park extends AppCompatActivity implements DatePickerDialog.OnD
     TextView noParking;
     CardView cardP;
     TextView delete_park;
+    TextView test;
+    Snackbar snackbar;
 
 
     Long long_start;
@@ -166,6 +169,8 @@ public class Edit_park extends AppCompatActivity implements DatePickerDialog.OnD
         Places.initialize(getApplicationContext(), "AIzaSyDC8wMP9MaCDDnTmdWeXx1-npixfiQiUug", Locale.forLanguageTag("iw"));
 
         PlacesClient placesClient = Places.createClient(this);
+        test= findViewById(R.id.testSnackbar);
+
 
 
         editTextaddress1.setFocusable(false);
@@ -251,7 +256,11 @@ public class Edit_park extends AppCompatActivity implements DatePickerDialog.OnD
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(Edit_park.this, "error", Toast.LENGTH_LONG).show();
+                          //  Toast.makeText(Edit_park.this, "נסה שנית", Toast.LENGTH_LONG).show();
+                            View view = findViewById(R.id.activity_edit_park);
+                            snackbar=snackbar.make(view,"נסה שנית",Snackbar.LENGTH_INDEFINITE);
+                            snackbar.setDuration(5000);
+                            snackbar.show();
                         }
                     });
                 }
@@ -289,6 +298,12 @@ public class Edit_park extends AppCompatActivity implements DatePickerDialog.OnD
 
         }
 
+    }
+
+    public void checkSnackBar(View view){
+        snackbar=snackbar.make(view,"hello",Snackbar.LENGTH_INDEFINITE);
+        snackbar.setDuration(5000);
+        snackbar.show();
     }
 
     //till here is the dynamic button
@@ -452,13 +467,21 @@ public class Edit_park extends AppCompatActivity implements DatePickerDialog.OnD
                 , "start_date", long_start, "end_date", long_finish, "uri", downloadUri.toString(), "lat", addressToLatLng().latitude, "lng", addressToLatLng().longitude).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Toast.makeText(Edit_park.this, "error", Toast.LENGTH_SHORT).show();
+               // Toast.makeText(Edit_park.this, "נסה שנית", Toast.LENGTH_SHORT).show();
+                View view = findViewById(R.id.activity_edit_park);
+                snackbar=snackbar.make(view,"נסה שנית",Snackbar.LENGTH_INDEFINITE);
+                snackbar.setDuration(5000);
+                snackbar.show();
                 Log.d(TAG, e.toString());
             }
         }).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                Toast.makeText(Edit_park.this, "your parking was updated successfully", Toast.LENGTH_SHORT).show();
+               // Toast.makeText(Edit_park.this, "החניה שלך עודכנה בהצלחה!", Toast.LENGTH_SHORT).show();
+                View view= findViewById(R.id.activity_edit_park);
+                snackbar=snackbar.make(view,"החניה שלך עודכנה בהצלחה!",Snackbar.LENGTH_INDEFINITE);
+                snackbar.setDuration(5000);
+                snackbar.show();
 
 
             }

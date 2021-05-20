@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class ResetPassword extends AppCompatActivity {
@@ -22,6 +23,7 @@ public class ResetPassword extends AppCompatActivity {
     private Button resetButton;
     private ProgressBar progressBar;
     FirebaseAuth auth;
+    Snackbar snackbar;
 
 
     @Override
@@ -59,13 +61,20 @@ public class ResetPassword extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if(task.isSuccessful()){
-                    Toast.makeText(ResetPassword.this,"check your email to reset password",Toast.LENGTH_LONG).show();
+                    // Toast.makeText(ResetPassword.this,"בדוק את תיבת המייל שלך לעדכון סיסמה חדשה",Toast.LENGTH_LONG).show();
+                  //  View view= findViewById(R.id.content);
+                    snackbar=snackbar.make(view,"בדוק את תיבת המייל שלך לעדכון סיסמה חדשה",Snackbar.LENGTH_INDEFINITE);
+                    snackbar.setDuration(5000);
+                    snackbar.show();
                     startActivity(new Intent(ResetPassword.this, Login.class));
 
 
                 }else{
-                    Toast.makeText(ResetPassword.this,"please try again",Toast.LENGTH_LONG).show();
-
+                    // Toast.makeText(ResetPassword.this,"נסה שנית",Toast.LENGTH_LONG).show();
+                    //View view= findViewById(R.id.content);
+                    snackbar=snackbar.make(view,"נסה שנית",Snackbar.LENGTH_INDEFINITE);
+                    snackbar.setDuration(5000);
+                    snackbar.show();
                 }
             }
         });

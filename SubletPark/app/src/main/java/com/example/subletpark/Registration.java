@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -38,6 +39,7 @@ public class Registration extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private static final String USER ="user";
     private static final String TAG ="registration";
+    Snackbar snackbar;
 
 
     private static final String KEY_name = "firstname";
@@ -186,15 +188,20 @@ public class Registration extends AppCompatActivity {
                                 Log.d(TAG, "createUserWithEmail:success");
                                 FirebaseUser user = mAuth.getCurrentUser();
                                 saveUserProfile();
-                                Toast.makeText(Registration.this, "נרשמת בהצלחה",
-                                        Toast.LENGTH_LONG).show();
+                             //   Toast.makeText(Registration.this, "נרשמת בהצלחה",Toast.LENGTH_LONG).show();
+                                View view= findViewById(R.id.content);
+                                snackbar=snackbar.make(view,"נרשמת בהצלחה!", Snackbar.LENGTH_INDEFINITE);
+                                snackbar.setDuration(5000);
+                                snackbar.show();
                                 updateUI(user);
                             } else {
                                 // If sign in fails, display a message to the user.
                                 Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                                Toast.makeText(Registration.this, "Authentication failed.",
-                                        Toast.LENGTH_SHORT).show();
-
+                                //Toast.makeText(Registration.this, "נסה שנית",Toast.LENGTH_SHORT).show();
+                                View view= findViewById(R.id.content);
+                                snackbar=snackbar.make(view,"נסה שנית",Snackbar.LENGTH_INDEFINITE);
+                                snackbar.setDuration(5000);
+                                snackbar.show();
                             }
                         }
                     });
@@ -213,7 +220,7 @@ public class Registration extends AppCompatActivity {
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(Registration.this,"error",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Registration.this,"שמירת הפרופיל נכשלה, נא לנסות שנית",Toast.LENGTH_SHORT).show();
                         Log.d(TAG, e.toString());
                     }
                 });
