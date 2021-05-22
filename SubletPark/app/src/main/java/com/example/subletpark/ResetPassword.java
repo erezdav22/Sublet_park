@@ -1,9 +1,7 @@
 package com.example.subletpark;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
@@ -11,6 +9,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -61,11 +62,8 @@ public class ResetPassword extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if(task.isSuccessful()){
-                    // Toast.makeText(ResetPassword.this,"בדוק את תיבת המייל שלך לעדכון סיסמה חדשה",Toast.LENGTH_LONG).show();
+                    Toast.makeText(ResetPassword.this,"בדוק את תיבת המייל שלך לעדכון סיסמה חדשה", Toast.LENGTH_LONG).show();
                   //  View view= findViewById(R.id.content);
-                    snackbar=snackbar.make(view,"בדוק את תיבת המייל שלך לעדכון סיסמה חדשה",Snackbar.LENGTH_INDEFINITE);
-                    snackbar.setDuration(5000);
-                    snackbar.show();
                     startActivity(new Intent(ResetPassword.this, Login.class));
 
 
@@ -74,6 +72,7 @@ public class ResetPassword extends AppCompatActivity {
                     //View view= findViewById(R.id.content);
                     snackbar=snackbar.make(view,"נסה שנית",Snackbar.LENGTH_INDEFINITE);
                     snackbar.setDuration(5000);
+                    snackbar.setBackgroundTint(Color.rgb(166, 33, 18));
                     snackbar.show();
                 }
             }

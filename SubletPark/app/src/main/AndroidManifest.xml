@@ -37,6 +37,7 @@
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".Edit_park"
+            android:windowSoftInputMode="adjustResize"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".MainPage"
@@ -44,6 +45,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".AddParking"
+            android:windowSoftInputMode="adjustResize"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -51,10 +53,13 @@
         </activity>
         <activity
             android:name=".ResetPassword"
+            android:windowSoftInputMode="adjustResize"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ProfileActivity"
+            android:windowSoftInputMode="adjustResize"
             android:theme="@style/AppTheme.NoActionBar" />
+
         <activity
             android:name=".Registration"
             android:theme="@style/AppTheme.NoActionBar">
@@ -70,6 +75,7 @@
         <activity
             android:name=".Login"
             android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

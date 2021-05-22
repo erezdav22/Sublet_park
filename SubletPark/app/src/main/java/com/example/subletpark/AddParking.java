@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.net.Uri;
@@ -488,6 +489,7 @@ public class AddParking extends AppCompatActivity implements DatePickerDialog.On
                                     //Toast.makeText(AddParking.this,"החניה נשמרה בהצלחה!",Toast.LENGTH_SHORT).show();
                                     snackbar=snackbar.make(view,"החניה נשמרה בהצלחה!",Snackbar.LENGTH_INDEFINITE);
                                     snackbar.setDuration(5000);
+                                    snackbar.setBackgroundTint(Color.rgb(13, 130, 101));
                                     snackbar.show();
                                     String parkingId = documentReference.getId();
                                     //add the parkingID to the user parking array.
@@ -506,6 +508,7 @@ public class AddParking extends AppCompatActivity implements DatePickerDialog.On
                                                     //Toast.makeText(AddParking.this,"שגיאה בשמירת החניה, נסה שנית",Toast.LENGTH_SHORT).show();
                                                     snackbar=snackbar.make(view,"שגיאה בשמירת החניה, נסה שנית",Snackbar.LENGTH_INDEFINITE);
                                                     snackbar.setDuration(5000);
+                                                    snackbar.setBackgroundTint(Color.rgb(166, 33, 18));
                                                     snackbar.show();
                                                     Log.w(TAG, "Error updating document", e);
                                                 }
@@ -518,6 +521,7 @@ public class AddParking extends AppCompatActivity implements DatePickerDialog.On
                                    // Toast.makeText(AddParking.this,"שגיאה בשמירת החניה, נסה שנית",Toast.LENGTH_SHORT).show();
                                     snackbar=snackbar.make(view,"שגיאה בשמירת החניה, נסה שנית",Snackbar.LENGTH_INDEFINITE);
                                     snackbar.setDuration(5000);
+                                    snackbar.setBackgroundTint(Color.rgb(166, 33, 18));
                                     snackbar.show();
                                     Log.d(TAG, e.toString());
                                 }

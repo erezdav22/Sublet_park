@@ -5,10 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
+    android:id="@+id/activity_registration"
     android:background="@color/login_bk_color"
     android:backgroundTint="#CB0850CF"
     android:focusableInTouchMode="true"
     android:gravity="center"
+    android:layout_alignParentBottom="true"
+    android:fitsSystemWindows="true"
     android:orientation="vertical"
     tools:context=".Registration">
 
@@ -45,6 +48,8 @@
         android:layout_height="wrap_content"
         android:layout_margin="12dp"
         android:background="#FFFFFF"
+        android:layout_alignParentBottom="true"
+        android:fitsSystemWindows="true"
         android:backgroundTint="@color/white"
         app:cardCornerRadius="10dp">
 
@@ -150,5 +155,6 @@
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>
+
 
 </LinearLayout>

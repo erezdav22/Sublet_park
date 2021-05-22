@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.net.Uri;
@@ -169,7 +170,7 @@ public class Edit_park extends AppCompatActivity implements DatePickerDialog.OnD
         Places.initialize(getApplicationContext(), "AIzaSyDC8wMP9MaCDDnTmdWeXx1-npixfiQiUug", Locale.forLanguageTag("iw"));
 
         PlacesClient placesClient = Places.createClient(this);
-        test= findViewById(R.id.testSnackbar);
+
 
 
 
@@ -260,6 +261,7 @@ public class Edit_park extends AppCompatActivity implements DatePickerDialog.OnD
                             View view = findViewById(R.id.activity_edit_park);
                             snackbar=snackbar.make(view,"נסה שנית",Snackbar.LENGTH_INDEFINITE);
                             snackbar.setDuration(5000);
+                            snackbar.setBackgroundTint(Color.rgb(166, 33, 18));
                             snackbar.show();
                         }
                     });
@@ -300,11 +302,6 @@ public class Edit_park extends AppCompatActivity implements DatePickerDialog.OnD
 
     }
 
-    public void checkSnackBar(View view){
-        snackbar=snackbar.make(view,"hello",Snackbar.LENGTH_INDEFINITE);
-        snackbar.setDuration(5000);
-        snackbar.show();
-    }
 
     //till here is the dynamic button
     @Override
@@ -471,6 +468,7 @@ public class Edit_park extends AppCompatActivity implements DatePickerDialog.OnD
                 View view = findViewById(R.id.activity_edit_park);
                 snackbar=snackbar.make(view,"נסה שנית",Snackbar.LENGTH_INDEFINITE);
                 snackbar.setDuration(5000);
+                snackbar.setBackgroundTint(Color.rgb(166, 33, 18));
                 snackbar.show();
                 Log.d(TAG, e.toString());
             }
@@ -481,6 +479,7 @@ public class Edit_park extends AppCompatActivity implements DatePickerDialog.OnD
                 View view= findViewById(R.id.activity_edit_park);
                 snackbar=snackbar.make(view,"החניה שלך עודכנה בהצלחה!",Snackbar.LENGTH_INDEFINITE);
                 snackbar.setDuration(5000);
+                snackbar.setBackgroundTint(Color.rgb(13, 130, 101));
                 snackbar.show();
 
 

@@ -398,8 +398,8 @@ public class MainPage extends AppCompatActivity implements OnMapReadyCallback, N
                                 db.collection("User").document(uid).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                                     @Override
                                     public void onSuccess(DocumentSnapshot documentSnapshot) {
-                                        owner_name=documentSnapshot.getData().get("firstname").toString();
 
+                                            owner_name=documentSnapshot.getData().get("firstname").toString();
 
                                     }
                                 });**/

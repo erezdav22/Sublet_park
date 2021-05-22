@@ -153,7 +153,7 @@ public class ParkingAdapter3 extends RecyclerView.Adapter<ParkingAdapter3.ViewHo
             //cardBtncall=itemView.findViewById(R.id.cardBtncall);
             phoneicon=itemView.findViewById(R.id.phoneicon);
             whatsappicon=itemView.findViewById(R.id.whatsappicon);
-            //owner_name=itemView.findViewById(R.id.owner_name);
+           // owner_name=itemView.findViewById(R.id.owner_name);
 
 
         }
