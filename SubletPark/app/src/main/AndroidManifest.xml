@@ -62,7 +62,6 @@
 
         <activity
             android:name=".Registration"
-            android:windowSoftInputMode="adjustResize"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER" />

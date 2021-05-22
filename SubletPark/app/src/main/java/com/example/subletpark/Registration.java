@@ -1,7 +1,6 @@
 package com.example.subletpark;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Patterns;
@@ -194,12 +193,8 @@ public class Registration extends AppCompatActivity {
                             } else {
                                 // If sign in fails, display a message to the user.
                                 Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                                //Toast.makeText(Registration.this, "נסה שנית",Toast.LENGTH_SHORT).show();
-                                View view= findViewById(R.id.activity_registration);
-                                snackbar=snackbar.make(view,"נסה שנית",Snackbar.LENGTH_INDEFINITE);
-                                snackbar.setDuration(5000);
-                                snackbar.setBackgroundTint(Color.rgb(166, 33, 18));
-                                snackbar.show();
+                                Toast.makeText(Registration.this, "נסה שנית",Toast.LENGTH_SHORT).show();
+
                             }
                         }
                     });
