@@ -1,6 +1,7 @@
 package com.example.subletpark;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
@@ -8,7 +9,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -145,6 +145,7 @@ public class Login extends AppCompatActivity {
                     //View view= findViewById(R.id.content);
                     snackbar=snackbar.make(view,"נראה שאחד מפרטי ההתחברות שלך לא נכונים, שננסה שוב?",Snackbar.LENGTH_INDEFINITE);
                     snackbar.setDuration(5000);
+                    snackbar.setBackgroundTint(Color.rgb(166, 33, 18));
                     snackbar.show();
                 }
             }

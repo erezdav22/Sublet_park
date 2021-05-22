@@ -1,6 +1,7 @@
 package com.example.subletpark;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Patterns;
@@ -67,7 +68,7 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        drawerLayout=findViewById(R.id.drawer_layout);
+        drawerLayout=findViewById(R.id.activity_profile);
         navigationView=findViewById(R.id.nav_view);
         toolbar=findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -108,9 +109,10 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
 
                         } else {
                             //Toast.makeText(ProfileActivity.this, "נסה שנית", Toast.LENGTH_SHORT).show();
-                            View view= findViewById(R.id.content);
+                            View view= findViewById(R.id.activity_profile);
                             snackbar=snackbar.make(view,"נסה שנית",Snackbar.LENGTH_INDEFINITE);
                             snackbar.setDuration(5000);
+                            snackbar.setBackgroundTint(Color.rgb(166, 33, 18));
                             snackbar.show();
                         }
                     }
@@ -119,9 +121,10 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
                     @Override
                     public void onFailure(@NonNull Exception e) {
                       //  Toast.makeText(ProfileActivity.this, "נסה שנית", Toast.LENGTH_SHORT).show();
-                        View view= findViewById(R.id.content);
+                        View view= findViewById(R.id.activity_profile);
                         snackbar=snackbar.make(view,"נסה שנית",Snackbar.LENGTH_INDEFINITE);
                         snackbar.setDuration(5000);
+                        snackbar.setBackgroundTint(Color.rgb(166, 33, 18));
                         snackbar.show();
                         Log.d(TAG, e.toString());
 
@@ -222,7 +225,7 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
 
         if(phone.isEmpty()){
 
-            editTextPhone3.setError("phone number is required!");
+            editTextPhone3.setError("בבקשה הקלד מספר טלפון");
             editTextPhone3.requestFocus();
             return;
 
@@ -230,7 +233,7 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
 
         if(phone.length()<10){
 
-            editTextPhone3.setError("phone number is not valid!");
+            editTextPhone3.setError("בבקשה הקלד מספר טלפון תקין");
             editTextPhone3.requestFocus();
             return;
 
@@ -239,13 +242,13 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
 
         if(email.isEmpty()){
 
-            editTextEmail2.setError("email is required!");
+            editTextEmail2.setError("הקלד מייל בבקשה");
             editTextEmail2.requestFocus();
             return;
 
         }
         if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
-            editTextEmail2.setError("please provide valid email");
+            editTextEmail2.setError("בבקשה הקלד מייל תקין");
             editTextEmail2.requestFocus();
             return;
         }
@@ -271,9 +274,10 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
             @Override
             public void onFailure(@NonNull Exception e) {
                // Toast.makeText(ProfileActivity.this,"error",Toast.LENGTH_SHORT).show();
-                View view= findViewById(R.id.content);
-                snackbar=snackbar.make(view,"נסה שנית",Snackbar.LENGTH_INDEFINITE);
+                View view= findViewById(R.id.activity_profile);
+                snackbar=snackbar.make(view,"לא התבצע שינוי, נסה שנית",Snackbar.LENGTH_INDEFINITE);
                 snackbar.setDuration(5000);
+                snackbar.setBackgroundTint(Color.rgb(166, 33, 18));
                 snackbar.show();
                 Log.d(TAG, e.toString());
             }
@@ -281,9 +285,10 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
                 @Override
                 public void onSuccess(Void aVoid) {
                   //  Toast.makeText(ProfileActivity.this,"פרטי הפרופיל עודכנו בהצלחה!",Toast.LENGTH_SHORT).show();
-                    View view= findViewById(R.id.content);
-                    snackbar=snackbar.make(view,"נסה שנית",Snackbar.LENGTH_INDEFINITE);
+                    View view= findViewById(R.id.activity_profile);
+                    snackbar=snackbar.make(view,"פרטי הפרופיל עודכנו בהצלחה!",Snackbar.LENGTH_INDEFINITE);
                     snackbar.setDuration(5000);
+                    snackbar.setBackgroundTint(Color.rgb(13, 130, 101));
                     snackbar.show();
 
 
@@ -309,7 +314,7 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
 
         if(password.isEmpty()){
 
-            editTextPassword3.setError("email is required!");
+            editTextPassword3.setError("הכנס את סיסמתך החדשה");
             editTextPassword3.requestFocus();
             return;
 
@@ -318,14 +323,14 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
 
         if(!Pattern.matches("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$",password)){
 
-            editTextPassword3.setError("please use at minimum 8 characters, at least one letter and one number in your password!");
+            editTextPassword3.setError("הסיסמה צריכה להכיל מינימום של 8 תווים, מתוכם לפחות אות אחת ומספר אחד!");
             editTextPassword3.requestFocus();
             return;
 
         }
 
         if(!password.equals(password2)||password2.isEmpty()){
-            editTextPassword4.setError("please enter same password twice");
+            editTextPassword4.setError("בבקשה הקלד את אותה הסיסמה בשנית");
             editTextPassword4.requestFocus();
             return;
         }
@@ -335,8 +340,9 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
             public void onFailure(@NonNull Exception e) {
                 //Toast.makeText(ProfileActivity.this,"נסה שנית",Toast.LENGTH_SHORT).show();
               //  View view= findViewById(R.id.content);
-                snackbar=snackbar.make(view,"נסה שנית",Snackbar.LENGTH_INDEFINITE);
+                snackbar=snackbar.make(view,"לא התבצע שינוי, נסה שנית",Snackbar.LENGTH_INDEFINITE);
                 snackbar.setDuration(5000);
+                snackbar.setBackgroundTint(Color.rgb(166, 33, 18));
                 snackbar.show();
                 Log.d(TAG, e.toString());
             }
@@ -345,8 +351,9 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
             public void onSuccess(Void aVoid) {
                // Toast.makeText(ProfileActivity.this,"הסיסמה שלך עודכנה בהצלחה!",Toast.LENGTH_SHORT).show();
              //   View view= findViewById(R.id.content);
-                snackbar=snackbar.make(view,"נסה שנית",Snackbar.LENGTH_INDEFINITE);
+                snackbar=snackbar.make(view,"סיסמתך עודכנה בהצלחה!",Snackbar.LENGTH_INDEFINITE);
                 snackbar.setDuration(5000);
+                snackbar.setBackgroundTint(Color.rgb(13, 130, 101));
                 snackbar.show();
 
             }
@@ -386,6 +393,7 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
+                                Toast.makeText(ProfileActivity.this,"מצטערים שעזבת אותנו, חשבונך נמחק בהצלחה",Toast.LENGTH_SHORT).show();
                                 Log.d(TAG, "Profile successfully deleted!");
 
 

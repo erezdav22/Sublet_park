@@ -16,6 +16,8 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         app:headerLayout="@layout/header"
+        app:itemIconTint="@color/blue"
+        app:itemTextColor="@color/black"
         app:menu="@menu/activity_main_drawer" />
 
     <ScrollView
@@ -50,20 +52,6 @@
                 app:layout_constraintVertical_bias="0.354"
                 tools:ignore="MissingConstraints" />
 
-            <TextView
-                android:id="@+id/testSnackbar"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginTop="112dp"
-                android:onClick="checkSnackBar"
-                android:text="test snack bar now"
-                android:textColor="@color/blue"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.901"
-                app:layout_constraintStart_toEndOf="@+id/deleteP"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:ignore="MissingConstraints" />
 
             <ImageView
                 android:id="@+id/imageView51"

@@ -1,6 +1,7 @@
 package com.example.subletpark;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Patterns;
@@ -188,19 +189,16 @@ public class Registration extends AppCompatActivity {
                                 Log.d(TAG, "createUserWithEmail:success");
                                 FirebaseUser user = mAuth.getCurrentUser();
                                 saveUserProfile();
-                             //   Toast.makeText(Registration.this, "נרשמת בהצלחה",Toast.LENGTH_LONG).show();
-                                View view= findViewById(R.id.content);
-                                snackbar=snackbar.make(view,"נרשמת בהצלחה!", Snackbar.LENGTH_INDEFINITE);
-                                snackbar.setDuration(5000);
-                                snackbar.show();
+                                Toast.makeText(Registration.this, "נרשמת בהצלחה",Toast.LENGTH_LONG).show();
                                 updateUI(user);
                             } else {
                                 // If sign in fails, display a message to the user.
                                 Log.w(TAG, "createUserWithEmail:failure", task.getException());
                                 //Toast.makeText(Registration.this, "נסה שנית",Toast.LENGTH_SHORT).show();
-                                View view= findViewById(R.id.content);
+                                View view= findViewById(R.id.activity_registration);
                                 snackbar=snackbar.make(view,"נסה שנית",Snackbar.LENGTH_INDEFINITE);
                                 snackbar.setDuration(5000);
+                                snackbar.setBackgroundTint(Color.rgb(166, 33, 18));
                                 snackbar.show();
                             }
                         }
