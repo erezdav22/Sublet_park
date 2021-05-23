@@ -106,26 +106,26 @@ public class Login extends AppCompatActivity {
 
         if(email.isEmpty()){
 
-            loginEmail.setError("email is required!");
+            loginEmail.setError("נא להזין כתובת מייל");
             loginEmail.requestFocus();
             return;
 
         }
         if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
-            loginEmail.setError("please provide valid email");
+            loginEmail.setError("נא להזין כתובת מייל תקינה");
             loginEmail.requestFocus();
             return;
         }
 
         if(password.isEmpty()){
 
-            loginPassword.setError("password is required!");
+            loginPassword.setError("נא להזין סיסמה");
             loginPassword.requestFocus();
             return;
 
         }
-        if(password.length()<6){
-            loginPassword.setError("min password length should be 6 characters");
+        if(password.length()<8){
+            loginPassword.setError("נא להזין סיסמה באורך 8 תווים לפחות");
             loginPassword.requestFocus();
             return;
         }

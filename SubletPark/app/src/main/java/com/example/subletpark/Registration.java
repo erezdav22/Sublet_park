@@ -81,7 +81,7 @@ public class Registration extends AppCompatActivity {
 
         if(first_name.isEmpty()){
 
-            firstName.setError("first name is required!");
+            firstName.setError("נא להזין שם פרטי");
             firstName.requestFocus();
             return;
 
@@ -91,7 +91,7 @@ public class Registration extends AppCompatActivity {
 
         if(!Pattern.matches("[a-zA-Z\\u0590-\\u05FF]+",first_name)){
 
-            firstName.setError("only letters!");
+            firstName.setError("נא להזין שם הכולל אותיות בלבד");
             firstName.requestFocus();
             return;
 
@@ -101,7 +101,7 @@ public class Registration extends AppCompatActivity {
 
         if(last_name.isEmpty()){
 
-                lastName.setError("last name is required!");
+                lastName.setError("נא להזין שם משפחה");
                 lastName.requestFocus();
                 return;
 
@@ -109,7 +109,7 @@ public class Registration extends AppCompatActivity {
 
             if(!Pattern.matches("[a-zA-Z\\u0590-\\u05FF]+",last_name)){
 
-                lastName.setError("only letters!");
+                lastName.setError("נא להזין שם הכולל אותיות בלבד.");
                 lastName.requestFocus();
                 return;
 
@@ -117,7 +117,7 @@ public class Registration extends AppCompatActivity {
 
         if(phone.isEmpty()){
 
-            editTextPhone.setError("phone number is required!");
+            editTextPhone.setError("נא להזין מספר טלפון");
             editTextPhone.requestFocus();
                 return;
 
@@ -125,7 +125,7 @@ public class Registration extends AppCompatActivity {
 
             if(phone.length()<10){
 
-                editTextPhone.setError("phone number is not valid!");
+                editTextPhone.setError("נא להזין מספר טלפון נייד בן 10 ספרות");
                 editTextPhone.requestFocus();
                 return;
 
@@ -133,20 +133,20 @@ public class Registration extends AppCompatActivity {
 
         if(email.isEmpty()){
 
-            editTextEmail.setError("email is required!");
+            editTextEmail.setError("נא להזין כתובת מייל");
             editTextEmail.requestFocus();
                 return;
 
         }
         if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
-            editTextEmail.setError("please provide valid email");
+            editTextEmail.setError("נא למלא כתובת מייל תקינה");
             editTextEmail.requestFocus();
             return;
         }
 
             if(password.isEmpty()){
 
-                editTextPassword.setError("email is required!");
+                editTextPassword.setError("נא לבחור סיסמה");
                 editTextPassword.requestFocus();
                 return;
 
@@ -155,14 +155,14 @@ public class Registration extends AppCompatActivity {
 
             if(!Pattern.matches("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$",password)){
 
-                editTextPassword.setError("please useat minimum 8 characters, at least one letter and one number in your password!");
+                editTextPassword.setError("נא להזין סיסמה באורך של 8 תווים לפחות, המכילה אות אחת לפחות וספרה אחת לפחות.");
                 editTextPassword.requestFocus();
                 return;
 
             }
 
             if(!password.equals(password2)||password2.isEmpty()){
-                editTextPassword2.setError("please enter same password twice");
+                editTextPassword2.setError("נא להזין סיסמה תואמת בשתי השדות");
                 editTextPassword2.requestFocus();
                 return;
             }

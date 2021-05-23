@@ -188,7 +188,7 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
 
         if(first_name.isEmpty()){
 
-            firstName2.setError("first name is required!");
+            firstName2.setError("נא להזין שם פרטי");
             firstName2.requestFocus();
             return;
 
@@ -198,7 +198,7 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
 
         if(!Pattern.matches("[a-zA-Z\\u0590-\\u05FF]+",first_name)){
 
-            firstName2.setError("only letters!");
+            firstName2.setError("נא להזין שם המכיל אותיות בלבד");
             firstName2.requestFocus();
             return;
 
@@ -208,7 +208,7 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
 
         if(last_name.isEmpty()){
 
-            lastName2.setError("last name is required!");
+            lastName2.setError("נא להזין שם משפחה");
             lastName2.requestFocus();
             return;
 
@@ -216,7 +216,7 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
 
         if(!Pattern.matches("[a-zA-Z\\u0590-\\u05FF]+",last_name)){
 
-            lastName2.setError("only letters!");
+            lastName2.setError("נא להזין שם המכיל אותיות בלבד");
             lastName2.requestFocus();
             return;
 

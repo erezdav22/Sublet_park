@@ -45,13 +45,13 @@ public class ResetPassword extends AppCompatActivity {
         String email=UserEmail.getText().toString().trim();
         if(email.isEmpty()){
 
-            UserEmail.setError("email is required!");
+            UserEmail.setError("נא להזין כתובת מייל כדי שנדע לאן לשלוח את הלינק");
             UserEmail.requestFocus();
             return;
 
         }
         if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
-            UserEmail.setError("please provide valid email");
+            UserEmail.setError("נא להזין כתובת מייל תקינה");
             UserEmail.requestFocus();
             return;
         }
