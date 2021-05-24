@@ -147,6 +147,7 @@ public class Login extends AppCompatActivity {
                     snackbar.setDuration(5000);
                     snackbar.setBackgroundTint(Color.rgb(166, 33, 18));
                     snackbar.show();
+                    progressBar.setVisibility(View.GONE);
                 }
             }
         });

@@ -18,6 +18,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -109,6 +110,7 @@ public class Edit_park extends AppCompatActivity implements DatePickerDialog.OnD
     TextView delete_park;
     TextView test;
     Snackbar snackbar;
+    ProgressBar progressBar2;
 
 
     Long long_start;
@@ -152,6 +154,7 @@ public class Edit_park extends AppCompatActivity implements DatePickerDialog.OnD
         navigationView.setCheckedItem(R.id.nav_MyPark);
         list = findViewById(R.id.list);
         delete_park=findViewById(R.id.deleteP);
+        progressBar2=findViewById(R.id.progressBar2);
 
         editTextaddress1 = findViewById(R.id.editTextaddress1);
         //editTextStreet1 = findViewById(R.id.editTextStreet1);
@@ -257,7 +260,7 @@ public class Edit_park extends AppCompatActivity implements DatePickerDialog.OnD
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                          //  Toast.makeText(Edit_park.this, "נסה שנית", Toast.LENGTH_LONG).show();
+                            //  Toast.makeText(Edit_park.this, "נסה שנית", Toast.LENGTH_LONG).show();
                             View view = findViewById(R.id.activity_edit_park);
                             snackbar=snackbar.make(view,"נסה שנית",Snackbar.LENGTH_INDEFINITE);
                             snackbar.setDuration(5000);
@@ -273,7 +276,6 @@ public class Edit_park extends AppCompatActivity implements DatePickerDialog.OnD
 
 
         /**  ArrayAdapter<Parking_Class> myAdapter= new ArrayAdapter<Parking_Class>(this, android.R.layout.simple_list_item_1,user_parking);
-
          list.setAdapter(myAdapter);
          list.setOnItemClickListener(listclick);
          **/
@@ -402,6 +404,7 @@ public class Edit_park extends AppCompatActivity implements DatePickerDialog.OnD
     }
 
     public void update_parking(View view) {
+        progressBar2.setVisibility(View.VISIBLE);
 
         // if contains https:// ignore uploadTask
         if (!imageUri1.getScheme().contains("https")) {
@@ -464,23 +467,25 @@ public class Edit_park extends AppCompatActivity implements DatePickerDialog.OnD
                 , "start_date", long_start, "end_date", long_finish, "uri", downloadUri.toString(), "lat", addressToLatLng().latitude, "lng", addressToLatLng().longitude).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-               // Toast.makeText(Edit_park.this, "נסה שנית", Toast.LENGTH_SHORT).show();
+                // Toast.makeText(Edit_park.this, "נסה שנית", Toast.LENGTH_SHORT).show();
                 View view = findViewById(R.id.activity_edit_park);
                 snackbar=snackbar.make(view,"נסה שנית",Snackbar.LENGTH_INDEFINITE);
                 snackbar.setDuration(5000);
                 snackbar.setBackgroundTint(Color.rgb(166, 33, 18));
                 snackbar.show();
                 Log.d(TAG, e.toString());
+                progressBar2.setVisibility(View.GONE);
             }
         }).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-               // Toast.makeText(Edit_park.this, "החניה שלך עודכנה בהצלחה!", Toast.LENGTH_SHORT).show();
+                // Toast.makeText(Edit_park.this, "החניה שלך עודכנה בהצלחה!", Toast.LENGTH_SHORT).show();
                 View view= findViewById(R.id.activity_edit_park);
                 snackbar=snackbar.make(view,"החניה שלך עודכנה בהצלחה!",Snackbar.LENGTH_INDEFINITE);
                 snackbar.setDuration(5000);
                 snackbar.setBackgroundTint(Color.rgb(13, 130, 101));
                 snackbar.show();
+                progressBar2.setVisibility(View.GONE);
 
 
             }
