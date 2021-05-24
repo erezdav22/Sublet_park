@@ -247,10 +247,10 @@ public class AddParking extends AppCompatActivity implements DatePickerDialog.On
                             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                                 finalHour=hourOfDay;
                                 finalMinute=minute;
-                                String dateTime=finalDay+"/"+finalMonth+"/"+finalYear +" "+finalHour+":"+finalMinute;
+                                String dateTime=finalDay+"/"+finalMonth+"/"+finalYear +" ";
                                 editTextDateTime.setVisibility(View.VISIBLE);
                                 startHead.setVisibility(View.VISIBLE);
-                                editTextDateTime.setText(dateTime);
+                                editTextDateTime.setText(dateTime+(String.format("%02d:%02d",finalHour,finalMinute)));
                                 calender1.setVisibility(View.GONE);
                                 setDate.setVisibility(View.GONE);
 
@@ -286,10 +286,10 @@ public class AddParking extends AppCompatActivity implements DatePickerDialog.On
                             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                                 finalHour=hourOfDay;
                                 finalMinute=minute;
-                                String dateTime=finalDay+"/"+finalMonth+"/"+finalYear +" "+finalHour+":"+finalMinute;
+                                String dateTime=finalDay+"/"+finalMonth+"/"+finalYear +" ";
                                 editTextEndDate.setVisibility(View.VISIBLE);
                                 endHead.setVisibility(View.VISIBLE);
-                                editTextEndDate.setText(dateTime);
+                                editTextEndDate.setText(dateTime+(String.format("%02d:%02d",finalHour,finalMinute)));
 
                                 calender2.setVisibility(View.GONE);
                                 setDate2.setVisibility(View.GONE);
@@ -334,8 +334,8 @@ public class AddParking extends AppCompatActivity implements DatePickerDialog.On
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
         finalHour=hourOfDay;
         finalMinute=minute;
-       String dateTime=finalDay+"/"+finalMonth+"/"+finalYear +" "+finalHour+":"+finalMinute;
-        editTextDateTime.setText(dateTime);
+       String dateTime=finalDay+"/"+finalMonth+"/"+finalYear +" ";
+        editTextDateTime.setText(dateTime+(String.format("%02d:%02d",finalHour,finalMinute)));
 
     }
 

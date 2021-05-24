@@ -533,8 +533,8 @@ public class Edit_park extends AppCompatActivity implements DatePickerDialog.OnD
                             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                                 finalHour = hourOfDay;
                                 finalMinute = minute;
-                                String dateTime = finalDay + "/" + finalMonth + "/" + finalYear + " " + finalHour + ":" + finalMinute;
-                                editTextDateTime1.setText(dateTime);
+                                String dateTime = finalDay + "/" + finalMonth + "/" + finalYear + " ";
+                                editTextDateTime1.setText(dateTime+(String.format("%02d:%02d",finalHour,finalMinute)));
                             }
                         },
                                 hour, minute, android.text.format.DateFormat.is24HourFormat(Edit_park.this));
@@ -568,8 +568,8 @@ public class Edit_park extends AppCompatActivity implements DatePickerDialog.OnD
                             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                                 finalHour = hourOfDay;
                                 finalMinute = minute;
-                                String dateTime = finalDay + "/" + finalMonth + "/" + finalYear + " " + finalHour + ":" + finalMinute;
-                                editTextEndDate1.setText(dateTime);
+                                String dateTime = finalDay + "/" + finalMonth + "/" + finalYear + " ";
+                                editTextEndDate1.setText(dateTime+(String.format("%02d:%02d",finalHour,finalMinute)));
                             }
                         },
                                 hour, minute, android.text.format.DateFormat.is24HourFormat(Edit_park.this));
@@ -600,8 +600,8 @@ public class Edit_park extends AppCompatActivity implements DatePickerDialog.OnD
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
         finalHour = hourOfDay;
         finalMinute = minute;
-        String dateTime = finalDay + "/" + finalMonth + "/" + finalYear + " " + finalHour + ":" + finalMinute;
-        editTextDateTime1.setText(dateTime);
+        String dateTime = finalDay + "/" + finalMonth + "/" + finalYear + " ";
+        editTextDateTime1.setText(dateTime+(String.format("%02d:%02d",finalHour,finalMinute)));
 
     }
 
