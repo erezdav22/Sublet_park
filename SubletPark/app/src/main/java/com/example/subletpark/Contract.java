@@ -104,4 +104,6 @@ public class Contract extends AppCompatActivity implements NavigationView.OnNavi
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
+
+
 }

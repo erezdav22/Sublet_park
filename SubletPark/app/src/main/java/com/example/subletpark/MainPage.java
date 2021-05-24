@@ -1,11 +1,9 @@
-
 package com.example.subletpark;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.location.Address;
-import android.location.Geocoder;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -46,6 +44,7 @@ import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -53,7 +52,6 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.maps.android.SphericalUtil;
 
-import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -79,6 +77,7 @@ public class MainPage extends AppCompatActivity implements OnMapReadyCallback, N
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private static final String TAG ="MainPage";
     private int numid=0;
+    LatLng destinationLatLng;
 
 
     private TextView greeting;
@@ -90,6 +89,8 @@ public class MainPage extends AppCompatActivity implements OnMapReadyCallback, N
     TextView priceHead;
     TextView avg_price;
     String owner_name;
+    AutocompleteSupportFragment autocompleteSupportFragment;
+    Snackbar snackbar;
 
 
     private ParkingAdapter3 adapter3;
@@ -124,6 +125,7 @@ public class MainPage extends AppCompatActivity implements OnMapReadyCallback, N
         priceHead=(TextView)findViewById(R.id.priceHead);
         seekBar2=findViewById(R.id.seekBar2);
         avg_price=findViewById(R.id.avg_price);
+      //  autocompleteSupportFragment=findViewById(R.id.autoComplete_fragment);
 
 
         greeting=findViewById(R.id.greeting);
@@ -173,8 +175,8 @@ public class MainPage extends AppCompatActivity implements OnMapReadyCallback, N
 
                 LatLng latLng = new LatLng(32.069294, 34.774589);
 
-                   // MapAPI2.addMarker(new MarkerOptions().position(latLng));
-                    MapAPI2.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 14.0f));
+                // MapAPI2.addMarker(new MarkerOptions().position(latLng));
+                MapAPI2.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 14.0f));
 
 
             }
@@ -196,14 +198,21 @@ public class MainPage extends AppCompatActivity implements OnMapReadyCallback, N
 
                 editTextSearch.setText(place.getAddress());
                 autocompleteSupportFragment.setText(place.getAddress());
+                destinationLatLng = place.getLatLng();
             }
 
             @Override
             public void onError(@NonNull Status status) {
 
-                Toast.makeText(getApplicationContext(),status.getStatusMessage(),Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(),"אנא הזן כתובת לחיפוש",Toast.LENGTH_LONG).show();
             }
+
+
         });
+
+
+
+
 
 
         seekBar1.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -326,23 +335,18 @@ public class MainPage extends AppCompatActivity implements OnMapReadyCallback, N
 
     public void search(View view) {
 
-        String location = editTextSearch.getText().toString();
+      //  String location = editTextSearch.getText().toString();
+
+        price_sum=0;
+        parking_spots_count=0;
+
 
         numid=0;
-
-
-        if (location != null || !location.equals("")) {
-            Geocoder geocoder = new Geocoder(this);
             try {
-                addressList = geocoder.getFromLocationName(location, 1);
 
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            Address address = addressList.get(0);
-            LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
+        LatLng latLng = new LatLng(destinationLatLng.latitude, destinationLatLng.longitude);
 
-            MapAPI2.addMarker(new MarkerOptions().position(latLng).title(location));
+            MapAPI2.addMarker(new MarkerOptions().position(latLng));
 
             CircleOptions circly = new CircleOptions().center(latLng).radius(distanceProgress[0]);
             Circle circle = MapAPI2.addCircle(circly);
@@ -395,13 +399,11 @@ public class MainPage extends AppCompatActivity implements OnMapReadyCallback, N
                                 }
 
                                 /**
-                                db.collection("User").document(uid).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                                    @Override
-                                    public void onSuccess(DocumentSnapshot documentSnapshot) {
-
-                                            owner_name=documentSnapshot.getData().get("firstname").toString();
-
-                                    }
+                                 db.collection("User").document(uid).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                @Override
+                                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                owner_name=documentSnapshot.getData().get("firstname").toString();
+                                }
                                 });**/
 
 
@@ -423,7 +425,8 @@ public class MainPage extends AppCompatActivity implements OnMapReadyCallback, N
                         }else {
                             noParking1.setVisibility(View.GONE);
                             avg_price.setVisibility(View.VISIBLE);
-                            avg_price.setText("מחיר חניות ממוצע באזור (ש״ח): "+price_sum/parking_spots_count);
+                            avg_price.setText("מחיר חניות ממוצע באזור (ש״ח): " + price_sum / parking_spots_count);
+
                         }
 
                     } else {
@@ -434,16 +437,25 @@ public class MainPage extends AppCompatActivity implements OnMapReadyCallback, N
                     params.height = 450;
                     mapFragment.getView().setLayoutParams(params);
                     recyclerView.setAdapter(adapter3);
-                    System.out.println(price_sum/parking_spots_count+"<-------avg is this");
+
 
                 }
             });
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                snackbar=snackbar.make(view,"משהו השתבש, נסה שנית",Snackbar.LENGTH_INDEFINITE);
+                snackbar.setDuration(5000);
+                snackbar.setBackgroundTint(Color.rgb(166, 33, 18));
+                snackbar.show();
+
+            }
 
 
         }
 
 
-    }
+
 
 
     @Override
