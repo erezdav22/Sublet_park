@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -76,6 +77,7 @@ public class AddParking extends AppCompatActivity implements DatePickerDialog.On
     ImageView calender2;
     TextView startHead;
     TextView endHead;
+    ProgressBar progressBar1;
 
     EditText editTextaddress;
     //EditText editTextStreet;
@@ -155,6 +157,8 @@ public class AddParking extends AppCompatActivity implements DatePickerDialog.On
         calender2=findViewById(R.id.calender2);
         startHead = findViewById(R.id.startHead);
         endHead = findViewById(R.id.endHead);
+        progressBar1=findViewById(R.id.progressBar1);
+        buttonUpload.setEnabled(true);
 
         mAuth=FirebaseAuth.getInstance();
 
@@ -399,6 +403,9 @@ public class AddParking extends AppCompatActivity implements DatePickerDialog.On
     **/
     public void add_parking(View view) {
 
+        buttonUpload.setEnabled(false);
+        progressBar1.setVisibility(View.VISIBLE);
+
 
         if (imageUri == null){
          //   Toast.makeText(AddParking.this,"נא להוסיף תמונת חניה",Toast.LENGTH_SHORT).show();
@@ -491,6 +498,8 @@ public class AddParking extends AppCompatActivity implements DatePickerDialog.On
                                     snackbar.setDuration(5000);
                                     snackbar.setBackgroundTint(Color.rgb(13, 130, 101));
                                     snackbar.show();
+                                    buttonUpload.setEnabled(true);
+                                    progressBar1.setVisibility(View.GONE);
                                     String parkingId = documentReference.getId();
                                     //add the parkingID to the user parking array.
                                     DocumentReference userRef = db.collection("User").document(mAuth.getCurrentUser().getUid());
@@ -524,6 +533,8 @@ public class AddParking extends AppCompatActivity implements DatePickerDialog.On
                                     snackbar.setBackgroundTint(Color.rgb(166, 33, 18));
                                     snackbar.show();
                                     Log.d(TAG, e.toString());
+                                    buttonUpload.setEnabled(true);
+                                    progressBar1.setVisibility(View.GONE);
                                 }
                             });
 
