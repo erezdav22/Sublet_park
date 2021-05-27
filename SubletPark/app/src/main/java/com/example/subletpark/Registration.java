@@ -15,7 +15,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -37,9 +36,8 @@ public class Registration extends AppCompatActivity {
     private Button register;
     private FirebaseFirestore db1=FirebaseFirestore.getInstance();
     private FirebaseAuth mAuth;
-    private static final String USER ="user";
     private static final String TAG ="registration";
-    Snackbar snackbar;
+
 
 
     private static final String KEY_name = "firstname";
@@ -62,8 +60,6 @@ public class Registration extends AppCompatActivity {
 
 
         mAuth=FirebaseAuth.getInstance();
-
-
 
 
 
@@ -169,9 +165,6 @@ public class Registration extends AppCompatActivity {
 
 
             registration(email,password);
-
-
-
 
 
 

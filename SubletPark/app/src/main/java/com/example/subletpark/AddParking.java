@@ -56,6 +56,7 @@ import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
@@ -80,8 +81,6 @@ public class AddParking extends AppCompatActivity implements DatePickerDialog.On
     ProgressBar progressBar1;
 
     EditText editTextaddress;
-    //EditText editTextStreet;
-    //EditText editTextStreetNumber;
     EditText editTextDescription;
     EditText editTextDailyPrice;
     ImageView uploadPic;
@@ -97,8 +96,6 @@ public class AddParking extends AppCompatActivity implements DatePickerDialog.On
     List<Address> addressList = null;
 
     private static final String KEY_address = "address";
-    private static final String KEY_street= "street";
-    private static final String KEY_street_number = "street_number";
     private static final String KEY_daily_price= "daily price";
     private static final String description = "description";
     private static final String start_date = "start_date";
@@ -141,8 +138,6 @@ public class AddParking extends AppCompatActivity implements DatePickerDialog.On
         editTextDateTime = findViewById(R.id.editTextDateTime);
         editTextDateTime.setOnClickListener(this::picker1);
         editTextaddress = findViewById(R.id.editTextaddress);
-        //editTextStreet = findViewById(R.id.editTextStreet);
-        //editTextStreetNumber = findViewById(R.id.editTextStreetNumber);
         editTextDescription = findViewById(R.id.editTextDescription);
         uploadPic = findViewById(R.id.uploadPic);
         buttonUpload = findViewById(R.id.buttonUpload);
@@ -308,8 +303,6 @@ public class AddParking extends AppCompatActivity implements DatePickerDialog.On
 
     public long dateToLong(String date) throws ParseException {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-        //Date date1 = simpleDateFormat.parse(date);
-       // simpleDateFormat = new SimpleDateFormat("ddMMyyyyHHmm");
         Date date1 = simpleDateFormat.parse(date);
         long dateInLong = date1.getTime();
         System.out.println("Date         = " + date1);
@@ -343,78 +336,91 @@ public class AddParking extends AppCompatActivity implements DatePickerDialog.On
 
     }
 
-   /** public void upload_parking(View view) {
 
-
-
-        final StorageReference reference=storageReference.child(System.currentTimeMillis()+"."+getFileExt(imageUri));
-        uploadTask=reference.putFile(imageUri);
-
-        Task<Uri>uriTask=uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
-            @Override
-            public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
-               if(!task.isSuccessful()){
-                   throw task.getException();
-               }
-
-                return reference.getDownloadUrl();
-            }
-        }).addOnCompleteListener(new OnCompleteListener<Uri>() {
-            @Override
-            public void onComplete(@NonNull Task<Uri> task) {
-                if(task.isSuccessful()){
-                    Uri downloadUri=task.getResult();
-                    Map<String, Object> parking = new HashMap<>();
-                    parking.put(KEY_city, editTextCity.getText().toString());
-                    parking.put(KEY_street, editTextStreet.getText().toString());
-                    parking.put(KEY_street_number, editTextStreetNumber.getText().toString());
-                    parking.put(description, editTextDescription.getText().toString());
-                    parking.put(start_date, editTextDateTime.getText().toString());
-                    parking.put(end_date, editTextEndDate.getText().toString());
-                    parking.put(URI, downloadUri.toString());
-
-                    db.collection("User")
-                            .document(FirebaseAuth.getInstance().getCurrentUser().getUid()).collection("Parking").add(parking)
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Toast.makeText(addParking.this,"error",Toast.LENGTH_SHORT).show();
-                                    Log.d(TAG, e.toString());
-                                }
-                            }).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                        @Override
-                        public void onSuccess(DocumentReference documentReference) {
-                            Toast.makeText(addParking.this,"parking created",Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                }
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-
-            }
-        });
-
-
-    }
-
-
-    **/
     public void add_parking(View view) {
 
         buttonUpload.setEnabled(false);
         progressBar1.setVisibility(View.VISIBLE);
 
+        if(editTextaddress.getText().toString().isEmpty()){
 
-        if (imageUri == null){
-         //   Toast.makeText(AddParking.this,"נא להוסיף תמונת חניה",Toast.LENGTH_SHORT).show();
-            snackbar=snackbar.make(view,"נא להוסיף תמונת חניה", Snackbar.LENGTH_INDEFINITE);
-            snackbar.setDuration(5000);
+            snackbar=snackbar.make(view,"נא להזין כתובת", Snackbar.LENGTH_INDEFINITE);
+            snackbar.setDuration(2000);
             snackbar.show();
-            uploadPic.requestFocus();
+            editTextaddress.requestFocus();
+            buttonUpload.setEnabled(true);
+            progressBar1.setVisibility(View.GONE);
             return;
         }
+        if (editTextDateTime.getText().toString().isEmpty()){
+
+            snackbar=snackbar.make(view,"נא להזין תאריך תחילת השכרה", Snackbar.LENGTH_INDEFINITE);
+            snackbar.setDuration(2000);
+            snackbar.show();
+            editTextDateTime.requestFocus();
+            buttonUpload.setEnabled(true);
+            progressBar1.setVisibility(View.GONE);
+            return;
+        }
+
+        if (editTextEndDate.getText().toString().isEmpty()){
+
+            snackbar=snackbar.make(view,"נא להזין תאריך סיום השכרה", Snackbar.LENGTH_INDEFINITE);
+            snackbar.setDuration(2000);
+            snackbar.show();
+            editTextEndDate.requestFocus();
+            buttonUpload.setEnabled(true);
+            progressBar1.setVisibility(View.GONE);
+            return;
+        }
+
+        if(editTextDailyPrice.getText().toString().isEmpty()){
+            editTextDailyPrice.setError("נא להזין מחיר יומי לחניה");
+            editTextDailyPrice.requestFocus();
+            buttonUpload.setEnabled(true);
+            progressBar1.setVisibility(View.GONE);
+            return;
+        }
+
+
+        if (imageUri == null){
+            snackbar=snackbar.make(view,"נא להוסיף תמונת חניה", Snackbar.LENGTH_INDEFINITE);
+            snackbar.setDuration(2000);
+            snackbar.show();
+            uploadPic.requestFocus();
+            buttonUpload.setEnabled(true);
+            progressBar1.setVisibility(View.GONE);
+            return;
+        }
+
+        try {
+            DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+            Date date = formatter.parse(editTextDateTime.getText().toString());
+
+        } catch (ParseException ex) {
+            ex.printStackTrace();
+            editTextDateTime.setError("נא להזין מועד בפורמט : dd/MM/yyyy HH:mm ");
+            editTextDateTime.requestFocus();
+            buttonUpload.setEnabled(true);
+            progressBar1.setVisibility(View.GONE);
+            return;
+
+        }
+
+        try {
+            DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+            Date date = formatter.parse(editTextEndDate.getText().toString());
+
+        } catch (ParseException ex) {
+            ex.printStackTrace();
+            editTextEndDate.setError("נא להזין מועד בפורמט : dd/MM/yyyy HH:mm ");
+            editTextEndDate.requestFocus();
+            buttonUpload.setEnabled(true);
+            progressBar1.setVisibility(View.GONE);
+            return;
+
+        }
+
 
         final StorageReference reference=storageReference.child(System.currentTimeMillis()+"."+getFileExt(imageUri));
         uploadTask=reference.putFile(imageUri);
@@ -432,25 +438,7 @@ public class AddParking extends AppCompatActivity implements DatePickerDialog.On
             @Override
             public void onComplete(@NonNull Task<Uri> task) {
                 if(task.isSuccessful()){
-                    if (editTextDateTime.getText().toString().isEmpty()){
-                        editTextDateTime.setError("נא להזין תאריך תחילת השכרה");
-                        editTextDateTime.requestFocus();
-                        return;
-                    }
 
-                    if (editTextEndDate.getText().toString().isEmpty()){
-                        editTextDateTime.setError("נא להזין תאריך סיום השכרה");
-                        editTextEndDate.requestFocus();
-                        return;
-                    }
-
-
-
-                    if(editTextaddress.getText().toString().isEmpty()){
-                        editTextaddress.setError("נא להזין כתובת");
-                        editTextaddress.requestFocus();
-                        return;
-                    }
                     try {
                         long_start=dateToLong(editTextDateTime.getText().toString());
                         long_finish= dateToLong(editTextEndDate.getText().toString());
@@ -460,8 +448,6 @@ public class AddParking extends AppCompatActivity implements DatePickerDialog.On
                     Uri downloadUri=task.getResult();
                     Map<String, Object> parking = new HashMap<>();
                     parking.put(KEY_address, editTextaddress.getText().toString());
-                   // parking.put(KEY_street, editTextStreet.getText().toString());
-                   // parking.put(KEY_street_number, editTextStreetNumber.getText().toString());
                     parking.put(KEY_daily_price,editTextDailyPrice.getText().toString());
                     parking.put(description, editTextDescription.getText().toString());
                     parking.put(lat, addressToLatLng().latitude);
@@ -474,15 +460,9 @@ public class AddParking extends AppCompatActivity implements DatePickerDialog.On
                     if (long_start>long_finish){
                         editTextEndDate.setError("נא לבחור תאריך סיום חניה מאוחר מתאריך תחילת חניה");
                         editTextEndDate.requestFocus();
+                        buttonUpload.setEnabled(true);
+                        progressBar1.setVisibility(View.GONE);
 
-                        return;
-                    }
-
-
-
-                    if(editTextDailyPrice.getText().toString().isEmpty()){
-                        editTextDailyPrice.setError("נא להזין מחיר יומי לחניה");
-                        editTextDailyPrice.requestFocus();
                         return;
                     }
 
@@ -493,7 +473,6 @@ public class AddParking extends AppCompatActivity implements DatePickerDialog.On
                             .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                 @Override
                                 public void onSuccess(DocumentReference documentReference) {
-                                    //Toast.makeText(AddParking.this,"החניה נשמרה בהצלחה!",Toast.LENGTH_SHORT).show();
                                     snackbar=snackbar.make(view,"החניה נשמרה בהצלחה!",Snackbar.LENGTH_INDEFINITE);
                                     snackbar.setDuration(5000);
                                     snackbar.setBackgroundTint(Color.rgb(13, 130, 101));
@@ -514,11 +493,13 @@ public class AddParking extends AppCompatActivity implements DatePickerDialog.On
                                             .addOnFailureListener(new OnFailureListener() {
                                                 @Override
                                                 public void onFailure(@NonNull Exception e) {
-                                                    //Toast.makeText(AddParking.this,"שגיאה בשמירת החניה, נסה שנית",Toast.LENGTH_SHORT).show();
+
                                                     snackbar=snackbar.make(view,"שגיאה בשמירת החניה, נסה שנית",Snackbar.LENGTH_INDEFINITE);
                                                     snackbar.setDuration(5000);
                                                     snackbar.setBackgroundTint(Color.rgb(166, 33, 18));
                                                     snackbar.show();
+                                                    buttonUpload.setEnabled(true);
+                                                    progressBar1.setVisibility(View.GONE);
                                                     Log.w(TAG, "Error updating document", e);
                                                 }
                                             });
@@ -527,7 +508,6 @@ public class AddParking extends AppCompatActivity implements DatePickerDialog.On
                             .addOnFailureListener(new OnFailureListener() {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
-                                   // Toast.makeText(AddParking.this,"שגיאה בשמירת החניה, נסה שנית",Toast.LENGTH_SHORT).show();
                                     snackbar=snackbar.make(view,"שגיאה בשמירת החניה, נסה שנית",Snackbar.LENGTH_INDEFINITE);
                                     snackbar.setDuration(5000);
                                     snackbar.setBackgroundTint(Color.rgb(166, 33, 18));
@@ -554,7 +534,6 @@ public class AddParking extends AppCompatActivity implements DatePickerDialog.On
 
     public LatLng addressToLatLng() {
 
-        //String location = editTextStreet.getText().toString()+" "+editTextStreetNumber.getText().toString()+" "+editTextCity.getText().toString();
         String location = editTextaddress.getText().toString();
 
 
@@ -588,14 +567,24 @@ public class AddParking extends AppCompatActivity implements DatePickerDialog.On
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+
         if(requestCode==PICK_IMAGE){
-            if(resultCode==RESULT_OK || data!=null ||data.getData()!=null) {
-                imageUri = data.getData();
 
-                Picasso.with(this).load(imageUri).into(uploadPic);
+            try {
+                if (resultCode == RESULT_OK || data != null || data.getData() != null) {
+
+
+                    imageUri = data.getData();
+                    Picasso.with(this).load(imageUri).into(uploadPic);
+
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                Toast.makeText(getApplicationContext(),"נא וודא שבחרת תמונה",Toast.LENGTH_LONG).show();
             }
-
         }
+
+
         else if (requestCode==PICK_PLACE) {
             if (resultCode == RESULT_OK) {
                 Place place = Autocomplete.getPlaceFromIntent(data);
@@ -609,6 +598,7 @@ public class AddParking extends AppCompatActivity implements DatePickerDialog.On
         }
 
     }
+
     private String getFileExt(Uri uri){
         ContentResolver contentResolver=getContentResolver();
         MimeTypeMap mimeTypeMap=MimeTypeMap.getSingleton();

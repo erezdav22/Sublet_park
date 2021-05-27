@@ -55,49 +55,6 @@
                 tools:ignore="MissingConstraints" />
 
 
-            <Button
-                android:id="@+id/logout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="15dp"
-                android:backgroundTint="#DD0A0A"
-                android:onClick="logout_user"
-                android:text="התנתק"
-                android:visibility="gone"
-                app:layout_constraintTop_toBottomOf="@+id/toolbar"
-                tools:ignore="MissingConstraints" />
-
-
-            <EditText
-                android:id="@+id/editTextSearch"
-                android:layout_width="282dp"
-                android:layout_height="52dp"
-                android:layout_marginTop="15dp"
-                android:layout_weight="1"
-                android:ems="10"
-                android:hint="הכנס כתובת"
-                android:inputType="textPersonName"
-                android:padding="12dp"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/logout"
-                tools:ignore="MissingConstraints" />
-
-
-            <ImageView
-                android:id="@+id/imageViewSearch"
-                android:layout_width="82dp"
-                android:layout_height="48dp"
-                android:layout_marginTop="12dp"
-                android:layout_marginEnd="4dp"
-                android:layout_weight="0.5"
-                android:contentDescription="TODO"
-                android:onClick="search"
-                android:visibility="gone"
-                app:layout_constraintEnd_toStartOf="@+id/editTextSearch"
-                app:layout_constraintTop_toBottomOf="@+id/logout"
-                app:srcCompat="@android:drawable/ic_menu_search"
-                tools:ignore="MissingConstraints" />
 
 
             <fragment

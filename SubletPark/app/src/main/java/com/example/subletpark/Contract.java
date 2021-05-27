@@ -1,13 +1,11 @@
 package com.example.subletpark;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
-import android.view.WindowManager;
-import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -16,6 +14,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.github.chrisbanes.photoview.PhotoView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -24,7 +23,8 @@ public class Contract extends AppCompatActivity implements NavigationView.OnNavi
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     Toolbar toolbar;
-    ImageView contract;
+    //ImageView contract;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,9 +42,13 @@ public class Contract extends AppCompatActivity implements NavigationView.OnNavi
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.setCheckedItem(R.id.nav_contract);
-        contract=findViewById(R.id.contract);
 
+        PhotoView photoView = (PhotoView) findViewById(R.id.photo_view);
+        photoView.setImageResource(R.drawable.contract1);
 
+       // contract=findViewById(R.id.contract);
+
+/**
         contract.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -56,7 +60,7 @@ public class Contract extends AppCompatActivity implements NavigationView.OnNavi
                 contract.setAdjustViewBounds(false);
                 getSupportActionBar().hide();
             }
-        });
+        });**/
 
     }
 
@@ -106,4 +110,9 @@ public class Contract extends AppCompatActivity implements NavigationView.OnNavi
     }
 
 
+    public void open_contract(View view) {
+
+        Uri uri=Uri.parse("https://firebasestorage.googleapis.com/v0/b/sublet-park-9bafa.appspot.com/o/contract1.png?alt=media&token=b297e1b1-96a0-4ad4-9b61-79f97adf446a");
+        startActivity(new Intent(Intent.ACTION_VIEW,uri));
+    }
 }
