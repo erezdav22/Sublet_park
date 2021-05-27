@@ -3,15 +3,11 @@ package com.example.subletpark;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
-import android.location.Address;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,6 +26,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
@@ -59,24 +56,18 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
 public class MainPage extends AppCompatActivity implements OnMapReadyCallback, NavigationView.OnNavigationItemSelectedListener {
 
     GoogleMap MapAPI2;
     SupportMapFragment mapFragment;
-    private EditText editTextSearch;
-    private ImageView imageViewSearch;
-    List<Address> addressList = null;
-    Address address=null;
-    String location=null;
+
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     Toolbar toolbar;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private static final String TAG ="MainPage";
-    private int numid=0;
     LatLng destinationLatLng;
 
 
@@ -88,17 +79,15 @@ public class MainPage extends AppCompatActivity implements OnMapReadyCallback, N
     SeekBar seekBar2;
     TextView priceHead;
     TextView avg_price;
-    String owner_name;
-    AutocompleteSupportFragment autocompleteSupportFragment;
+//    AutocompleteSupportFragment autocompleteSupportFragment;
     Snackbar snackbar;
 
 
-    private ParkingAdapter3 adapter3;
+    private ParkingAdapter adapter3;
     private CollectionReference notebookRef=db.collection("ParkingSpot");
     ArrayList<Parking_Class> datalist;
     String string_start;
     String string_end;
-    private Uri imageUri1;
     TextView noParking1;
     final int[] distanceProgress = {1000};
     final int[] priceProgress = {2147483647};
@@ -125,7 +114,6 @@ public class MainPage extends AppCompatActivity implements OnMapReadyCallback, N
         priceHead=(TextView)findViewById(R.id.priceHead);
         seekBar2=findViewById(R.id.seekBar2);
         avg_price=findViewById(R.id.avg_price);
-      //  autocompleteSupportFragment=findViewById(R.id.autoComplete_fragment);
 
 
         greeting=findViewById(R.id.greeting);
@@ -154,7 +142,7 @@ public class MainPage extends AppCompatActivity implements OnMapReadyCallback, N
                     @Override
                     public void onSuccess(QuerySnapshot querySnapshot) {
                         if (!querySnapshot.isEmpty()) {
-                            // System.out.println(querySnapshot.getDocuments().get(0).get("lastLoginDate"));
+
                             name_of_user = querySnapshot.getDocuments().get(0).get("firstname").toString();
                             System.out.println("name in onSuccess is: "+name_of_user);
                             greeting.setText(finalDisplayed_greet+" "+name_of_user+"!");
@@ -162,9 +150,7 @@ public class MainPage extends AppCompatActivity implements OnMapReadyCallback, N
                         }}});
 
 
-        editTextSearch=findViewById(R.id.editTextSearch);
-        imageViewSearch=findViewById(R.id.imageViewSearch);
-        imageViewSearch.setOnClickListener(this::search);
+
 
 
         mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapAPI2);
@@ -175,11 +161,11 @@ public class MainPage extends AppCompatActivity implements OnMapReadyCallback, N
 
                 LatLng latLng = new LatLng(32.069294, 34.774589);
 
-                // MapAPI2.addMarker(new MarkerOptions().position(latLng));
                 MapAPI2.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 14.0f));
 
 
             }
+
         });
 
 
@@ -196,7 +182,7 @@ public class MainPage extends AppCompatActivity implements OnMapReadyCallback, N
             @Override
             public void onPlaceSelected(@NonNull Place place) {
 
-                editTextSearch.setText(place.getAddress());
+
                 autocompleteSupportFragment.setText(place.getAddress());
                 destinationLatLng = place.getLatLng();
             }
@@ -209,9 +195,6 @@ public class MainPage extends AppCompatActivity implements OnMapReadyCallback, N
 
 
         });
-
-
-
 
 
 
@@ -257,7 +240,7 @@ public class MainPage extends AppCompatActivity implements OnMapReadyCallback, N
         RecyclerView recyclerView = findViewById(R.id.recycler_view_id);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         datalist=new ArrayList<Parking_Class>();
-        adapter3=new ParkingAdapter3(datalist);
+        adapter3=new ParkingAdapter(datalist);
 
 
     }
@@ -335,24 +318,23 @@ public class MainPage extends AppCompatActivity implements OnMapReadyCallback, N
 
     public void search(View view) {
 
-      //  String location = editTextSearch.getText().toString();
 
         price_sum=0;
         parking_spots_count=0;
+        MapAPI2.clear();
 
 
-        numid=0;
             try {
 
         LatLng latLng = new LatLng(destinationLatLng.latitude, destinationLatLng.longitude);
 
-            MapAPI2.addMarker(new MarkerOptions().position(latLng));
+            MapAPI2.addMarker(new MarkerOptions().position(latLng).icon(BitmapDescriptorFactory
+                    .defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
 
             CircleOptions circly = new CircleOptions().center(latLng).radius(distanceProgress[0]);
             Circle circle = MapAPI2.addCircle(circly);
             circle.setStrokeColor(Color.RED);
             MapAPI2.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,14.0f));
-            // MapAPI2.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(address.getLatitude(), address.getLongitude()), 12.0f));
 
 
 
@@ -398,14 +380,8 @@ public class MainPage extends AppCompatActivity implements OnMapReadyCallback, N
                                     e.printStackTrace();
                                 }
 
-                                /**
-                                 db.collection("User").document(uid).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                                @Override
-                                public void onSuccess(DocumentSnapshot documentSnapshot) {
-                                owner_name=documentSnapshot.getData().get("firstname").toString();
-                                }
-                                });**/
 
+                                MapAPI2.addMarker(new MarkerOptions().position(park_location).title(address));
 
                                 Parking_Class parking_class=new Parking_Class(uid,address,price,string_start,string_end,uri,desc);
                                 datalist.add(parking_class);

@@ -23,14 +23,14 @@ import java.util.ArrayList;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 
-public class ParkingAdapter3 extends RecyclerView.Adapter<ParkingAdapter3.ViewHolder> {
+public class ParkingAdapter extends RecyclerView.Adapter<ParkingAdapter.ViewHolder> {
 
     ArrayList<Parking_Class>datalist;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     Context context=getApplicationContext();
 
 
-    public ParkingAdapter3(ArrayList<Parking_Class> datalist) {
+    public ParkingAdapter(ArrayList<Parking_Class> datalist) {
         this.datalist = datalist;
     }
 
@@ -48,7 +48,6 @@ public class ParkingAdapter3 extends RecyclerView.Adapter<ParkingAdapter3.ViewHo
         holder.daily_price.setText(datalist.get(position).getPrice());
         holder.start_date.setText(datalist.get(position).getStart_date());
         holder.end_date.setText(datalist.get(position).getEnd_date());
-        //holder.owner_name.setText(datalist.get(position).getOwner_name());
         String uri=datalist.get(position).getUri();
         Uri uri1=Uri.parse(uri);
         Picasso.with(holder.parking_image.getContext()).load(uri1).into(holder.parking_image);
@@ -104,9 +103,6 @@ public class ParkingAdapter3 extends RecyclerView.Adapter<ParkingAdapter3.ViewHo
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                         String phone= documentSnapshot.getData().get("phone").toString();
 
-                       // Intent callIntent= new Intent(Intent.ACTION_DIAL,Uri.parse(phone));
-
-
                         Intent callIntent = new Intent(Intent.ACTION_DIAL);
                         callIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_NO_USER_ACTION);
                         callIntent.setData(Uri.parse("tel:"+phone));
@@ -132,10 +128,7 @@ public class ParkingAdapter3 extends RecyclerView.Adapter<ParkingAdapter3.ViewHo
         TextView daily_price;
         TextView start_date;
         TextView end_date;
-        //TextView owner_name;
         ImageView parking_image;
-       // Button cardBtn;
-        //Button cardBtncall;
         ImageView phoneicon;
         ImageView whatsappicon;
 
@@ -149,11 +142,8 @@ public class ParkingAdapter3 extends RecyclerView.Adapter<ParkingAdapter3.ViewHo
             start_date=itemView.findViewById(R.id.start_date);
             end_date=itemView.findViewById(R.id.end_date);
             parking_image=itemView.findViewById(R.id.parking_image);
-            //cardBtn=itemView.findViewById(R.id.cardBtn);
-            //cardBtncall=itemView.findViewById(R.id.cardBtncall);
             phoneicon=itemView.findViewById(R.id.phoneicon);
             whatsappicon=itemView.findViewById(R.id.whatsappicon);
-           // owner_name=itemView.findViewById(R.id.owner_name);
 
 
         }

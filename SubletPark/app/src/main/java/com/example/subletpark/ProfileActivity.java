@@ -101,14 +101,14 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
                     @Override
                     public void onSuccess(QuerySnapshot querySnapshot) {
                         if (!querySnapshot.isEmpty()) {
-                           // System.out.println(querySnapshot.getDocuments().get(0).get("lastLoginDate"));
+
                                 firstName2.setText(querySnapshot.getDocuments().get(0).get("firstname").toString());
                                 lastName2.setText(querySnapshot.getDocuments().get(0).get("lastname").toString());
                                 editTextPhone3.setText(querySnapshot.getDocuments().get(0).get("phone").toString());
                                 editTextEmail2.setText(querySnapshot.getDocuments().get(0).get("email").toString());
 
                         } else {
-                            //Toast.makeText(ProfileActivity.this, "נסה שנית", Toast.LENGTH_SHORT).show();
+
                             View view= findViewById(R.id.activity_profile);
                             snackbar=snackbar.make(view,"נסה שנית",Snackbar.LENGTH_INDEFINITE);
                             snackbar.setDuration(5000);
@@ -120,7 +120,6 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                      //  Toast.makeText(ProfileActivity.this, "נסה שנית", Toast.LENGTH_SHORT).show();
                         View view= findViewById(R.id.activity_profile);
                         snackbar=snackbar.make(view,"נסה שנית",Snackbar.LENGTH_INDEFINITE);
                         snackbar.setDuration(5000);
@@ -262,10 +261,6 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
 
     public void update(){
 
-      //  db.collection("User")
-            //    .document(FirebaseAuth.getInstance().getCurrentUser().getUid()).update("phone",editTextPhone3.getText().toString());
-       // db.collection("User")
-               // .document(FirebaseAuth.getInstance().getCurrentUser().getUid()).update("email",editTextEmail2.getText().toString());
 
             db.collection("User")
                     .document(FirebaseAuth.getInstance().getCurrentUser().getUid()).update("phone",editTextPhone3.getText().toString(),
@@ -273,7 +268,7 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
                     "lastname",lastName2.getText().toString()).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-               // Toast.makeText(ProfileActivity.this,"error",Toast.LENGTH_SHORT).show();
+
                 View view= findViewById(R.id.activity_profile);
                 snackbar=snackbar.make(view,"לא התבצע שינוי, נסה שנית",Snackbar.LENGTH_INDEFINITE);
                 snackbar.setDuration(5000);
@@ -284,7 +279,7 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
         }).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
-                  //  Toast.makeText(ProfileActivity.this,"פרטי הפרופיל עודכנו בהצלחה!",Toast.LENGTH_SHORT).show();
+
                     View view= findViewById(R.id.activity_profile);
                     snackbar=snackbar.make(view,"פרטי הפרופיל עודכנו בהצלחה!",Snackbar.LENGTH_INDEFINITE);
                     snackbar.setDuration(5000);
@@ -338,8 +333,7 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
         FirebaseAuth.getInstance().getCurrentUser().updatePassword(editTextPassword3.getText().toString()).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                //Toast.makeText(ProfileActivity.this,"נסה שנית",Toast.LENGTH_SHORT).show();
-              //  View view= findViewById(R.id.content);
+
                 snackbar=snackbar.make(view,"לא התבצע שינוי, נסה שנית",Snackbar.LENGTH_INDEFINITE);
                 snackbar.setDuration(5000);
                 snackbar.setBackgroundTint(Color.rgb(166, 33, 18));
@@ -349,8 +343,7 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
         }).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-               // Toast.makeText(ProfileActivity.this,"הסיסמה שלך עודכנה בהצלחה!",Toast.LENGTH_SHORT).show();
-             //   View view= findViewById(R.id.content);
+
                 snackbar=snackbar.make(view,"סיסמתך עודכנה בהצלחה!",Snackbar.LENGTH_INDEFINITE);
                 snackbar.setDuration(5000);
                 snackbar.setBackgroundTint(Color.rgb(13, 130, 101));
