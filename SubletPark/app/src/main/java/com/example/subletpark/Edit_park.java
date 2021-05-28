@@ -3,6 +3,7 @@ package com.example.subletpark;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.ContentResolver;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.location.Address;
@@ -26,6 +27,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
@@ -103,7 +105,7 @@ public class Edit_park extends AppCompatActivity implements DatePickerDialog.OnD
     List<Address> addressList = null;
     TextView noParking;
     CardView cardP;
-    TextView delete_park;
+    TextView deleteP;
     Snackbar snackbar;
     ProgressBar progressBar2;
 
@@ -146,7 +148,7 @@ public class Edit_park extends AppCompatActivity implements DatePickerDialog.OnD
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.setCheckedItem(R.id.nav_MyPark);
         list = findViewById(R.id.list);
-        delete_park=findViewById(R.id.deleteP);
+        deleteP=findViewById(R.id.deleteP);
         progressBar2=findViewById(R.id.progressBar2);
 
         editTextaddress1 = findViewById(R.id.editTextaddress1);
@@ -165,6 +167,36 @@ public class Edit_park extends AppCompatActivity implements DatePickerDialog.OnD
 
         PlacesClient placesClient = Places.createClient(this);
 
+
+        deleteP.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                AlertDialog.Builder builder= new AlertDialog.Builder(Edit_park.this);
+                builder.setCancelable(true);
+                builder.setTitle("האם אתה בטוח שאתה רוצה למחוק את החניה?");
+                builder.setMessage("פעולה זו בלתי הפיכה");
+
+                builder.setNegativeButton("בטל", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+
+                builder.setPositiveButton("אשר", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        delete_parking();
+
+                    }
+                });
+                builder.show();
+
+
+            }
+        });
 
 
 
@@ -189,7 +221,7 @@ public class Edit_park extends AppCompatActivity implements DatePickerDialog.OnD
                 if (document.get("parking spots") == null) {
                     noParking.setVisibility(View.VISIBLE);
                     cardP.setVisibility(View.GONE);
-                    delete_park.setVisibility(View.GONE);
+                    deleteP.setVisibility(View.GONE);
 
                 } else {
                     group = (List<String>) document.get("parking spots");
@@ -474,16 +506,7 @@ public class Edit_park extends AppCompatActivity implements DatePickerDialog.OnD
         }
         Uri downloadUri = result == null ? imageUri1 : result;
         result = null;
-        Map<String, Object> parking = new HashMap<>();
-        parking.put(KEY_address, editTextaddress1.getText().toString());
-        parking.put(KEY_daily_price, editTextDailyPrice1.getText().toString());
-        parking.put(description, editTextDescription1.getText().toString());
-        parking.put(lat, addressToLatLng().latitude);
-        parking.put(lng, addressToLatLng().longitude);
-        parking.put(start_date, long_start);
-        parking.put(end_date, long_finish);
-        parking.put(userId, mAuth.getCurrentUser().getUid());
-        parking.put(URI, downloadUri.toString());
+
 
         if (long_start > long_finish) {
             editTextEndDate1.setError("נא לבחור תאריך סיום חניה מאוחר מתאריך תחילת חניה");
@@ -492,7 +515,7 @@ public class Edit_park extends AppCompatActivity implements DatePickerDialog.OnD
         }
 
         db.collection("ParkingSpot")
-                .document(group.get(group.size() - 1)).update("city", editTextaddress1.getText().toString(),
+                .document(group.get(group.size() - 1)).update("address", editTextaddress1.getText().toString(),
                 "daily price", editTextDailyPrice1.getText().toString(), "description", editTextDescription1.getText().toString()
                 , "start_date", long_start, "end_date", long_finish, "uri", downloadUri.toString(), "lat", addressToLatLng().latitude, "lng", addressToLatLng().longitude).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -638,7 +661,7 @@ public class Edit_park extends AppCompatActivity implements DatePickerDialog.OnD
 
     }
 
-    public void delete_parking(View view) {
+    public void delete_parking() {
 
         db.collection("User").document(FirebaseAuth.getInstance().getCurrentUser().getUid())
                 .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {

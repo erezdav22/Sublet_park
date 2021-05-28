@@ -1,5 +1,6 @@
 package com.example.subletpark;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -9,10 +10,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
@@ -48,6 +51,7 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
     private Button updateButton;
     private Button ChangeButton;
     Snackbar snackbar;
+    private TextView deleteAccount;
 
     DrawerLayout drawerLayout;
     NavigationView navigationView;
@@ -89,6 +93,38 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
         editTextPassword4 = findViewById(R.id.editTextPassword4);
         ChangeButton=findViewById(R.id.ChangeButton);
         updateButton.setOnClickListener(this::valid);
+        deleteAccount=findViewById(R.id.deleteAccount);
+
+
+        deleteAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                AlertDialog.Builder builder= new AlertDialog.Builder(ProfileActivity.this);
+                builder.setCancelable(true);
+                builder.setTitle("האם אתה בטוח שאתה רוצה למחוק את חשבונך?");
+                builder.setMessage("פעולה זו בלתי הפיכה");
+
+                builder.setNegativeButton("בטל", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+
+                builder.setPositiveButton("אשר", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        delete_profile();
+
+                    }
+                });
+                builder.show();
+
+
+            }
+        });
 
 
 
@@ -230,14 +266,6 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
 
         }
 
-        if(phone.length()<10){
-
-            editTextPhone3.setError("בבקשה הקלד מספר טלפון תקין");
-            editTextPhone3.requestFocus();
-            return;
-
-        }
-
 
         if(email.isEmpty()){
 
@@ -358,6 +386,7 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
 
     }
 
+    /**
     public void delete_profile(View view) {
 
 
@@ -416,7 +445,71 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
 
 
 
+    }**/
+
+
+    public void delete_profile() {
+
+
+        db.collection("User").document(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                DocumentSnapshot document = task.getResult();
+                if(document.get("parking spots")!=null) {
+                    group = (List<String>) document.get("parking spots");
+
+                    for (String d : group) {
+                        String curr = d;
+                        db.collection("ParkingSpot").document(d).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Log.d(TAG, "Parking successfully deleted!");
+                            }
+
+
+                        });
+                    }
+                }
+                db.collection("User").document(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                        .delete()
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Log.d(TAG, "Profile successfully deleted!");
+                                Toast.makeText(getApplicationContext(),"מצטערים שעזבת אותנו, חשבונך נמחק בהצלחה",Toast.LENGTH_LONG).show();
+
+
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.w(TAG, "Error deleting document", e);
+                            }
+                        });
+
+                user.delete()
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()) {
+                                    Log.d(TAG, "User account deleted.");
+                                    startActivity(new Intent(ProfileActivity.this, Login.class));
+                                }
+                            }
+                        });
+
+
+            }
+        });
+
+
+
     }
+
+
+
 }
 
 

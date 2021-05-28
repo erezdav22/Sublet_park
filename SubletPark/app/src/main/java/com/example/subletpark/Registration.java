@@ -119,13 +119,6 @@ public class Registration extends AppCompatActivity {
 
         }
 
-            if(phone.length()<10){
-
-                editTextPhone.setError("נא להזין מספר טלפון נייד בן 10 ספרות");
-                editTextPhone.requestFocus();
-                return;
-
-            }
 
         if(email.isEmpty()){
 
