@@ -14,10 +14,10 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -50,7 +50,8 @@ public class ParkingAdapter extends RecyclerView.Adapter<ParkingAdapter.ViewHold
         holder.end_date.setText(datalist.get(position).getEnd_date());
         String uri=datalist.get(position).getUri();
         Uri uri1=Uri.parse(uri);
-        Picasso.with(holder.parking_image.getContext()).load(uri1).into(holder.parking_image);
+        Glide.with(holder.parking_image.getContext()).load(uri1).dontAnimate().into(holder.parking_image);
+        //Picasso.with(holder.parking_image.getContext()).load(uri1).into(holder.parking_image);
         holder.parking_image.setImageURI(uri1);
         holder.parking_image.setOnClickListener(new View.OnClickListener() {
             @Override

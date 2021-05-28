@@ -62,8 +62,6 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
 
 
 
-
-
     private static final String TAG = "ProfileActivity";
 
 
@@ -386,66 +384,6 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
 
     }
 
-    /**
-    public void delete_profile(View view) {
-
-
-        db.collection("User").document(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                DocumentSnapshot document = task.getResult();
-                if(document.get("parking spots")!=null) {
-                    group = (List<String>) document.get("parking spots");
-
-                    for (String d : group) {
-                        String curr = d;
-                        db.collection("ParkingSpot").document(d).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                                Log.d(TAG, "Parking successfully deleted!");
-                            }
-
-
-                        });
-                    }
-                }
-                db.collection("User").document(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                        .delete()
-                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                                Toast.makeText(ProfileActivity.this,"מצטערים שעזבת אותנו, חשבונך נמחק בהצלחה",Toast.LENGTH_SHORT).show();
-                                Log.d(TAG, "Profile successfully deleted!");
-
-
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Log.w(TAG, "Error deleting document", e);
-                            }
-                        });
-
-                user.delete()
-                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if (task.isSuccessful()) {
-                                    Log.d(TAG, "User account deleted.");
-                                    startActivity(new Intent(ProfileActivity.this, Login.class));
-                                }
-                            }
-                        });
-
-
-            }
-        });
-
-
-
-    }**/
 
 
     public void delete_profile() {
