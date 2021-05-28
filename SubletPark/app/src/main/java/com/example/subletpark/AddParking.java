@@ -310,6 +310,16 @@ public class AddParking extends AppCompatActivity implements DatePickerDialog.On
         return dateInLong;
     }
 
+
+    @Override
+    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+        finalHour=hourOfDay;
+        finalMinute=minute;
+       String dateTime=finalDay+"/"+finalMonth+"/"+finalYear +" ";
+        editTextDateTime.setText(dateTime+(String.format("%02d:%02d",finalHour,finalMinute)));
+
+    }
+
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
         finalYear= year;
@@ -326,16 +336,6 @@ public class AddParking extends AppCompatActivity implements DatePickerDialog.On
 
 
     }
-
-    @Override
-    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-        finalHour=hourOfDay;
-        finalMinute=minute;
-       String dateTime=finalDay+"/"+finalMonth+"/"+finalYear +" ";
-        editTextDateTime.setText(dateTime+(String.format("%02d:%02d",finalHour,finalMinute)));
-
-    }
-
 
     public void add_parking(View view) {
 

@@ -56,20 +56,19 @@ public class ResetPassword extends AppCompatActivity {
             return;
         }
 
-//        progressBar.setVisibility(View.VISIBLE);
+
 
         auth.sendPasswordResetEmail(email).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if(task.isSuccessful()){
                     Toast.makeText(ResetPassword.this,"בדוק את תיבת המייל שלך לעדכון סיסמה חדשה", Toast.LENGTH_LONG).show();
-                  //  View view= findViewById(R.id.content);
+
                     startActivity(new Intent(ResetPassword.this, Login.class));
 
 
                 }else{
-                    // Toast.makeText(ResetPassword.this,"נסה שנית",Toast.LENGTH_LONG).show();
-                    //View view= findViewById(R.id.content);
+
                     snackbar=snackbar.make(view,"נסה שנית",Snackbar.LENGTH_INDEFINITE);
                     snackbar.setDuration(5000);
                     snackbar.setBackgroundTint(Color.rgb(166, 33, 18));
