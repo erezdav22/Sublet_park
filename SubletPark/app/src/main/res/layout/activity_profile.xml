@@ -41,12 +41,12 @@
                 tools:ignore="MissingConstraints"></androidx.appcompat.widget.Toolbar>
 
             <TextView
+                android:id="@+id/deleteAccount"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="מחיקת פרופיל"
                 android:textColor="@color/red"
                 android:textStyle="bold"
-                android:onClick="delete_profile"
                 app:layout_constraintBottom_toBottomOf="@+id/imageView4"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.904"
@@ -116,6 +116,7 @@
                 android:hint="טלפון"
                 style="@style/modifiedEditText"
                 android:inputType="phone"
+                android:maxLength="10"
                 app:layout_constraintTop_toBottomOf="@+id/lastName2"
                 tools:ignore="MissingConstraints" />
 

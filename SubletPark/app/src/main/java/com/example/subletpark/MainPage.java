@@ -79,7 +79,6 @@ public class MainPage extends AppCompatActivity implements OnMapReadyCallback, N
     SeekBar seekBar2;
     TextView priceHead;
     TextView avg_price;
-//    AutocompleteSupportFragment autocompleteSupportFragment;
     Snackbar snackbar;
 
 
