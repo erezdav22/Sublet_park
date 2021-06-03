@@ -46,21 +46,7 @@ public class Contract extends AppCompatActivity implements NavigationView.OnNavi
         PhotoView photoView = (PhotoView) findViewById(R.id.photo_view);
         photoView.setImageResource(R.drawable.contract1);
 
-       // contract=findViewById(R.id.contract);
 
-/**
-        contract.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                
-                contract.setScaleType(ImageView.ScaleType.FIT_XY);
-                getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
-                contract.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
-                contract.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
-                contract.setAdjustViewBounds(false);
-                getSupportActionBar().hide();
-            }
-        });**/
 
     }
 

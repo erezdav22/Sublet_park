@@ -46,6 +46,7 @@
                 android:layout_height="match_parent"
                 android:text="מחיקת פרופיל"
                 android:textColor="@color/red"
+                android:textSize="14dp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/imageView4"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -81,67 +82,72 @@
                     android:layout_width="match_parent"
                     android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/firstName2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="15dp"
-                android:ems="10"
-                android:hint="שם פרטי"
-                style="@style/modifiedEditText"
-                android:inputType="textPersonName"
-                tools:ignore="MissingConstraints"
-                tools:layout_editor_absoluteX="15dp"
-                tools:layout_editor_absoluteY="175dp" />
+                    <EditText
+                        android:id="@+id/firstName2"
+                        style="@style/modifiedEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="15dp"
+                        android:ems="10"
+                        android:hint="שם פרטי"
+                        android:inputType="textPersonName"
+                        android:textSize="18dp"
+                        tools:ignore="MissingConstraints"
+                        tools:layout_editor_absoluteX="15dp"
+                        tools:layout_editor_absoluteY="175dp" />
 
-            <EditText
-                android:id="@+id/lastName2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="15dp"
-                android:ems="10"
-                android:hint="שם משפחה"
-                style="@style/modifiedEditText"
-                android:inputType="textPersonName"
-                app:layout_constraintTop_toBottomOf="@+id/firstName2"
-                tools:ignore="MissingConstraints" />
+                    <EditText
+                        android:id="@+id/lastName2"
+                        style="@style/modifiedEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="15dp"
+                        android:ems="10"
+                        android:hint="שם משפחה"
+                        android:inputType="textPersonName"
+                        android:textSize="18dp"
+                        app:layout_constraintTop_toBottomOf="@+id/firstName2"
+                        tools:ignore="MissingConstraints" />
 
-            <EditText
-                android:id="@+id/editTextPhone3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="15dp"
-                android:ems="10"
-                android:gravity="right"
-                android:hint="טלפון"
-                style="@style/modifiedEditText"
-                android:inputType="phone"
-                android:maxLength="10"
-                app:layout_constraintTop_toBottomOf="@+id/lastName2"
-                tools:ignore="MissingConstraints" />
+                    <EditText
+                        android:id="@+id/editTextPhone3"
+                        style="@style/modifiedEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="15dp"
+                        android:ems="10"
+                        android:gravity="right"
+                        android:hint="טלפון"
+                        android:inputType="phone"
+                        android:maxLength="10"
+                        android:textSize="18dp"
+                        app:layout_constraintTop_toBottomOf="@+id/lastName2"
+                        tools:ignore="MissingConstraints" />
 
-            <EditText
-                android:id="@+id/editTextEmail2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="15dp"
-                android:ems="10"
-                android:hint="אימייל"
-                style="@style/modifiedEditText"
-                android:inputType="textEmailAddress"
-                app:layout_constraintTop_toBottomOf="@+id/editTextPhone3"
-                tools:ignore="MissingConstraints" />
+                    <EditText
+                        android:id="@+id/editTextEmail2"
+                        style="@style/modifiedEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="15dp"
+                        android:ems="10"
+                        android:hint="אימייל"
+                        android:inputType="textEmailAddress"
+                        android:textSize="18dp"
+                        app:layout_constraintTop_toBottomOf="@+id/editTextPhone3"
+                        tools:ignore="MissingConstraints" />
 
-            <Button
-                android:id="@+id/updateButton"
-                style="@style/loginButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="15dp"
-                android:onClick="valid"
-                android:text="עדכן פרטים"
-                app:layout_constraintTop_toBottomOf="@+id/editTextEmail2"
-                tools:ignore="MissingConstraints" />
+                    <Button
+                        android:id="@+id/updateButton"
+                        style="@style/loginButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="15dp"
+                        android:onClick="valid"
+                        android:text="עדכן פרטים"
+                        android:textSize="14dp"
+                        app:layout_constraintTop_toBottomOf="@+id/editTextEmail2"
+                        tools:ignore="MissingConstraints" />
 
                 </LinearLayout>
 
@@ -149,17 +155,20 @@
 
             <Button
                 android:id="@+id/PassButton"
+                style="@style/changePass"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="15dp"
                 android:onClick="change_password"
                 android:text="שינוי סיסמא"
-                style="@style/changePass"
+                android:textSize="14dp"
                 app:layout_constraintTop_toBottomOf="@+id/cardP"
-                tools:ignore="MissingConstraints" />
+                tools:ignore="MissingConstraints"
+                tools:layout_editor_absoluteX="15dp" />
 
             <EditText
                 android:id="@+id/editTextPassword3"
+                style="@style/modifiedEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="15dp"
@@ -167,14 +176,16 @@
                 android:gravity="right"
                 android:hint="הכנס סיסמא"
                 android:inputType="textPassword"
+                android:textSize="18dp"
                 android:visibility="gone"
-                style="@style/modifiedEditText"
                 app:layout_constraintTop_toBottomOf="@+id/PassButton"
                 tools:ignore="MissingConstraints"
+                tools:layout_editor_absoluteX="15dp"
                 tools:visibility="gone" />
 
             <EditText
                 android:id="@+id/editTextPassword4"
+                style="@style/modifiedEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="15dp"
@@ -182,23 +193,26 @@
                 android:gravity="right"
                 android:hint="הכנס סיסמא שנית"
                 android:inputType="textPassword"
+                android:textSize="18dp"
                 android:visibility="gone"
-                style="@style/modifiedEditText"
                 app:layout_constraintTop_toBottomOf="@+id/editTextPassword3"
                 tools:ignore="MissingConstraints"
+                tools:layout_editor_absoluteX="15dp"
                 tools:visibility="gone" />
 
             <Button
                 android:id="@+id/ChangeButton"
+                style="@style/loginButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="15dp"
                 android:onClick="change"
                 android:text="החל שינוי"
+                android:textSize="14dp"
                 android:visibility="gone"
-                style="@style/loginButton"
                 app:layout_constraintTop_toBottomOf="@+id/editTextPassword4"
-                tools:ignore="MissingConstraints" />
+                tools:ignore="MissingConstraints"
+                tools:layout_editor_absoluteX="15dp" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

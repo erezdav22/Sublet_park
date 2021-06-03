@@ -37,18 +37,18 @@
                 tools:ignore="MissingConstraints"></androidx.appcompat.widget.Toolbar>
 
             <TextView
+                android:id="@+id/deleteP"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginTop="56dp"
-                android:id="@+id/deleteP"
                 android:text="מחיקת חניה"
                 android:textColor="@color/red"
+                android:textSize="14dp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.905"
                 app:layout_constraintStart_toEndOf="@+id/toolbar"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.354"
                 tools:ignore="MissingConstraints" />
 
 
@@ -95,16 +95,6 @@
                     android:orientation="vertical">
 
 
-                    <ListView
-                        android:id="@+id/list"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:visibility="gone"
-                        app:layout_constraintTop_toBottomOf="@+id/editTextSearch"
-                        tools:visibility="gone">
-
-                    </ListView>
-
 
                     <androidx.appcompat.widget.LinearLayoutCompat
                         android:layout_width="match_parent"
@@ -121,6 +111,7 @@
                             android:layout_weight="2.5"
                             android:ems="10"
                             android:inputType="textPersonName"
+                            android:textSize="18dp"
                             app:layout_constraintTop_toBottomOf="@+id/editTextSearch"
                             tools:ignore="MissingConstraints" />
 
@@ -155,7 +146,7 @@
                             android:layout_weight="2"
                             android:onClick="picker1"
                             android:paddingTop="20dp"
-                            android:textSize="19sp"
+                            android:textSize="19dp"
                             app:layout_constraintTop_toBottomOf="@+id/editTextaddress1"
                             tools:ignore="MissingConstraints" />
 
@@ -190,7 +181,7 @@
                             android:layout_weight="2"
                             android:onClick="picker2"
                             android:paddingTop="20dp"
-                            android:textSize="19sp"
+                            android:textSize="19dp"
                             app:layout_constraintTop_toBottomOf="@+id/editTextDateTime1"
                             tools:ignore="MissingConstraints" />
 
@@ -203,7 +194,7 @@
                             android:paddingTop="20dp"
                             android:text="סיום השכרה:"
                             android:textColor="@color/black"
-                            android:textSize="16sp"
+                            android:textSize="16dp"
                             android:textStyle="bold" />
 
 
@@ -224,6 +215,7 @@
                             android:layout_margin="5dp"
                             android:layout_weight="2"
                             android:inputType="number"
+                            android:textSize="18dp"
                             app:layout_constraintTop_toBottomOf="@+id/editTextEndDate1"
                             tools:ignore="MissingConstraints" />
 
@@ -236,7 +228,7 @@
                             android:paddingTop="20dp"
                             android:text="מחיר:"
                             android:textColor="@color/black"
-                            android:textSize="16sp"
+                            android:textSize="16dp"
                             android:textStyle="bold" />
 
 
@@ -258,6 +250,7 @@
                             android:layout_weight="2"
                             android:inputType="textPersonName"
                             android:paddingBottom="12dp"
+                            android:textSize="18dp"
                             app:layout_constraintTop_toBottomOf="@+id/editTextDailyPrice1"
                             tools:ignore="MissingConstraints" />
 
@@ -271,7 +264,7 @@
                             android:paddingTop="20dp"
                             android:text="תיאור:"
                             android:textColor="@color/black"
-                            android:textSize="16sp"
+                            android:textSize="16dp"
                             android:textStyle="bold" />
 
 
@@ -304,6 +297,7 @@
                         android:layout_margin="15dp"
                         android:onClick="update_parking"
                         android:text="עדכן חניה"
+                        android:textSize="14dp"
                         app:layout_constraintTop_toBottomOf="@+id/uploadPic1"
                         tools:ignore="MissingConstraints" />
 

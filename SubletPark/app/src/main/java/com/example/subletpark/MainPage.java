@@ -441,14 +441,4 @@ public class MainPage extends AppCompatActivity implements OnMapReadyCallback, N
 
 
 
-    public void logout_user(View view) {
-        FirebaseAuth.getInstance().signOut();
-        finish();
-        startActivity(new Intent(this, Login.class));
-
-    }
-
-
-
-
 }

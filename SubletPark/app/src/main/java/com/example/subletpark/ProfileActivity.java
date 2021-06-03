@@ -11,7 +11,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -415,7 +414,6 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
                             @Override
                             public void onSuccess(Void aVoid) {
                                 Log.d(TAG, "Profile successfully deleted!");
-                                Toast.makeText(getApplicationContext(),"מצטערים שעזבת אותנו, חשבונך נמחק בהצלחה",Toast.LENGTH_LONG).show();
 
 
                             }

@@ -19,6 +19,10 @@
         app:itemTextColor="@color/black"
         app:menu="@menu/activity_main_drawer" />
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -38,6 +42,7 @@
             android:layout_width="388dp"
             android:layout_height="489dp"
             android:layout_marginTop="60dp"
+            android:src="@drawable/contract1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.457"
             app:layout_constraintStart_toStartOf="parent"
@@ -48,9 +53,11 @@
             style="@style/loginButton"
             android:layout_width="309dp"
             android:layout_height="63dp"
+            android:layout_margin="20dp"
             android:onClick="open_contract"
             android:text="לחץ כאן לפתיחה והורדה של החוזה"
 
+            android:textSize="14dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -60,6 +67,7 @@
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 
 
 </androidx.drawerlayout.widget.DrawerLayout>
