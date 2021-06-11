@@ -23,7 +23,7 @@
         android:text="ברוכים הבאים!"
         android:textAlignment="center"
         android:textColor="@color/blue"
-        android:textSize="24sp"
+        android:textSize="24dp"
         android:textStyle="bold" />
 
     <TextView
@@ -34,7 +34,7 @@
         android:gravity="center"
         android:text="סאבלט פארק הינה אפליקציה לפרסום ומציאת חניות בתל אביב."
         android:textColor="@color/black"
-        android:textSize="18sp" />
+        android:textSize="18dp" />
 
     <TextView
         android:layout_width="match_parent"
@@ -42,7 +42,7 @@
         android:gravity="center"
         android:text="אז איך זה עובד?"
         android:textColor="@color/black"
-        android:textSize="18sp"
+        android:textSize="18dp"
         android:textStyle="bold" />
 
     <TextView
@@ -53,7 +53,7 @@
         android:gravity="center"
         android:text="באמצעות לחיצה על כפתור הוספת חניה בתפריט תוכלו לפרסם את החניה שלכם."
         android:textColor="@color/black"
-        android:textSize="18sp" />
+        android:textSize="18dp" />
 
     <TextView
         android:id="@+id/step2"
@@ -73,7 +73,7 @@
         android:gravity="center"
         android:text="כל מה שנותר לכם הוא לנסות!"
         android:textColor="@color/black"
-        android:textSize="18sp"
+        android:textSize="18dp"
         android:textStyle="bold" />
 
     <Button

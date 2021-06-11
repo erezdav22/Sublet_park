@@ -20,7 +20,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -39,11 +38,11 @@ public class Registration extends AppCompatActivity {
     private static final String TAG ="registration";
 
 
-
     private static final String KEY_name = "firstname";
     private static final String KEY_lastName= "lastname";
     private static final String KEY_phone = "phone";
     private static final String KEY_email = "email";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -189,7 +188,6 @@ public class Registration extends AppCompatActivity {
     public void saveUserProfile() {
         Map<String, Object> user = new HashMap<>();
         user.put("uid", mAuth.getCurrentUser().getUid());
-        user.put("lastLoginDate", Calendar.getInstance().getTime());
         user.put(KEY_name, firstName.getText().toString());
         user.put(KEY_lastName, lastName.getText().toString());
         user.put(KEY_phone, editTextPhone.getText().toString());

@@ -18,7 +18,6 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -84,7 +83,6 @@ public class Edit_park extends AppCompatActivity implements DatePickerDialog.OnD
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     List<String> group;
     List<String> park_group;
-    ListView list;
     List<Parking_Class> user_parking = new ArrayList<Parking_Class>();
     EditText editTextaddress1;
 
@@ -118,15 +116,7 @@ public class Edit_park extends AppCompatActivity implements DatePickerDialog.OnD
 
     Uri result = null;
 
-    private static final String KEY_address = "address";
-    private static final String KEY_daily_price = "daily price";
-    private static final String description = "description";
-    private static final String start_date = "start_date";
-    private static final String end_date = "end_date";
-    private static final String lat = "lat";
-    private static final String lng = "lng";
-    private static final String userId = "userId";
-    private static final String URI = "uri";
+
     private static final String TAG = "edit_park";
     private static final int PICK_IMAGE = 1;
     private static final int PICK_PLACE = 2;
@@ -147,7 +137,7 @@ public class Edit_park extends AppCompatActivity implements DatePickerDialog.OnD
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.setCheckedItem(R.id.nav_MyPark);
-        list = findViewById(R.id.list);
+
         deleteP=findViewById(R.id.deleteP);
         progressBar2=findViewById(R.id.progressBar2);
 
@@ -259,7 +249,7 @@ public class Edit_park extends AppCompatActivity implements DatePickerDialog.OnD
                             editTextEndDate1.setText(string_end);
                             editTextDescription1.setText(desc);
                             Picasso.with(getApplicationContext()).load(imageUri1).into(uploadPic1);
-                            uploadPic1.setImageURI(imageUri1);
+                            //uploadPic1.setImageURI(imageUri1);
 
 
                             user_parking.add(new Parking_Class(group.get(group.size() - 1), address, price, start_date, end_date, uri, desc));
@@ -378,6 +368,7 @@ public class Edit_park extends AppCompatActivity implements DatePickerDialog.OnD
 
                 imageUri1 = data.getData();
                 Picasso.with(this).load(imageUri1).into(uploadPic1);
+
 
             }} catch (Exception e) {
                 e.printStackTrace();
