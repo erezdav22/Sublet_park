@@ -249,7 +249,7 @@ public class Edit_park extends AppCompatActivity implements DatePickerDialog.OnD
                             editTextEndDate1.setText(string_end);
                             editTextDescription1.setText(desc);
                             Picasso.with(getApplicationContext()).load(imageUri1).into(uploadPic1);
-                            uploadPic1.setImageURI(imageUri1);
+                            //uploadPic1.setImageURI(imageUri1);
 
 
                             user_parking.add(new Parking_Class(group.get(group.size() - 1), address, price, start_date, end_date, uri, desc));
@@ -368,6 +368,7 @@ public class Edit_park extends AppCompatActivity implements DatePickerDialog.OnD
 
                 imageUri1 = data.getData();
                 Picasso.with(this).load(imageUri1).into(uploadPic1);
+
 
             }} catch (Exception e) {
                 e.printStackTrace();
